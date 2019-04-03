@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Ground
+    uniqueID: 787041237
+    locked: 0
+  - name: Spells
+    uniqueID: 3154682275
+    locked: 0
+  - name: Player
+    uniqueID: 2710312031
+    locked: 0
