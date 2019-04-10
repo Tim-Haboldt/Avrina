@@ -12,6 +12,7 @@ public class BeatMapCreator : MonoBehaviour
     public AudioClip trackSource;
     // song as playable element
     private AudioSource track;
+
     // bpm of the song the map is created for
     public float trackBPM;
     // how long does it take until the first beat of the song is played
@@ -20,6 +21,9 @@ public class BeatMapCreator : MonoBehaviour
     // defines how many part per beat can be marked as important.
     // (how big is the data of the map)
     public int markableTicksPerBeat;
+    // how many tick per second
+    private float ticksPerSecond;
+
     // used to display the current map
     // it handels everything that has to do with drawing the ui
     private GameObject beatMapUI;
@@ -29,15 +33,22 @@ public class BeatMapCreator : MonoBehaviour
     public Vector2 beatSize;
     // defines how big the tick panel in reference to the display size is (ratio)
     public Vector2 tickSize;
+
     // stores the information how many posible beats can be marked as important
     // and which of them are important
     private List<bool> trackTicks;
+    // stores all ui elements representing ticks and beats
+    private List<GameObject> UIElements;
     // where is the current position in the song
     // (what part of the song need to be played next and what is the next tick)
     private int currentTick;
-    // how many tick per second
-    private float ticksPerSecond;
 
+    // reference Screen resolution the UI is working with (const)
+    private Vector2 refRes = new Vector2(1600, 900);
+
+    /**
+     * default Unity start method
+     */
     private void Start()
     {
         // load the map sound and the tick sound
@@ -46,14 +57,19 @@ public class BeatMapCreator : MonoBehaviour
         this.createTrackTicksList();
         // setup the Ui panels (they represent the ticks and beats)
         this.setupBeatMapUI();
-
     }
 
+    /**
+     * default Unity update method
+     */ 
     private void Update()
     {
         this.handleKeyInputs();
     }
 
+    /**
+     * handles all key inputs
+     */ 
     private void handleKeyInputs()
     {
         // this key starts or stops the track
@@ -66,7 +82,7 @@ public class BeatMapCreator : MonoBehaviour
         {
 
         }
-        // this key skips a tick
+        // this key goes a tick forward
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
 
@@ -129,54 +145,56 @@ public class BeatMapCreator : MonoBehaviour
         // we need to be sure that the design does always look the same
         CanvasScaler scaler = this.beatMapUI.AddComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution.Set(1600, 900);
+        scaler.referenceResolution = this.refRes;
 
-        GameObject[] beatsAndTicks = new GameObject[this.markableTicksPerBeat * this.visibleKeyBeats + this.visibleKeyBeats];
-        // Screen.Width
-        // create the panel
-        GameObject panel = new GameObject("Panel");
-        panel.transform.SetParent(beatMapUI.transform, false);
-        // add an image and set background color to red
-        Image i = panel.AddComponent<Image>();
-        i.color = Color.red;
-        i.transform.SetParent(panel.transform, false);
-        panel.transform.localScale = this.beatSize;
-        panel.transform.localPosition = new Vector2(panel.transform.localPosition.x + 102.0f, panel.transform.localPosition.y + 12.0f);
+        // create the UIArray which stores all UI-Elements representing ticks and beats
+        this.UIElements = new List<GameObject>();
+        
+        // generate UI-Elements
+        for (int beatsCount = 0; beatsCount < this.visibleKeyBeats; beatsCount++)
+        {
+            this.addElementToUI(false);
+
+            for (int ticksCount = 0; ticksCount < this.markableTicksPerBeat; ticksCount++)
+            {
+                this.addElementToUI(true);
+            }
+        }
+
+        // set position of the ticks outside of the screen
+        foreach (GameObject ob in this.UIElements)
+        {
+            ob.transform.localPosition = this.refRes;
+        }
+
     }
-        /*
-    Mesh mesh;
 
-    private Vector3[] vertecies;
-    private int[] triangles;
-    private void setupBeatMapUI()
+    /**
+     * adds an Keybeat to the UIElements list
+     * if isTick is true the beat will be marked as a tick and therefore gets the tick size instead
+     */ 
+    private void addElementToUI(bool isTick)
     {
-        // create container for the mesh renderer and filter
-        GameObject meshContainer = new GameObject("MeshContainer");
-        meshContainer.transform.SetParent(this.transform, true);
-        // add mesh renderer and mesh filter
-        meshContainer.AddComponent<MeshFilter>();
-        meshContainer.AddComponent<MeshRenderer>();
-
-        mesh = new Mesh();
-        meshContainer.GetComponent<MeshFilter>().mesh = mesh;
-
-        vertecies = new Vector3[]
+        GameObject ob;
+        // create beat / tick
+        if (isTick)
         {
-            new Vector3(0, 0, 0),
-            new Vector3(0, 1, 0),
-            new Vector3(1, 0, 0)
-        };
+            ob = new GameObject("Tick");
+            ob.transform.SetParent(this.beatMapUI.transform, false);
+            // set size of tick
+            ob.transform.localScale = this.tickSize;
 
-        triangles = new int[]
+        } else
         {
-            0, 1, 2
-        };
-
-        mesh.Clear();
-        mesh.vertices = vertecies;
-        mesh.triangles = triangles;
-
-        mesh.RecalculateNormals();
-    }*/
-
+            ob = new GameObject("Beat");
+            ob.transform.SetParent(this.beatMapUI.transform, false);
+            // set size of beat
+            ob.transform.localScale = this.beatSize;
+        }
+        // add an image and set background color to black
+        Image image = ob.AddComponent<Image>();
+        image.color = Color.black;
+        // add it to the UI List
+        this.UIElements.Add(ob);
+    }
 }
