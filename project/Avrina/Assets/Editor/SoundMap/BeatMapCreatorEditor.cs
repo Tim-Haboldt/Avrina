@@ -18,7 +18,7 @@ public class BeatMapCreatorEditor : Editor
 
         // customice the editor window
         EditorGUILayout.LabelField("Editor Customization", EditorStyles.boldLabel);
-        bmc.visibleKeyBeats = EditorGUILayout.IntField("Visible Beats", bmc.visibleKeyBeats);
+        bmc.visibleBeats = EditorGUILayout.IntField("Visible Beats", bmc.visibleBeats);
         bmc.beatSize = EditorGUILayout.Vector2Field("Size of Beat", bmc.beatSize);
         bmc.tickSize = EditorGUILayout.Vector2Field("Size of Tick", bmc.tickSize);
     }

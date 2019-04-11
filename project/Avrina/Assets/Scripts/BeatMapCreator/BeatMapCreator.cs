@@ -28,7 +28,7 @@ public class BeatMapCreator : MonoBehaviour
     // it handels everything that has to do with drawing the ui
     private GameObject beatMapUI;
     // it defines how much of the map is currently visible
-    public int visibleKeyBeats;
+    public int visibleBeats;
     // defines how big the beat panel in reference to the display size is (ratio)
     public Vector2 beatSize;
     // defines how big the tick panel in reference to the display size is (ratio)
@@ -38,7 +38,14 @@ public class BeatMapCreator : MonoBehaviour
     // and which of them are important
     private List<bool> trackTicks;
     // stores all ui elements representing ticks and beats
-    private List<GameObject> UIElements;
+    private List<GameObject> uiElements;
+    // current UIElement Pointer
+    private int uiPointer;
+    // stores the amount of visible ui elements at the same time
+    private int visibleUIElements;
+    // distance between two UI elements
+    // (between two beats or ticks)
+    private float uiDistance;
     // where is the current position in the song
     // (what part of the song need to be played next and what is the next tick)
     private int currentTick;
@@ -75,20 +82,81 @@ public class BeatMapCreator : MonoBehaviour
         // this key starts or stops the track
         if (Input.GetKeyDown(KeyCode.Space))
         {
-
+            if (!this.track.isPlaying)
+            {
+                this.track.Play();
+            }
         }
         // this key goes a tick back in the song
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            if (!(this.currentTick > 0))
+                return;
 
+            this.currentTick--;
         }
         // this key goes a tick forward
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
+            if (!(this.currentTick < this.trackTicks.Count - 1))
+                return;
 
+            // increase current tick count
+            this.currentTick++;
+            // set the pointer to the ticks
+            this.uiPointer++;
+            if (this.uiPointer > this.trackTicks.Count - 1)
+                this.uiPointer = 0;
+
+            // get the amount of UIElements to the left from the middle one
+            int elementsToTheLeft = Mathf.FloorToInt(this.visibleUIElements);
+            // reset the uiElements position
+            foreach (GameObject go in this.uiElements)
+            {
+                go.transform.localPosition = this.refRes;
+            }
+            // set the position of the UIElements
+            for (int elementCount = 0; elementCount < this.visibleUIElements; elementCount++)
+            {
+                // check if there are ticks outside of the map spectrum (No need to place an ui element there)
+                //if (!(this.currentTick - (elementsToTheLeft - elementCount) < 0)
+                //    && !(this.currentTick + (elementCount - elementsToTheLeft) < this.trackTicks.Count - 1))
+                //{
+                    int arrayIndex = this.uiPointer - elementsToTheLeft + elementCount;
+                    if (arrayIndex < 0)
+                        arrayIndex += this.uiElements.Count - 1;
+                    if (arrayIndex >= this.uiElements.Count)
+                        arrayIndex -= this.uiElements.Count - 1;
+
+                    this.uiElements[arrayIndex].transform.localPosition = new Vector2(elementCount * this.uiDistance, 0);
+                //}
+            }
+
+            // distance between two beats or a beat and a tick;
+            float elementDistance = this.refRes.x / (this.uiElements.Count - this.markableTicksPerBeat);
+            // set new position of the UI elements
+            foreach (GameObject ob in this.uiElements)
+            {
+                // calculate the new position
+                float newPosX = ob.transform.localPosition.x - elementDistance;
+                // check if the new position is outside of the sceen.
+                float positionOutSide = newPosX + (this.refRes.x / 2);
+                if (positionOutSide <= 0)
+                {
+                    // if so move the pos to the right side
+                    // first calculate how many steps the element is outside the window
+                    float stepsOutside = positionOutSide / elementDistance;
+                    // now invert the stepsOutside value because the element is placed farther to the right if it wasn't as many steps outside
+                    float invStepsOutside = (this.markableTicksPerBeat - 1) - stepsOutside;
+                    // place it the right
+                    newPosX += this.refRes.x + elementDistance * invStepsOutside;
+                }
+                // set new position
+                ob.transform.localPosition = new Vector2(newPosX, 0);
+            }
         }
     }
-    
+
     /**
      * creates an List which contains all posible ticks for given song
      */
@@ -148,10 +216,10 @@ public class BeatMapCreator : MonoBehaviour
         scaler.referenceResolution = this.refRes;
 
         // create the UIArray which stores all UI-Elements representing ticks and beats
-        this.UIElements = new List<GameObject>();
+        this.uiElements = new List<GameObject>();
         
         // generate UI-Elements
-        for (int beatsCount = 0; beatsCount < this.visibleKeyBeats; beatsCount++)
+        for (int beatsCount = 0; beatsCount < this.visibleBeats + 1; beatsCount++)
         {
             this.addElementToUI(false);
 
@@ -161,12 +229,25 @@ public class BeatMapCreator : MonoBehaviour
             }
         }
 
-        // set position of the ticks outside of the screen
-        foreach (GameObject ob in this.UIElements)
+        // calculate the amout of visible beats at the same time
+        int visibleTicks = (this.markableTicksPerBeat * visibleBeats) - 1;
+        this.visibleUIElements = this.visibleBeats + visibleTicks;
+        // distance between two beats or a beat and a tick;
+        this.uiDistance = this.refRes.x / this.visibleUIElements;
+
+        // set position of the ticks outside of the screen and in the right order
+        for (int elementCount = 0; elementCount < this.uiElements.Count; elementCount++)
         {
-            ob.transform.localPosition = this.refRes;
+            // calculate the distance where the element is placed
+            // (later in the array more far behind)
+            float xPos = elementCount * this.uiDistance;
+            // set the new position
+            // (the global position is always at the center. y is 0 because it should be centered)
+            this.uiElements[elementCount].transform.localPosition = new Vector2(xPos, 0);
         }
 
+        // setup the ui pointer
+        this.uiPointer = 0;
     }
 
     /**
@@ -195,6 +276,6 @@ public class BeatMapCreator : MonoBehaviour
         Image image = ob.AddComponent<Image>();
         image.color = Color.black;
         // add it to the UI List
-        this.UIElements.Add(ob);
+        this.uiElements.Add(ob);
     }
 }
