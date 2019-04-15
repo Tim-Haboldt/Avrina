@@ -21,5 +21,11 @@ public class BeatMapCreatorEditor : Editor
         bmc.visibleBeats = EditorGUILayout.IntField("Visible Beats", bmc.visibleBeats);
         bmc.beatSize = EditorGUILayout.Vector2Field("Size of Beat", bmc.beatSize);
         bmc.tickSize = EditorGUILayout.Vector2Field("Size of Tick", bmc.tickSize);
+
+        // recalculate UIElements
+        if (GUILayout.Button("Recalculate UI"))
+        {
+            bmc.recalculateUIElements();
+        }
     }
 }
