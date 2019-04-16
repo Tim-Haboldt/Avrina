@@ -28765,10 +28765,12 @@ MonoBehaviour:
   trackSource: {fileID: 8300000, guid: 62a262e2a21660b41b0375b0bccb7a85, type: 3}
   trackBPM: 96
   offset: 0
-  markableTicksPerBeat: 4
-  visibleKeyBeats: 0
-  beatSize: {x: 0.1, y: 0.1}
-  tickSize: {x: 0, y: 0}
+  markableTicksPerBeat: 3
+  visibleBeats: 2
+  beatSize: {x: 0.1, y: 1}
+  tickSize: {x: 0.1, y: 0.8}
+  saveName: 
+  loadName: 
 --- !u!1 &519962022
 GameObject:
   m_ObjectHideFlags: 0

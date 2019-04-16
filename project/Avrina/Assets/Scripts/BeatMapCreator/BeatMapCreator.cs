@@ -16,7 +16,7 @@ public class BeatMapCreator : MonoBehaviour
     // song the map is created for
     public AudioClip trackSource;
     // song as playable element
-    private AudioSource track;
+    public AudioSource track;
 
     #endregion SOUND
 
@@ -78,6 +78,24 @@ public class BeatMapCreator : MonoBehaviour
 
     #endregion UPDATE
 
+    #region PLAYSONG
+
+    // used to get the offset of the song right for the tick sounds
+    private float tmpOffset;
+    // because we need to current ticks we need to replace one
+    private int tmpCurrentTick;
+
+    #endregion PLAYSONG
+
+    #region SAVELOAD
+
+    // name of the file the song is stored into
+    public string saveName;
+    // name of the file the song is loaded from
+    public string loadName;
+
+    #endregion SAVELOAD
+
     #region CONSTANTS
 
     // reference Screen resolution the UI is working with (const)
@@ -135,7 +153,7 @@ public class BeatMapCreator : MonoBehaviour
     /**
      * creates an List which contains all posible ticks for given song
      */
-    private void createTrackTicksList()
+    public void createTrackTicksList()
     {
         // reset current Tick
         this.currentTick = 0;
@@ -173,6 +191,22 @@ public class BeatMapCreator : MonoBehaviour
         CanvasScaler scaler = this.beatMapUI.AddComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = this.refRes;
+    }
+
+    /**
+     * used from the editor to recalculate the UI after variables changed
+     */
+    public void reloadUI()
+    {
+        // remove all UIElements
+        foreach (GameObject ob in this.uiElements)
+        {
+            Destroy(ob);
+        }
+        // setup the UI panels (they represent the ticks and beats)
+        this.setupUI();
+        // place the UI Panels on the screen
+        this.updateUI();
     }
 
     /**
@@ -232,28 +266,6 @@ public class BeatMapCreator : MonoBehaviour
 
     #endregion SETUP
 
-    #region METHODSFOREDITOR
-
-    /**
-     * used from the editor to recalculate variables each time the user changes an input
-     */
-    public void recalculateUIElements()
-    {
-        // remove all UIElements
-        foreach (GameObject ob in this.uiElements)
-        {
-            Destroy(ob);
-        }
-        // create tick map for the given song
-        this.createTrackTicksList();
-        // setup the UI panels (they represent the ticks and beats)
-        this.setupUI();
-        // place the UI Panels on the screen
-        this.updateUI();
-    }
-
-    #endregion METHODSFOREDITOR
-
     #region UPDATE
 
     /**
@@ -265,12 +277,27 @@ public class BeatMapCreator : MonoBehaviour
 
         if (this.track.isPlaying)
         {
+            if (this.tmpOffset != 0)
+            {
+                this.tmpOffset -= Time.deltaTime;
+
+            }
+            if (this.tmpOffset > 0)
+                return;
+
+            if (this.tmpOffset != 0)
+            {
+                this.timeSinceLastRythemUnit += this.tmpOffset;
+                this.tmpOffset = 0;
+                return;
+            }
+
             this.timeSinceLastRythemUnit += Time.deltaTime;
             if (this.timeSinceLastRythemUnit >= this.rythemUnitFrequency)
             {
                 this.timeSinceLastRythemUnit -= this.rythemUnitFrequency;
-                this.currentTick++;
-                if (this.trackTicks[this.currentTick])
+                this.tmpCurrentTick++;
+                if (this.trackTicks[this.tmpCurrentTick])
                 {
                     this.tickSound.Play();
                 }
@@ -296,7 +323,11 @@ public class BeatMapCreator : MonoBehaviour
             {
                 this.track.Play();
                 this.timeSinceLastRythemUnit = 0;
-                this.currentTick = 0;
+                this.tmpCurrentTick = 0;
+                this.tmpOffset = this.offset;
+            } else
+            {
+                this.track.Stop();
             }
         }
         
@@ -314,7 +345,7 @@ public class BeatMapCreator : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             this.timeSinceLeftPressStarted += Time.deltaTime;
-            if (this.timeSinceLeftPressStarted > 0.7f)
+            if (this.timeSinceLeftPressStarted > 0.4f)
             {
                 this.stepToTheLeft();
             }
@@ -327,7 +358,7 @@ public class BeatMapCreator : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             this.timeSinceRightPressStarted += Time.deltaTime;
-            if (this.timeSinceRightPressStarted > 0.7f)
+            if (this.timeSinceRightPressStarted > 0.4f)
             {
                 this.stepToTheRight();
             }
@@ -477,7 +508,7 @@ public class BeatMapCreator : MonoBehaviour
     /**
      * exports the map into a text file in json format
      */
-    private void saveMap()
+    public void saveMap()
     {
         // create data object
         MapData data = new MapData();
@@ -492,21 +523,35 @@ public class BeatMapCreator : MonoBehaviour
 
         data.trackTicks = this.trackTicks;
 
-        // save map
-        string dataPath = Path.Combine(Application.persistentDataPath, this.track.clip.name + ".txt");
-        string jsonString = JsonUtility.ToJson(data);
-        using (StreamWriter streamWriter = File.CreateText(dataPath))
-        {
-            streamWriter.Write(jsonString);
-        }
+        // save data object into file
+        FileHandler.saveObjectAsJsonString(this.track.clip.name + "_" + this.saveName + ".txt", data);
+    }
 
-        /* LOAD DATA
-        using (StreamReader streamReader = File.OpenText(path))
+    /**
+     * imports the map from a text file in json format
+     */
+    public void loadMap()
+    {
+        // first get the data
+        MapData data = FileHandler.loadObjectFromJsonString<MapData>(this.loadName);
+
+        // replace current data
+        this.trackBPM = data.trackBPM;
+        this.offset = data.offset;
+        this.markableTicksPerBeat = data.markableTicksPerBeat;
+
+        this.visibleBeats = data.visibleBeats;
+        this.beatSize = data.beatSize;
+        this.tickSize = data.tickSize;
+
+        this.trackTicks = data.trackTicks;
+        
+        // need to update the UI and recalculate the trackTicks array if the game is running
+        if (Application.isPlaying)
         {
-            string jsonString = streamReader.ReadToEnd();
-            return JsonUtility.FromJson<CharacterData>(jsonString);
+            this.currentTick = 0;
+            this.reloadUI();
         }
-        */
     }
 
     #endregion MAPDATA
