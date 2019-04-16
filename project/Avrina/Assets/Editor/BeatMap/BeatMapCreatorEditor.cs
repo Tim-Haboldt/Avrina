@@ -62,7 +62,12 @@ public class BeatMapCreatorEditor : Editor
         if (updateTickList && Application.isPlaying)
             bmc.createTrackTicksList();
         if (updateUI && Application.isPlaying)
-            bmc.reloadUI();
+        {
+            bmc.beatMapUI.destroyUI();
+            bmc.beatMapUI.setupUI(bmc.visibleBeats, bmc.markableTicksPerBeat, bmc.beatSize, bmc.tickSize);
+            bmc.beatMapUI.updateUI(bmc.trackTicks, bmc.currentTick, bmc.visibleBeats, bmc.markableTicksPerBeat);
+
+        }
 
         // all elements that are used to save the map
         EditorGUILayout.LabelField("Map Manager", EditorStyles.boldLabel);
