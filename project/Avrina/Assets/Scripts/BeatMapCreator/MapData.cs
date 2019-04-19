@@ -1,29 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class MapData
 {
     /* MAP */
-    // stores the information how many posible beats can be marked as important
+    // Stores the information how many posible rythm units can be marked as important
     // and which of them are important
-    // in short: the actual map data is stored in here
-    public List<bool> trackTicks;
-    // bpm of the song the map is created for
+    // In short: The actual map data is stored in here
+    public bool[] trackRythmUnits;
+    // Bpm of the track the map is created for
     public float trackBPM;
-    // how long does it take until the first beat of the song is played
+    // How long does it take until the first beat of the track is played
     public float offset;
-    // how many ticks are per beat
-    // defines how many part per beat can be marked as important.
-    // (how big is the data of the map)
+    // How many ticks are per beat
+    // Defines how many part per beat can be marked as important.
+    // If the variable is bigger the size of the beatmap will increase rapidly
     public int markableTicksPerBeat;
 
     /* UI */
-    // it defines how much of the map is currently visible
+    // It defines how much of the map is currently visible
     public int visibleBeats;
-    // defines how big the beat panel in reference to the display size is (ratio)
+    // Defines how big the beat panel in reference to the display size is (ratio)
     public Vector2 beatSize;
-    // defines how big the tick panel in reference to the display size is (ratio)
+    // Defines how big the tick panel in reference to the display size is (ratio)
     public Vector2 tickSize;
 }

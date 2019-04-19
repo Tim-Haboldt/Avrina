@@ -2,7 +2,7 @@
 
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(Animator))]
-public class PlayerAnimatorConnector : MonoBehaviour
+public class PlayerAnimationController : MonoBehaviour
 {
     private PlayerInput inputs;
     private Animator animator;
@@ -23,8 +23,8 @@ public class PlayerAnimatorConnector : MonoBehaviour
 
     private void Update()
     {
-        float movX = this.inputs.movementInput.x;
-        float movY = this.inputs.movementInput.y;
+        float movX = this.inputs.movementInput;
+        float movY = 0;
 
         this.animator.SetFloat("MovementX", movX);
         this.animator.SetFloat("MovementY", movY);

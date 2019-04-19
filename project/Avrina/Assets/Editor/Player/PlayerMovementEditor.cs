@@ -5,8 +5,8 @@ public class PlayerMovementEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        PlayerMovement playerMovement = (PlayerMovement)target;
+        var playerMovement = (PlayerMovement)target;
 
-        playerMovement.speed = EditorGUILayout.FloatField("Movement Speed", playerMovement.speed);
+        playerMovement.force = EditorGUILayout.FloatField("Movement Speed", playerMovement.force);
     }
 }

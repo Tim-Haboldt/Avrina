@@ -5,9 +5,9 @@ public class PlayerInputEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        PlayerInput inputs = (PlayerInput)target;
+        var inputs = (PlayerInput)target;
 
-        EditorGUILayout.FloatField("Horizontal", inputs.movementInput.x);
-        EditorGUILayout.FloatField("Vertical", inputs.movementInput.y);
+        EditorGUILayout.LabelField("Horizontal", inputs.movementInput.ToString());
+        EditorGUILayout.LabelField("Jump", inputs.jumpInput.ToString());
     }
 }

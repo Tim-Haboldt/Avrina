@@ -7,87 +7,86 @@ public class BeatMapCreator : MonoBehaviour
 
     #region SOUND
 
-    // tick sound source
-    public AudioClip tickSource;
-    // tick Sound player
-    private AudioSource tickSound;
-    // song the map is created for
-    public AudioClip trackSource;
-    // song as playable element
-    public AudioSource track;
+    // Tick sound clip (actual mp3 file)
+    public AudioClip tickClip;
+    // Tick sound as playable element
+    private AudioSource tickSource;
+    // Track clip (actual mp3 file)
+    public AudioClip trackTick;
+    // Track as playable element
+    public AudioSource trackSource;
 
     #endregion SOUND
 
     #region MAPSPECIFICATIONS
 
-    // bpm of the song the map is created for
+    // Bpm of the track the map is created for
     public float trackBPM;
-    // how long does it take until the first beat of the song is played
+    // How long does it take until the first beat of the song is played
     public float offset;
-    // how many ticks are per beat
-    // defines how many part per beat can be marked as important.
-    // (how big is the data of the map)
+    // How many ticks are per beat
+    // Defines how many part per beat can be marked as important.
     public int markableTicksPerBeat;
 
     #endregion MAPSPECIFICATIONS
 
     #region UISPECIFICATIONS
 
-    // it defines how much of the map is currently visible
+    // It defines how much of the map is currently visible
     public int visibleBeats;
-    // defines how big the beat panel in reference to the display size is (ratio)
+    // Defines how big the beat panel in reference to the display size is (ratio)
     public Vector2 beatSize;
-    // defines how big the tick panel in reference to the display size is (ratio)
+    // Defines how big the tick panel in reference to the display size is (ratio)
     public Vector2 tickSize;
 
     #endregion UISPECIFICATIONS
 
     #region UPDATE
 
-    // defines how much time passed since the button was stared pressed down
+    // Defines how much time passed since the button was stared pressed down
     private float timeSinceLeftPressStarted;
-    // defines how much time passed since the button was stared pressed down
+    // Defines how much time passed since the button was stared pressed down
     private float timeSinceRightPressStarted;
-    // time since the last rythem unit
+    // Time since the last rythem unit
     private float timeSinceLastRythemUnit;
-    // stores how long it takes until the next rythem unit has to be played
-    private float rythemUnitFrequency;
+    // Stores how long it takes until the next rythem unit has to be played
+    private float rythmUnitFrequency;
 
     #endregion UPDATE
 
     #region PLAYSONG
 
-    // used to get the offset of the song right for the tick sounds
+    // Used to get the offset of the song right for the tick sounds
     private float tmpOffset;
-    // because we need to current ticks we need to replace one
+    // Because we need to current ticks we need to replace one
     private int tmpCurrentTick;
 
     #endregion PLAYSONG
 
     #region MAPDATA
 
-    // name of the file the song is stored into
+    // Name of the file the track data is stored into
     public string saveName;
-    // name of the file the song is loaded from
+    // Name of the file the track data is loaded from
     public string loadName;
 
     #endregion MAPDATA
 
     #region MAPINFO
 
-    // stores the information how many posible beats can be marked as important
+    // Stores the information how many posible rythm units can be marked as important
     // and which of them are important
-    public List<bool> trackTicks;
-    // where is the current position in the song
-    // (what part of the song need to be played next and what is the next tick)
-    public int currentTick;
+    public bool[] trackRythmUnits;
+    // Where is the current position in the track
+    // (What part of the track need to be played next and what is the next tick)
+    public int currentRythmUnit;
 
     #endregion MAPINFO
 
     #region UI
 
-    // contains all UI elements and handels their movement over the screen
-    public BeatMapUI beatMapUI;
+    // Contains all UI elements and handels their movement over the screen
+    public BeatMapUI mapUI;
 
     #endregion UI
 
@@ -98,15 +97,16 @@ public class BeatMapCreator : MonoBehaviour
     #region SETUP
 
     /**
-     * called really early from the Unity System to prevent errors
+     * This function is the first thing called by the Unity Engine
+     * Instance the MapUI as early as possible
      */
     private void OnEnable()
     {
-        this.beatMapUI = new BeatMapUI(this);
+        this.mapUI = new BeatMapUI(this);
     }
 
     /**
-     * default Unity start method
+     * Default Unity start method
      */
     private void Start()
     {
@@ -115,59 +115,55 @@ public class BeatMapCreator : MonoBehaviour
         this.timeSinceRightPressStarted = 0f;
 
         // load the map sound and the tick sound
-        this.setupSound();
+        this.SetupSound();
         // create tick map for the given song
-        this.createTrackTicksList();
+        this.CreateTrackTicksList();
 
         // setup the UI
-        this.beatMapUI.setupUI(this.visibleBeats, this.markableTicksPerBeat, this.beatSize, this.tickSize);
-        this.beatMapUI.updateUI(this.trackTicks, this.currentTick, this.visibleBeats, this.markableTicksPerBeat);
+        this.mapUI.SetupUI(this.visibleBeats, this.markableTicksPerBeat, this.beatSize, this.tickSize);
+        this.mapUI.UpdateUI(this.trackRythmUnits, this.currentRythmUnit);
     }
 
     /**
-     * loads all sound files
+     * Loads all sound files
      */
-    private void setupSound()
+    private void SetupSound()
     {
-        // create container for the audio player (sources)
-        GameObject audioContainer = new GameObject("AudioContainer");
+        // Create container for the audio player (sources)
+        var audioContainer = new GameObject("AudioContainer");
         audioContainer.transform.SetParent(this.transform, false);
-        // load tick sound into the script
-        this.tickSound = audioContainer.AddComponent<AudioSource>();
-        this.tickSound.playOnAwake = false;
-        this.tickSound.clip = this.tickSource;
-        // load track into the script
-        this.track = audioContainer.AddComponent<AudioSource>();
-        this.track.playOnAwake = false;
-        this.track.clip = this.trackSource;
-        // set current play position to 0
-        this.currentTick = 0;
+        // Load tick sound into the script
+        this.tickSource = audioContainer.AddComponent<AudioSource>();
+        this.tickSource.playOnAwake = false;
+        this.tickSource.clip = this.tickClip;
+        // Load track into the script
+        this.trackSource = audioContainer.AddComponent<AudioSource>();
+        this.trackSource.playOnAwake = false;
+        this.trackSource.clip = this.trackTick;
+        // Set current play position to 0
+        this.currentRythmUnit = 0;
     }
 
     /**
-     * creates an List which contains all posible ticks for given song
+     * Creates an List which contains all possible rythm units for given song
      */
-    public void createTrackTicksList()
+    public void CreateTrackTicksList()
     {
-        // reset current Tick
-        this.currentTick = 0;
-        // create instance of map
-        this.trackTicks = new List<bool>();
-        // calculate the amout of ticks in the track
-        float beatsPerSecond = this.trackBPM / 60;
-        float numberOfBeats = this.track.clip.length * beatsPerSecond;
-        int numberOfTicks = Mathf.RoundToInt(numberOfBeats * this.markableTicksPerBeat);
+        // Reset current rythm unit pointer
+        this.currentRythmUnit = 0;
+        // Calculate the amout of ticks and beats in the track
+        var beatsPerSecond = this.trackBPM / 60;
+        var numberOfBeats = Mathf.RoundToInt(this.trackSource.clip.length * beatsPerSecond);
+        var numberOfTicks = numberOfBeats * this.markableTicksPerBeat;
 
-        // stores the amout of rythem units per second (beats and ticks per second)
-        float ticksPerSecond = beatsPerSecond * this.markableTicksPerBeat;
-        float rythemUnitsPerSecond = beatsPerSecond + ticksPerSecond;
-        this.rythemUnitFrequency = 1 / rythemUnitsPerSecond;
+        // Stores the amout of rythem units per second (beats and ticks per second)
+        var ticksPerSecond = beatsPerSecond * this.markableTicksPerBeat;
+        var rythemUnitsPerSecond = beatsPerSecond + ticksPerSecond;
+        this.rythmUnitFrequency = 1 / rythemUnitsPerSecond;
 
-        // create the map size corresponding to the amout of ticks in the track
-        for (int i = 0; i < numberOfTicks; i++)
-        {
-            this.trackTicks.Add(false);
-        }
+        // Create instance for the rythem unity array
+        // There is no need to set all values to false, because the default value is false
+        this.trackRythmUnits = new bool[numberOfBeats + numberOfTicks];
     }
             
     #endregion SETUP
@@ -175,13 +171,13 @@ public class BeatMapCreator : MonoBehaviour
     #region UPDATE
 
     /**
-     * default Unity update method
+     *Ddefault Unity update method
      */
     private void Update()
     {
-        this.handleKeyInputs();
+        this.HandleKeyInputs();
 
-        if (this.track.isPlaying)
+        if (this.trackSource.isPlaying)
         {
             if (this.tmpOffset != 0)
             {
@@ -199,74 +195,74 @@ public class BeatMapCreator : MonoBehaviour
             }
 
             this.timeSinceLastRythemUnit += Time.deltaTime;
-            if (this.timeSinceLastRythemUnit >= this.rythemUnitFrequency)
+            if (this.timeSinceLastRythemUnit >= this.rythmUnitFrequency)
             {
-                this.timeSinceLastRythemUnit -= this.rythemUnitFrequency;
+                this.timeSinceLastRythemUnit -= this.rythmUnitFrequency;
                 this.tmpCurrentTick++;
-                if (this.trackTicks[this.tmpCurrentTick])
+                if (this.trackRythmUnits[this.tmpCurrentTick])
                 {
-                    this.tickSound.Play();
+                    this.tickSource.Play();
                 }
             }
         }
     }
 
     /**
-     * handles all key inputs
+     * Handles all key inputs
      */ 
-    private void handleKeyInputs()
+    private void HandleKeyInputs()
     {
-        // saves the map as json
+        // Saves the map as json
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            this.saveMap();
+            this.SaveMap();
         }
 
-        // this key starts or stops the track
+        // This key starts or stops the track
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (!this.track.isPlaying)
+            if (!this.trackSource.isPlaying)
             {
-                this.track.Play();
+                this.trackSource.Play();
                 this.timeSinceLastRythemUnit = 0;
                 this.tmpCurrentTick = 0;
                 this.tmpOffset = this.offset;
             } else
             {
-                this.track.Stop();
+                this.trackSource.Stop();
             }
         }
 
-        // this key goes a tick back in the song
+        // This key goes a tick back in the song
         if (Input.GetKeyDown(KeyCode.A))
         {
-            this.stepToTheLeft();
+            this.StepToTheLeft();
         }
-        // this key goes a tick forward
+        // This key goes a tick forward
         if (Input.GetKeyDown(KeyCode.D))
         {
-            this.stepToTheRight();
+            this.StepToTheRight();
         }
-        // if the right key is pressed long enough the map will step fast to the right
+        // If the right key is pressed long enough the map will step fast to the right
         if (Input.GetKey(KeyCode.A))
         {
             this.timeSinceLeftPressStarted += Time.deltaTime;
             if (this.timeSinceLeftPressStarted > 0.4f)
             {
-                this.stepToTheLeft();
+                this.StepToTheLeft();
             }
         }
         else
         {
             this.timeSinceLeftPressStarted = 0f;
         }
-        // if the left key is pressed long enough the map will step fast to the left
+        // If the left key is pressed long enough the map will step fast to the left
         if (Input.GetKey(KeyCode.D))
         {
             this.timeSinceRightPressStarted += Time.deltaTime;
             if (this.timeSinceRightPressStarted > 0.4f)
             {
-                this.stepToTheRight();
+                this.StepToTheRight();
             }
         }
         else
@@ -274,56 +270,56 @@ public class BeatMapCreator : MonoBehaviour
             this.timeSinceRightPressStarted = 0f;
         }
 
-        // this key makes a tick to an important one
+        // This key makes a tick to an important one
         if (Input.GetKeyDown(KeyCode.W))
         {
-            this.trackTicks[this.currentTick] = true;
-            this.beatMapUI.updateUI(this.trackTicks, this.currentTick, this.visibleBeats, this.markableTicksPerBeat);
+            this.trackRythmUnits[this.currentRythmUnit] = true;
+            this.mapUI.UpdateUI(this.trackRythmUnits, this.currentRythmUnit);
         }
-        // this key removes the important flag from a key
+        // This key removes the important flag from a key
         if (Input.GetKeyDown(KeyCode.S))
         {
-            this.trackTicks[this.currentTick] = false;
-            this.beatMapUI.updateUI(this.trackTicks, this.currentTick, this.visibleBeats, this.markableTicksPerBeat);
+            this.trackRythmUnits[this.currentRythmUnit] = false;
+            this.mapUI.UpdateUI(this.trackRythmUnits, this.currentRythmUnit);
         }
     }
 
     /**
-     * moves the UI one step to the right
+     * Moves the UI one step to the right
      */
-    private void stepToTheRight()
+    private void StepToTheRight()
     {
-        // check if the map contains a tick greater then the current one
-        if (!(this.currentTick < this.trackTicks.Count))
+        // Check if the map contains a tick greater then the current one
+        if (!(this.currentRythmUnit + 1 < this.trackRythmUnits.Length))
             return;
 
-        // increase current tick count
-        this.currentTick++;
+        // Increase current tick count
+        this.currentRythmUnit++;
 
-        // increases the UI Pointer
-        this.beatMapUI.increaseUIPointer();
+        // Increases the UI Pointer
+        this.mapUI.IncreaseUIPointer();
 
-        // update the positions of the UI
-        this.beatMapUI.updateUI(this.trackTicks, this.currentTick, this.visibleBeats, this.markableTicksPerBeat);
+        // Update the positions of the UI
+        this.mapUI.UpdateUI(this.trackRythmUnits, this.currentRythmUnit);
     }
 
     /**
-     * moves the UI one step to the left
+     * Moves the UI one step to the left
      */
-    private void stepToTheLeft()
+    private void StepToTheLeft()
     {
-        // check if the map contains a tick less then the current one
-        if (!(this.currentTick > 0))
+        // Check if the map contains a tick less then the current one
+        if (!(this.currentRythmUnit - 1 >= 0))
             return;
 
-        // decrease the current tick count
-        this.currentTick--;
+        // Decrease the current tick count
+        this.currentRythmUnit--;
 
-        // decreases the UI pointer
-        this.beatMapUI.decreaseUIPointer();
+        // Decreases the UI pointer
+        this.mapUI.DecreaseUIPointer();
 
-        // update the positions of the UI
-        this.beatMapUI.updateUI(this.trackTicks, this.currentTick, this.visibleBeats, this.markableTicksPerBeat);
+        // Update the positions of the UI
+        this.mapUI.UpdateUI(this.trackRythmUnits, this.currentRythmUnit);
     }
 
     #endregion UPDATE
@@ -331,36 +327,37 @@ public class BeatMapCreator : MonoBehaviour
     #region MAPDATA
 
     /**
-     * exports the map into a text file in json format
+     * Exports the map into a text file in json format
      */
-    public void saveMap()
+    public void SaveMap()
     {
-        // create data object
-        MapData data = new MapData();
+        // Create data object
+        var data = new MapData()
+        {
+            trackBPM = this.trackBPM,
+            offset = this.offset,
+            markableTicksPerBeat = this.markableTicksPerBeat,
 
-        data.trackBPM = this.trackBPM;
-        data.offset = this.offset;
-        data.markableTicksPerBeat = this.markableTicksPerBeat;
+            visibleBeats = this.visibleBeats,
+            beatSize = this.beatSize,
+            tickSize = this.tickSize,
 
-        data.visibleBeats = this.visibleBeats;
-        data.beatSize = this.beatSize;
-        data.tickSize = this.tickSize;
+            trackRythmUnits = this.trackRythmUnits
+        };
 
-        data.trackTicks = this.trackTicks;
-
-        // save data object into file
-        FileHandler.saveObjectAsJsonString(this.track.clip.name + "_" + this.saveName + ".txt", data);
+        // Save data object into file
+        FileHandler.SaveObjectAsJsonString(this.trackSource.clip.name + "_" + this.saveName + ".txt", data);
     }
 
     /**
-     * imports the map from a text file in json format
+     * Imports the map from a text file in json format
      */
-    public void loadMap()
+    public void LoadMap()
     {
-        // first get the data
-        MapData data = FileHandler.loadObjectFromJsonString<MapData>(this.loadName);
+        // First get the data
+        var data = FileHandler.LoadObjectFromJsonString<MapData>(this.loadName);
 
-        // replace current data
+        // Replace current data
         this.trackBPM = data.trackBPM;
         this.offset = data.offset;
         this.markableTicksPerBeat = data.markableTicksPerBeat;
@@ -369,15 +366,15 @@ public class BeatMapCreator : MonoBehaviour
         this.beatSize = data.beatSize;
         this.tickSize = data.tickSize;
 
-        this.trackTicks = data.trackTicks;
+        this.trackRythmUnits = data.trackRythmUnits;
         
         // need to update the UI and recalculate the trackTicks array if the game is running
         if (Application.isPlaying)
         {
-            this.currentTick = 0;
-            this.beatMapUI.destroyUI();
-            this.beatMapUI.setupUI(this.visibleBeats, this.markableTicksPerBeat, this.beatSize, this.tickSize);
-            this.beatMapUI.updateUI(this.trackTicks, this.currentTick, this.visibleBeats, this.markableTicksPerBeat);
+            this.currentRythmUnit = 0;
+            this.mapUI.DestroyUI();
+            this.mapUI.SetupUI(this.visibleBeats, this.markableTicksPerBeat, this.beatSize, this.tickSize);
+            this.mapUI.UpdateUI(this.trackRythmUnits, this.currentRythmUnit);
         }
     }
 

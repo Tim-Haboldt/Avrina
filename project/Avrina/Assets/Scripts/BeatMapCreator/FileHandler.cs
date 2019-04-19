@@ -4,9 +4,9 @@ using System.IO;
 public class FileHandler
 {
     /**
-     * creates json string from given object and stores string as txt with given fileName
+     * Creates json string from given object and stores string as txt file with given file name
      */
-    public static void saveObjectAsJsonString<dataType>(string fileName, dataType data)
+    public static void SaveObjectAsJsonString<dataType>(string fileName, dataType data)
     {
         // create path
         string dataPath = Path.Combine(Application.persistentDataPath, fileName);
@@ -20,10 +20,10 @@ public class FileHandler
     }
 
     /**
-     * used to load data from an json string and exports it as an object
-     * the given string stores the name of the file
+     * Used to load data from an json string and exports it as an object
+     * The given string stores the name of the file
      */
-    public static dataType loadObjectFromJsonString<dataType>(string fileName)
+    public static dataType LoadObjectFromJsonString<dataType>(string fileName)
     {
         // create path from given fileName
         string dataPath = Path.Combine(Application.persistentDataPath, fileName);

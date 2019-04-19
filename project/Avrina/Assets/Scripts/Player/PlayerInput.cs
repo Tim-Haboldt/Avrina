@@ -2,11 +2,13 @@
 
 public class PlayerInput : MonoBehaviour
 {
-    public Vector2 movementInput { get; private set; }
+    public float movementInput { get; private set; }
+    public bool jumpInput { get; private set; }
     
     void Update()
     {
-        // get the player Inputs and write them into the global variables
-        this.movementInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+        // Get the player Inputs and write them into the global variables
+        this.movementInput = Input.GetAxisRaw("Horizontal");
+        this.jumpInput = Input.GetKey(KeyCode.Space);
     }
 }

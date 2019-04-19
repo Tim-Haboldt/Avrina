@@ -4,7 +4,7 @@
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 4f;
+    public float force;
 
     private PlayerInput inputs;
     private Rigidbody2D rb;
@@ -17,6 +17,6 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        this.rb.MovePosition(this.rb.position + this.inputs.movementInput * this.speed * Time.deltaTime);
+        this.rb.AddForce(new Vector2(this.force * this.inputs.movementInput, 0));
     }
 }
