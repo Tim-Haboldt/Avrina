@@ -1,5 +1,6 @@
 ﻿/**
- * Defines how many and which keys the magic System supports
+ * Maps keys to their specific direction
+ * The corresponding key is defind in the MagicSystemSettingsEditor
  */
 public enum MagicSystemKey
 {
