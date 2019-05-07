@@ -4,12 +4,23 @@ using System;
 using System.Collections.Generic;
 
 [CustomEditor(typeof(MagicSystemSettings))]
+[InitializeOnLoad]
+// https://answers.unity.com/questions/921989/get-keycode-events-in-editor-without-object-select.html
 public class MagicSystemSettingsEditor : Editor
 {
-    private bool showKeyArray = false;
+    // Defines when the key selection section is open or closed
+    private bool showKeyArray;
+    // When the boolean is true the next button press will be mapped as the new magic system key
+    private static bool remapMagicKey;
+    // Which Magic System key should be remapped
+    private static MagicSystemKey magicKeyToBeRemapped;
 
     private void OnEnable()
     {
+        // Set some variables
+        this.showKeyArray = false;
+        remapMagicKey = false;
+
         // Generate KeyMapper
         var settings = (MagicSystemSettings)target;
 
@@ -64,17 +75,32 @@ public class MagicSystemSettingsEditor : Editor
                 EditorGUILayout.LabelField(magicKey.ToString());
                 if (GUILayout.Button(settings.keyMapper[magicKey].ToString()))
                 {
-                    foreach (KeyCode key in Enum.GetValues(typeof(KeyCode)))
-                    {
-                        if (Input.GetKey(key))
-                        {
-                            Debug.Log(key.ToString());
-                            settings.keyMapper[magicKey] = key;
-                        }
-                    }
+                    // When the button is pressed the magic key should be remapped
+                    magicKeyToBeRemapped = magicKey;
+                    remapMagicKey = true;
                 }
 
                 EditorGUILayout.EndHorizontal();
+            }
+        }
+    }
+
+    private static void OnSceneGUI()
+    {
+        if (remapMagicKey)
+        {
+            Debug.Log(remapMagicKey);
+            // Get current key press
+            var e = Event.current;
+            if (e.type != EventType.Layout && e.type != EventType.Repaint && e.type != EventType.MouseMove && e.type != EventType.MouseDown && e.type != EventType.MouseEnterWindow && e.type != EventType.MouseLeaveWindow)
+            {
+                return;
+                /*Debug.Log("HI");
+                // Get target object
+                var settings = (MagicSystemSettings)target;
+                // Select pressed key as new magic key
+                settings.keyMapper[this.magicKeyToBeRemapped] = Event.current.keyCode;
+                this.remapMagicKey = false;*/
             }
         }
     }

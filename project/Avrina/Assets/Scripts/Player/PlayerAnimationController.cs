@@ -7,11 +7,7 @@ public class PlayerAnimationController : MonoBehaviour
     private PlayerInput inputs;
     private Animator animator;
 
-    // 0 => up
-    // 1 => right
-    // 2 => down
-    // 3 => left
-    private float lastDirection;
+    private int lastDirection;
 
     void Start()
     {
