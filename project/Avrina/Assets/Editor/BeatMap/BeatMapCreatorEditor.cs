@@ -69,7 +69,7 @@ public class BeatMapCreatorEditor : Editor
 
         }
         // You are only able to save or load a song if the game is currently running
-        if (Application.isPlaying)
+        if (Application.isPlaying && bmc.enabled)
         {
             /* Save Map */
             // All elements that are used to save the map

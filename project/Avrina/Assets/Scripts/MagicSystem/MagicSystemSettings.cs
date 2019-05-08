@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 public class MagicSystemSettings : MonoBehaviour
 {
-    // Maps the magicSystemKey to the corresponding Unity Keycode 
-    public Dictionary<MagicSystemKey, KeyCode> keyMapper;
+    public List<KeyCollection> keyMapper;
     // Which was the first element pressed
     // If there was no element pressed before the state will be NONE
     private MagicSystemElement firstElement;
@@ -20,8 +19,16 @@ public class MagicSystemSettings : MonoBehaviour
     {
     }
 
-    public bool isMagicSystemKeyPressed(MagicSystemKey key)
+    public bool isMagicSystemKeyPressed(MagicSystemKey magicKey)
     {
-        return Input.GetKey(keyMapper[key]);
+        foreach (var keyCollection in this.keyMapper)
+        {
+            if (keyCollection.magicKey == magicKey)
+            {
+                return Input.GetKey(keyCollection.unityKey);
+            }
+        }
+
+        return false;
     }
 }
