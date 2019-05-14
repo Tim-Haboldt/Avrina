@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 public class MagicSystemSettings : MonoBehaviour
 {
-    public List<KeyCollection> keyMapper;
+    // Stores the information which keycode is related to the magic key
+    private Dictionary<MagicSystemKey, KeyCode> keyMapper;
+    // Used by the editor because dictionaries are not serializable
+    public List<KeyCollection> keyMapperAsList;
     // Which was the first element pressed
     // If there was no element pressed before - the state will be None
     public MagicSystemElement firstElement;
@@ -12,6 +15,12 @@ public class MagicSystemSettings : MonoBehaviour
     void Start()
     {
         this.firstElement = MagicSystemElement.None;
+
+        this.keyMapper = new Dictionary<MagicSystemKey, KeyCode>();
+        foreach (var keyPair in this.keyMapperAsList)
+        {
+            this.keyMapper.Add(keyPair.magicKey, keyPair.unityKey);
+        }
     }
 
     /**
@@ -19,15 +28,7 @@ public class MagicSystemSettings : MonoBehaviour
      */ 
     public bool IsMagicSystemKeyPressed(MagicSystemKey magicKey)
     {
-        foreach (var keyCollection in this.keyMapper)
-        {
-            if (keyCollection.magicKey == magicKey)
-            {
-                return Input.GetKeyDown(keyCollection.unityKey);
-            }
-        }
-
-        return false;
+        return Input.GetKeyDown(keyMapper[magicKey]);
     }
 
     /**

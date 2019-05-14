@@ -24,26 +24,26 @@ public class MagicSystemSettingsEditor : Editor
         var magicKeys = (MagicSystemKey[])Enum.GetValues(typeof(MagicSystemKey));
 
         // Only regenerate if the mapping does not exist or the enum size changed
-        if (settings.keyMapper == null)
+        if (settings.keyMapperAsList == null)
         {
-            settings.keyMapper = new List<KeyCollection>();
+            settings.keyMapperAsList = new List<KeyCollection>();
 
             foreach (var magicKey in magicKeys)
             {
                 // Default Key is space because it does not make any sence
-                settings.keyMapper.Add(new KeyCollection(magicKey, KeyCode.None));
+                settings.keyMapperAsList.Add(new KeyCollection(magicKey, KeyCode.None));
             }
         }
         else
         {
-            if (settings.keyMapper.Count != magicKeys.Length)
+            if (settings.keyMapperAsList.Count != magicKeys.Length)
             {
-                settings.keyMapper = new List<KeyCollection>();
+                settings.keyMapperAsList = new List<KeyCollection>();
 
                 foreach (var magicKey in magicKeys)
                 {
                     // Default Key is space because it does not make any sence
-                    settings.keyMapper.Add(new KeyCollection(magicKey, KeyCode.None));
+                    settings.keyMapperAsList.Add(new KeyCollection(magicKey, KeyCode.None));
                 }
             }
         }
@@ -58,9 +58,9 @@ public class MagicSystemSettingsEditor : Editor
         var eventKeyCode = Event.current.keyCode;
         if (this.magicKeyToBeRemapped != -1 && eventKeyCode != KeyCode.None)
         {
-            var keyCollection = settings.keyMapper[this.magicKeyToBeRemapped];
+            var keyCollection = settings.keyMapperAsList[this.magicKeyToBeRemapped];
             keyCollection.unityKey = eventKeyCode;
-            settings.keyMapper[this.magicKeyToBeRemapped] = keyCollection;
+            settings.keyMapperAsList[this.magicKeyToBeRemapped] = keyCollection;
             this.magicKeyToBeRemapped = -1;
             Repaint();
         }
@@ -71,9 +71,9 @@ public class MagicSystemSettingsEditor : Editor
         // Generate KeyMapper Layout
         if (this.showKeyArray)
         {
-            for (int count = 0; count < settings.keyMapper.Count; count++)
+            for (int count = 0; count < settings.keyMapperAsList.Count; count++)
             {
-                var keyCollection = settings.keyMapper[count];
+                var keyCollection = settings.keyMapperAsList[count];
 
                 EditorGUILayout.BeginHorizontal();
 
