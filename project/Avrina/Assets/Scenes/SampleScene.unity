@@ -5231,6 +5231,7 @@ GameObject:
   - component: {fileID: 722160523}
   - component: {fileID: 722160522}
   - component: {fileID: 722160524}
+  - component: {fileID: 722160525}
   m_Layer: 8
   m_Name: Background
   m_TagString: Untagged
@@ -5369,6 +5370,38 @@ PolygonCollider2D:
       - {x: 0.5360098, y: 1.5402869}
       - {x: 1.0806308, y: 1.5200084}
       - {x: 1.5105816, y: 1.890937}
+--- !u!68 &722160525
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722160520}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 9.501951, y: -0.9398193}
+  - {x: 8.024113, y: -1.1040237}
+  - {x: 6.5259285, y: -0.5065588}
+  - {x: 5.5337563, y: 0.7315835}
+  - {x: 3.919581, y: 0.46705934}
+  - {x: 1.6377105, y: -0.46223372}
+  - {x: 1.0282397, y: -0.31284025}
+  - {x: 1.0852932, y: 0.16682228}
+  - {x: 1.9313494, y: 0.113458015}
+  - {x: 4.3056073, y: 1.4381884}
+  - {x: 5.9314117, y: 1.5511146}
+  - {x: 6.051454, y: 1.3299508}
+  - {x: 7.2387724, y: 1.572143}
+  - {x: 7.4542212, y: 2.2066314}
+  - {x: 7.8710103, y: 2.4430535}
+  - {x: 9.539725, y: 2.6284037}
 --- !u!1 &1090141017
 GameObject:
   m_ObjectHideFlags: 0
