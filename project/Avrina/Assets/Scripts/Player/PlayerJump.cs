@@ -6,26 +6,27 @@ public class PlayerJump : MonoBehaviour
 {
     // Defines how long the Jump button can be pressed
     [SerializeField] public float maxJumpDuration;
-    // How much foce will be applied when the jump button is pressed first
+    // How much force will be applied when the jump button is pressed first
     [SerializeField] public float jumpForce;
-    // How many jumps does the player has
-    [SerializeField] public int maxNumberOfJumps;
-    // the fall of the player should be a lot faster then the actual jump
-    [SerializeField] public float fallMultiplier;
-    // Size of the ground line which is used to define, when the player is touching the ground
-    [SerializeField] public float groundWidth;
-    // Defines where the bottom of the player is for the on ground check
-    [SerializeField] public Vector2 groundPosition;
-    // Defines which layers define ground
-    [SerializeField] public LayerMask groundMask;
+    // How much force will be applied each frame while a wall jump is performed
+    [SerializeField] public float wallJumpForce;
+    // The fall of the player should be a lot faster then the actual jump
+    [SerializeField] public float fallForce;
+    // If the player is falling faster then max fall speed reduce speed
+    [Range(0, 1)]
+    [SerializeField] public float airFriction;
+    [Range(0, 1)]
+    [SerializeField] public float wallFriction;
 
-    // The variable is true if the jump button is pressed for the first time
-    // in the current update go through
-    private bool firstUpdateSincePress;
-    // Passed time since the jump button was pressed first
-    private float passedTimeSinceFirstPress;
-    // How often did the player jump since he last touched the ground
-    private int jumpCounter;
+    // The player can jump twice. This value defines if the player can jump again
+    private bool hasExtraJump;
+    // Has the player used his first jump
+    private bool hasJump;
+    // When did the player start jumping
+    private float startTime;
+
+    private bool isWallJumping;
+    private bool isJumping;
 
     // Used to get the Information which player input is given
     private PlayerInput inputs;
@@ -36,91 +37,105 @@ public class PlayerJump : MonoBehaviour
     {
         this.inputs = GetComponent<PlayerInput>();
         this.rb = GetComponent<Rigidbody2D>();
-
-        this.passedTimeSinceFirstPress = 0f;
-        this.jumpCounter = 0;
+        
+        this.hasExtraJump = true;
+        this.hasJump = false;
+        this.isJumping = false;
+        this.isWallJumping = false;
     }
 
-    /**
-     * Applies the forces to the rigidbody 
-     */
     private void FixedUpdate()
     {
-        // Increase the fall speed
-        if (rb.velocity.y < 0)
+        // Apply Jump forces
+        if (this.inputs.onGround)
         {
-        }
-        // Is the player currently pressing the jump button and has he any jumpbs left
-        if (this.inputs.jumpInput && this.jumpCounter <= this.maxNumberOfJumps)
-        {
-            // PassedTimeSinceFirstPress is zero if it is the first update
-            // since the player is pressing the jump button
-            if (this.passedTimeSinceFirstPress == 0f)
+            if (this.inputs.jumpInput)
             {
-                this.firstUpdateSincePress = false;
-                this.jumpCounter++;
-
-                // If the player is pressing the jump button without any jumps left
-                if (this.jumpCounter > this.maxNumberOfJumps)
+                if (!this.isJumping && !this.isWallJumping)
                 {
-                    // increase the gravity scale
-                    this.IncreaseGravity();
-                    return;
+                    if (this.hasJump)
+                    {
+                        this.isJumping = true;
+                        this.hasJump = false;
+                        this.startTime = Time.time;
+                    }
+                    else if (this.hasExtraJump)
+                    {
+                        this.isJumping = true;
+                        this.hasExtraJump = false;
+                        this.startTime = Time.time;
+                    }
                 }
             }
-
-            // Only increase the timer if the jump button is pressed for more then one update go through
-            if (!this.firstUpdateSincePress)
-                this.passedTimeSinceFirstPress += Time.deltaTime;
-
-            // Do not apply any forces if the player is pressing the jump button for to long
-            if (this.passedTimeSinceFirstPress <= this.maxJumpDuration)
+            else
             {
-                // Calculate the relative force the object gets this update tick
-                // The force given to the player should reduce in relation to the passed time
-                float jumpForceMuli = (this.maxJumpDuration - this.passedTimeSinceFirstPress) / this.maxJumpDuration;
-                // Add the force
-                rb.velocity += new Vector2(0, this.jumpForce * jumpForceMuli);
-            } else
-            {
-                // If the player is pressing jump for to long increase the gravity scale
-                this.IncreaseGravity();
+                // Reset jumps
+                this.isJumping = false;
+                this.isWallJumping = false;
+                this.hasExtraJump = true;
+                this.hasJump = true;
             }
-        }
-        else
+        } else if (this.inputs.isSlidingTheWall)
         {
-            // Reset time since last jump
-            this.firstUpdateSincePress = true;
-            this.passedTimeSinceFirstPress = 0f;
-            // If the player is not pressing jump increase the gravity scale
-            this.IncreaseGravity();
-            // If the player is touching the ground set the jump counter to zero
-            if (this.IsGrounded())
+            if (this.inputs.jumpInput)
             {
-                this.jumpCounter = 0;
+                if (!this.isJumping && !this.isWallJumping)
+                {
+                    if (this.hasExtraJump)
+                    {
+                        this.isWallJumping = true;
+                        this.hasExtraJump = false;
+                        this.startTime = Time.time;
+                    }
+                }
             }
+            else
+            {
+                this.hasExtraJump = true;
+                this.isJumping = false;
+                this.isWallJumping = false;
+            }
+        } else if (this.inputs.jumpInput)
+        {
+            if (!this.isJumping && !this.isWallJumping)
+            {
+                if (this.hasExtraJump)
+                {
+                    this.hasExtraJump = false;
+                    this.isJumping = true;
+                    this.startTime = Time.time;
+                }
+            }
+        } else
+        {
+            this.isWallJumping = false;
+            this.isJumping = false;
         }
-    }
 
-    /**
-     * Applies more gravitiy if the player is not pressing the jump button
-     */
-    private void IncreaseGravity()
-    {
-        rb.velocity += Vector2.up * Physics.gravity.y * (this.fallMultiplier - 1) * Time.deltaTime;
-    } 
+        // Apply gravity
+        var passedTime = Time.time - this.startTime;
+        if (this.isJumping && this.inputs.jumpInput && passedTime < this.maxJumpDuration)
+        {
+            this.rb.velocity = new Vector2(this.rb.velocity.x, this.jumpForce);
+        }
+        else if (this.isWallJumping && this.inputs.jumpInput && passedTime < this.maxJumpDuration)
+        {
+            this.rb.velocity = new Vector2(this.rb.velocity.x, this.wallJumpForce);
+        }
+        else if (!this.inputs.onGround)
+        {
+            var currentVelocity = this.rb.velocity.y;
+            currentVelocity -= this.fallForce;
 
-    /**
-     * Checks if the player is currently touching the surface
-     */
-    private bool IsGrounded()
-    {
-        Vector2 playerPos = this.transform.position;
-        Vector2 relativeGroundPos = new Vector2(playerPos.x + this.groundPosition.x, playerPos.y + this.groundPosition.y);
-             
-        Vector2 leftPoint = new Vector2(relativeGroundPos.x - this.groundWidth / 2, relativeGroundPos.y);
-        Vector2 rightPoint = new Vector2(relativeGroundPos.x + this.groundWidth / 2, relativeGroundPos.y);
+            if (this.inputs.isSlidingTheWall)
+                currentVelocity *= this.wallFriction;
+            else
+                currentVelocity *= this.airFriction;
 
-        return Physics2D.OverlapArea(leftPoint, rightPoint, this.groundMask);
+            this.rb.velocity = new Vector2(this.rb.velocity.x, currentVelocity);
+        } else
+        {
+            this.rb.velocity = new Vector2(this.rb.velocity.x, 0);
+        }
     }
 }

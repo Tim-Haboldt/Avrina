@@ -6,6 +6,7 @@ public class PlayerCollider : MonoBehaviour
     [SerializeField] public bool isTriggered;
 
     public LayerMask mask { private get; set; }
+    public string lastColliderTag { get; private set; }
 
     private BoxCollider2D boxCollider;
     private int amountOfColliders;
@@ -23,6 +24,7 @@ public class PlayerCollider : MonoBehaviour
         {
             this.isTriggered = true;
             this.amountOfColliders++;
+            this.lastColliderTag = collision.tag;
         }
     }
 

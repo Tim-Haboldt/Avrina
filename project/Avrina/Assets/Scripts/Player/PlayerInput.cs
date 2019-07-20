@@ -7,6 +7,7 @@ public class PlayerInput : MonoBehaviour
     public bool onGround { get; private set; }
     public bool isSlidingTheWall { get; private set; }
     public Direction currentSlidingWallDirection { get; private set; }
+    public string groundTag { get; private set; }
     [SerializeField] public LayerMask groundMask;
     [SerializeField] public PlayerCollider wallSlideColliderLeft;
     [SerializeField] public PlayerCollider wallSlideColliderRight;
@@ -33,6 +34,7 @@ public class PlayerInput : MonoBehaviour
     {
         // Update all colliding states
         this.onGround = this.onGroundCollider.isTriggered;
+
         if (this.wallSlideColliderLeft.isTriggered || this.wallSlideColliderRight.isTriggered)
             this.isSlidingTheWall = true;
         else
