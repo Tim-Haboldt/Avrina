@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(PlayerStatus))]
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimationController : MonoBehaviour
 {
-    private PlayerInput inputs;
+    private PlayerStatus inputs;
     private Animator animator;
 
     private int lastDirection;
 
     void Start()
     {
-        this.inputs = GetComponent<PlayerInput>();
+        this.inputs = GetComponent<PlayerStatus>();
         this.animator = GetComponent<Animator>();
 
         this.lastDirection = 2;

@@ -1,14 +1,14 @@
 ﻿using UnityEditor;
 
-[CustomEditor(typeof(PlayerInput))]
+[CustomEditor(typeof(PlayerStatus))]
 public class PlayerInputEditor : Editor
 {
-    private PlayerInput inputs;
+    private PlayerStatus inputs;
 
     private void OnEnable()
     {
         if (this.inputs == null)
-            this.inputs = (PlayerInput)target;
+            this.inputs = (PlayerStatus)target;
     }
 
     public override void OnInspectorGUI()

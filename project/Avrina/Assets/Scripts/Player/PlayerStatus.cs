@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerStatus : MonoBehaviour
 {
     public float movementInput { get; private set; }
     public bool jumpInput { get; private set; }

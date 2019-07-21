@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FireElement : ElementBase
 {
-    protected override MagicSystemElement element { get { return MagicSystemElement.Fire; } }
+    protected override Element element { get { return Element.Fire; } }
 
     protected override void AirElementWasFirst()
     {

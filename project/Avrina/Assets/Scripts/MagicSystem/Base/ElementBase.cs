@@ -9,7 +9,7 @@ public abstract class ElementBase : MonoBehaviour
     [SerializeField] public MagicSystemKey key;
     // Every Element needs to know which element they are
     // The variable needs to be overriten in the child class
-    abstract protected MagicSystemElement element { get; }
+    abstract protected Element element { get; }
 
     // Start is called before the first frame update
     void Start()
@@ -26,22 +26,22 @@ public abstract class ElementBase : MonoBehaviour
             {
                 switch (settings.firstElement)
                 {
-                    case (MagicSystemElement.Fire):
+                    case (Element.Fire):
                         this.FireElementWasFirst();
                         break;
-                    case (MagicSystemElement.Water):
+                    case (Element.Water):
                         this.WaterElementWasFirst();
                         break;
-                    case (MagicSystemElement.Earth):
+                    case (Element.Earth):
                         this.EarthElementWasFirst();
                         break;
-                    case (MagicSystemElement.Air):
+                    case (Element.Air):
                         this.AirElementWasFirst();
                         break;
                     default:
                         throw new System.NotImplementedException();
                 }
-                settings.firstElement = MagicSystemElement.None;
+                settings.firstElement = Element.None;
             } else
             {
                 settings.firstElement = this.element;

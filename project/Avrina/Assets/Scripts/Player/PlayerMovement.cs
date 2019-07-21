@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(PlayerStatus))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] public float forceOnGround;
@@ -17,12 +17,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float frictionOnIce;
     [SerializeField] public string iceTag;
 
-    private PlayerInput inputs;
+    private PlayerStatus inputs;
     private Rigidbody2D rb;
     
     void Start()
     {
-        this.inputs = GetComponent<PlayerInput>();
+        this.inputs = GetComponent<PlayerStatus>();
         this.rb = GetComponent<Rigidbody2D>();
     }
 

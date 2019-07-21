@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(PlayerStatus))]
+[RequireComponent(typeof(PlayerMovement))]
 public class PlayerJump : MonoBehaviour
 {
+
+    // -> rewrite code and use conditions instead -> better Code <---
+
     // Defines how long the Jump button can be pressed
     [SerializeField] public float maxJumpDuration;
     // How much force will be applied when the jump button is pressed first
@@ -25,18 +29,26 @@ public class PlayerJump : MonoBehaviour
     // When did the player start jumping
     private float startTime;
 
+    // The corresponding will be true if the player is jumping
     private bool isWallJumping;
     private bool isJumping;
 
+    // Will be set at the start of a wall jump
+    // If the player hits a wall while jumping the walljump will be canceled
+    private Direction wallJumpDirection;
+
     // Used to get the Information which player input is given
-    private PlayerInput inputs;
+    private PlayerStatus inputs;
     // Rigidbody of the player used to apply forces
     private Rigidbody2D rb;
+    // Walljumps need to be able to disable all horizontal movement
+    private PlayerMovement movement;
 
     private void Start()
     {
-        this.inputs = GetComponent<PlayerInput>();
+        this.inputs = GetComponent<PlayerStatus>();
         this.rb = GetComponent<Rigidbody2D>();
+        this.movement = GetComponent<PlayerMovement>();
         
         this.hasExtraJump = true;
         this.hasJump = false;
@@ -51,6 +63,7 @@ public class PlayerJump : MonoBehaviour
         {
             if (this.inputs.jumpInput)
             {
+                // Normal jump on the ground
                 if (!this.isJumping && !this.isWallJumping)
                 {
                     if (this.hasJump)
@@ -77,26 +90,25 @@ public class PlayerJump : MonoBehaviour
             }
         } else if (this.inputs.isSlidingTheWall)
         {
+            // Jump from a wall
             if (this.inputs.jumpInput)
             {
                 if (!this.isJumping && !this.isWallJumping)
                 {
-                    if (this.hasExtraJump)
-                    {
-                        this.isWallJumping = true;
-                        this.hasExtraJump = false;
-                        this.startTime = Time.time;
-                    }
+                    this.isWallJumping = true;
+                    this.movement.enabled = false;
+                    this.wallJumpDirection = this.inputs.currentSlidingWallDirection;
+                    this.startTime = Time.time;
                 }
             }
             else
             {
-                this.hasExtraJump = true;
                 this.isJumping = false;
                 this.isWallJumping = false;
             }
         } else if (this.inputs.jumpInput)
         {
+            // Jump in the air
             if (!this.isJumping && !this.isWallJumping)
             {
                 if (this.hasExtraJump)
@@ -116,11 +128,19 @@ public class PlayerJump : MonoBehaviour
         var passedTime = Time.time - this.startTime;
         if (this.isJumping && this.inputs.jumpInput && passedTime < this.maxJumpDuration)
         {
+            this.movement.enabled = true;
             this.rb.velocity = new Vector2(this.rb.velocity.x, this.jumpForce);
         }
-        else if (this.isWallJumping && this.inputs.jumpInput && passedTime < this.maxJumpDuration)
+        else if (this.isWallJumping && this.inputs.jumpInput && passedTime < this.maxJumpDuration && this.wallJumpDirection == this.inputs.currentSlidingWallDirection)
         {
-            this.rb.velocity = new Vector2(this.rb.velocity.x, this.wallJumpForce);
+            var horizontalForce = this.wallJumpForce;
+
+            if (this.wallJumpDirection == Direction.Right)
+            {
+                horizontalForce *= -1;
+            }
+
+            this.rb.velocity = new Vector2(horizontalForce, this.wallJumpForce*2);
         }
         else if (!this.inputs.onGround)
         {
@@ -133,9 +153,11 @@ public class PlayerJump : MonoBehaviour
                 currentVelocity *= this.airFriction;
 
             this.rb.velocity = new Vector2(this.rb.velocity.x, currentVelocity);
+            this.movement.enabled = true;
         } else
         {
             this.rb.velocity = new Vector2(this.rb.velocity.x, 0);
+            this.movement.enabled = true;
         }
     }
 }

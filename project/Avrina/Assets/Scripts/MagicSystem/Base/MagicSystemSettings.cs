@@ -9,12 +9,12 @@ public class MagicSystemSettings : MonoBehaviour
     public List<KeyCollection> keyMapperAsList;
     // Which was the first element pressed
     // If there was no element pressed before - the state will be None
-    public MagicSystemElement firstElement;
+    public Element firstElement;
 
     // Start is called before the first frame update
     void Start()
     {
-        this.firstElement = MagicSystemElement.None;
+        this.firstElement = Element.None;
 
         this.keyMapper = new Dictionary<MagicSystemKey, KeyCode>();
         foreach (var keyPair in this.keyMapperAsList)
@@ -36,6 +36,6 @@ public class MagicSystemSettings : MonoBehaviour
     */
     public bool IsFirstElementSelected()
     {
-        return (this.firstElement != MagicSystemElement.None);
+        return (this.firstElement != Element.None);
     }
 }
