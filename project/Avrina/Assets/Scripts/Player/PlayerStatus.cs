@@ -2,7 +2,8 @@
 
 public class PlayerStatus : MonoBehaviour
 {
-    public float movementInput { get; private set; }
+    public float movementInputHorizontal { get; private set; }
+    public float movementInputVertical { get; private set; }
     public bool jumpInput { get; private set; }
     public bool onGround { get; private set; }
     public bool isSlidingTheWall { get; private set; }
@@ -26,7 +27,8 @@ public class PlayerStatus : MonoBehaviour
     void Update()
     {
         // Get the player Inputs and write them into the global variables
-        this.movementInput = Input.GetAxisRaw("Horizontal");
+        this.movementInputHorizontal = Input.GetAxisRaw("Horizontal");
+        this.movementInputVertical = Input.GetAxisRaw("Vertical");
         this.jumpInput = Input.GetKey(KeyCode.Space);
     }
 

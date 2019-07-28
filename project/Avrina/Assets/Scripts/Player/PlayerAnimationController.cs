@@ -19,7 +19,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void Update()
     {
-        float movX = this.inputs.movementInput;
+        float movX = this.inputs.movementInputHorizontal;
         float movY = 0;
 
         this.animator.SetFloat("MovementX", movX);

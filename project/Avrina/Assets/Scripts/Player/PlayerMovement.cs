@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
         var newForce = this.calculateMovementThroughGivenInputs(oldForce, absOldForce, signOldForce);
         var absNewForce = Mathf.Abs(newForce);
 
-        if (this.inputs.movementInput == 0 || absOldForce > this.maxForce && absNewForce > this.maxForce)
+        if (this.inputs.movementInputHorizontal == 0 || absOldForce > this.maxForce && absNewForce > this.maxForce)
         {
             if (this.inputs.onGround)
             {
@@ -59,18 +59,18 @@ public class PlayerMovement : MonoBehaviour
     {
         var newForce = oldForce;
 
-        if (this.inputs.movementInput != 0)
+        if (this.inputs.movementInputHorizontal != 0)
         {
             // Calculate new Force due to input
             if (this.inputs.onGround)
             {
                 if (this.inputs.onGroundCollider.lastColliderTag == this.iceTag)
-                    newForce += this.forceOnIce * this.inputs.movementInput;
+                    newForce += this.forceOnIce * this.inputs.movementInputHorizontal;
                 else
-                    newForce += this.forceOnGround * this.inputs.movementInput;
+                    newForce += this.forceOnGround * this.inputs.movementInputHorizontal;
             }
             else
-                newForce += this.forceInAir * this.inputs.movementInput;
+                newForce += this.forceInAir * this.inputs.movementInputHorizontal;
             // Remove to much force
             var absNewForce = Mathf.Abs(newForce);
             if (absOldForce > this.maxForce)

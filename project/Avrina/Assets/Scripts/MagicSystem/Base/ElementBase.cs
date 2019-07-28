@@ -1,57 +1,25 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(MagicSystemSettings))]
-public abstract class ElementBase : MonoBehaviour
+public class ElementBase : MonoBehaviour
 {
-    // Stores keybindings and other settings
-    private MagicSystemSettings settings;
-    // Element key and direction
-    [SerializeField] public MagicSystemKey key;
-    // Every Element needs to know which element they are
-    // The variable needs to be overriten in the child class
-    abstract protected Element element { get; }
+    // Stores all four Spells and their direction
+    [SerializeField] public SpellBase spellLeft;
+    [SerializeField] public SpellBase spellRight;
+    [SerializeField] public SpellBase spellUp;
+    [SerializeField] public SpellBase spellDown;
+    // Every Element needs to know what their name is
+    [SerializeField] public Element elementType;
 
-    // Start is called before the first frame update
-    void Start()
+    // This function will be called if a spell was casted
+    public void CastSpell(Vector2 secondDir, Vector2 playerPosition, Vector2 castDirection)
     {
-        this.settings = GetComponent<MagicSystemSettings>();
+        if (secondDir == Vector2.up)
+            this.spellUp.CastSpell(playerPosition, castDirection);
+        else if (secondDir == Vector2.down)
+            this.spellDown.CastSpell(playerPosition, castDirection);
+        else if (secondDir == Vector2.left)
+            this.spellLeft.CastSpell(playerPosition, castDirection);
+        else if (secondDir == Vector2.right)
+            this.spellRight.CastSpell(playerPosition, castDirection);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (settings.IsMagicSystemKeyPressed(this.key))
-        {
-            if (settings.IsFirstElementSelected())
-            {
-                switch (settings.firstElement)
-                {
-                    case (Element.Fire):
-                        this.FireElementWasFirst();
-                        break;
-                    case (Element.Water):
-                        this.WaterElementWasFirst();
-                        break;
-                    case (Element.Earth):
-                        this.EarthElementWasFirst();
-                        break;
-                    case (Element.Air):
-                        this.AirElementWasFirst();
-                        break;
-                    default:
-                        throw new System.NotImplementedException();
-                }
-                settings.firstElement = Element.None;
-            } else
-            {
-                settings.firstElement = this.element;
-            }
-        }
-    }
-
-    // These function will be called if the second element was selected
-    protected abstract void AirElementWasFirst();
-    protected abstract void WaterElementWasFirst();
-    protected abstract void FireElementWasFirst();
-    protected abstract void EarthElementWasFirst();
 }
