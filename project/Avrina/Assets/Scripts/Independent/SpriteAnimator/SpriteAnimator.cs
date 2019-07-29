@@ -19,6 +19,12 @@ public class SpriteAnimator : MonoBehaviour
             spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    private void Start()
+    {
+        if (this.playAnimationOnStart != "" && this.playAnimationOnStart != null)
+            this.Play(this.playAnimationOnStart);
+    }
+
     void OnDisable()
     {
         playing = false;
