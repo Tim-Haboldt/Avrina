@@ -28,7 +28,7 @@ public class FireBall : SpellBase
         // Add some offset in the direction the player cast the spell at
         var angle = Vector2.SignedAngle(Vector2.right, castDirection);
         var rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        var rotatedOffset = rotation * Vector2.right * offset;
+        var rotatedOffset = rotation * offset;
         fireBallObject.transform.position += new Vector3(rotatedOffset.x, rotatedOffset.y);
         // Set the rotation of the gameobject corresponding. (Sprite should look right)
         fireBallObject.transform.rotation = rotation;
