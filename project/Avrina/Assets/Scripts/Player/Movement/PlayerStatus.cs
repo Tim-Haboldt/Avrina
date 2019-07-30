@@ -34,10 +34,7 @@ public class PlayerStatus : MonoBehaviour
         this.movementInputHorizontal = Input.GetAxisRaw("Horizontal");
         this.movementInputVertical = Input.GetAxisRaw("Vertical");
         this.jumpInput = Input.GetKey(KeyCode.Space);
-    }
 
-    private void LateUpdate()
-    {
         // Update all colliding states
         this.onGround = this.onGroundCollider.isTriggered;
 
@@ -61,5 +58,9 @@ public class PlayerStatus : MonoBehaviour
             this.currentSlidingWallDirection = Direction.Right;
         if (this.currentSlidingWallDirection == Direction.Right && !this.wallSlideColliderRight.isTriggered && this.wallSlideColliderLeft.isTriggered)
             this.currentSlidingWallDirection = Direction.Left;
+
+        // Remove uncontrolled phase if the player is touching the wall or the ground
+        if (this.playerState == PlayerState.Uncontrolled && (this.onGround || this.isSlidingTheWall))
+            this.playerState = PlayerState.Mobile;
     }
 }
