@@ -28,35 +28,32 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        var oldForce = this.rb.velocity.x;
-        var absOldForce = Mathf.Abs(oldForce);
-        var signOldForce = Mathf.Sign(oldForce);
+        var force = this.rb.velocity.x;
 
-        var newForce = this.calculateMovementThroughGivenInputs(oldForce, absOldForce, signOldForce);
-        var absNewForce = Mathf.Abs(newForce);
-
-        if (this.inputs.movementInputHorizontal == 0 || absOldForce > this.maxForce && absNewForce > this.maxForce)
+        switch (this.inputs.playerState)
         {
-            if (this.inputs.onGround)
-            {
-                if (this.inputs.onGroundCollider.lastColliderTag == this.iceTag)
-                    newForce *= this.frictionOnIce;
-                else
-                    newForce *= this.frictionOnGround;
-            }
-            else
-                newForce *= this.frictionInAir;       
+            case PlayerState.Disabled:
+            case PlayerState.Uncontrolled:
+                force = this.calculateFriction(force);
+                break;
+            case PlayerState.Mobile:
+                var absForceBeforeInputs = Mathf.Abs(force);
+                force = this.calculateMovementThroughGivenInputs(force);
+                var absForceAfterInputs = Mathf.Abs(force);
 
-            absNewForce = Mathf.Abs(newForce);
-            if (absNewForce < this.minForce)
-                newForce = 0;
+                if (this.inputs.movementInputHorizontal == 0 || absForceBeforeInputs > this.maxForce && absForceAfterInputs > this.maxForce)
+                    force = this.calculateFriction(force);
+
+                break;
         }
         
-        this.rb.velocity = new Vector2(newForce, this.rb.velocity.y);
+        this.rb.velocity = new Vector2(force, this.rb.velocity.y);
     }
 
-    private float calculateMovementThroughGivenInputs(float oldForce, float absOldForce, float signOldForce)
+    private float calculateMovementThroughGivenInputs(float oldForce)
     {
+        var forceSign = Mathf.Sign(oldForce);
+        var absOldForce = Mathf.Abs(oldForce);
         var newForce = oldForce;
 
         if (this.inputs.movementInputHorizontal != 0)
@@ -79,9 +76,30 @@ public class PlayerMovement : MonoBehaviour
                 if (absOldForce < absNewForce)
                     newForce = oldForce;
             } else if (absNewForce > this.maxForce)
-                newForce = this.maxForce * signOldForce;
+                newForce = this.maxForce * forceSign;
         }
 
         return newForce;
+    }
+
+    public float calculateFriction(float force)
+    {
+        // Apply friction dependent on the current situation
+        if (this.inputs.onGround)
+        {
+            if (this.inputs.onGroundCollider.lastColliderTag == this.iceTag)
+                force *= this.frictionOnIce;
+            else
+                force *= this.frictionOnGround;
+        }
+        else
+            force *= this.frictionInAir;
+
+        // Remove all movement if the movement is to slow
+        var absNewForce = Mathf.Abs(force);
+        if (absNewForce < this.minForce)
+            force = 0;
+
+        return force;
     }
 }

@@ -20,5 +20,7 @@ public class PlayerStatusEditor : Editor
         EditorGUILayout.LabelField("OnGround", inputs.onGround.ToString());
         EditorGUILayout.LabelField("IsSlidingWall", inputs.isSlidingTheWall.ToString());
         EditorGUILayout.LabelField("Nearest Wall", inputs.currentSlidingWallDirection.ToString());
+        EditorGUILayout.LabelField("Player State", inputs.playerState.ToString());
+        EditorGUILayout.LabelField("Jump State", inputs.jumpState.ToString());
     }
 }

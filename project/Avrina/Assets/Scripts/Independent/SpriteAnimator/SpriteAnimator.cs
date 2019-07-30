@@ -113,6 +113,9 @@ public class SpriteAnimator : MonoBehaviour
             spriteRenderer.sprite = animation.frames[currentFrame];
         }
 
+        if (currentAnimation.exitEvent != null)
+            currentAnimation.exitEvent.Invoke();
+
         currentAnimation = null;
     }
 

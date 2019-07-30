@@ -15,8 +15,8 @@ TagManager:
   - 
   - 
   - Ground
-  - 
-  - 
+  - Player
+  - Spell
   - 
   - 
   - 
@@ -45,9 +45,12 @@ TagManager:
   - name: Ground
     uniqueID: 787041237
     locked: 0
+  - name: Player
+    uniqueID: 2710312031
+    locked: 0
   - name: Spells
     uniqueID: 3154682275
     locked: 0
-  - name: Player
-    uniqueID: 2710312031
+  - name: MagicSystem
+    uniqueID: 220128877
     locked: 0

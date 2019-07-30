@@ -9,6 +9,8 @@ public class PlayerStatus : MonoBehaviour
     public bool isSlidingTheWall { get; private set; }
     public Direction currentSlidingWallDirection { get; private set; }
     public string groundTag { get; private set; }
+    public PlayerState playerState;
+    public JumpState jumpState;
     [SerializeField] public LayerMask groundMask;
     [SerializeField] public PlayerCollider wallSlideColliderLeft;
     [SerializeField] public PlayerCollider wallSlideColliderRight;
@@ -22,6 +24,8 @@ public class PlayerStatus : MonoBehaviour
         this.onGroundCollider.mask = this.groundMask;
         this.wallSlideColliderLeft.mask = this.groundMask;
         this.wallSlideColliderRight.mask = this.groundMask;
+        this.playerState = PlayerState.Mobile;
+        this.jumpState = JumpState.InAir;
     }
 
     void Update()

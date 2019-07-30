@@ -8,8 +8,18 @@ public class FireBall : SpellBase
 {
     [HideInInspector] public Vector3 direction;
     [SerializeField] public Vector2 offset;
-    [SerializeField] public float velocity;
+    [SerializeField] public float fireBallVelocity;
     [SerializeField] public LayerMask collisionMasks;
+    [SerializeField] public string playerTag;
+    [SerializeField] public string nameOfExplosionAnimation;
+    [SerializeField] public float explosionVelocity;
+
+    private bool isExploding;
+
+    private void Start()
+    {
+        this.isExploding = false;
+    }
 
     public override void CastSpell(Vector2 playerPosition, Vector2 castDirection)
     {
@@ -34,14 +44,45 @@ public class FireBall : SpellBase
         fireBallObject.transform.rotation = rotation;
         // Start moving the object (It is Kinematic. It only needs to start moving and it won't stop)
         var rigidBody = fireBallObject.GetComponent<Rigidbody2D>();
-        rigidBody.velocity = fireBallScript.direction * fireBallScript.velocity;
+        rigidBody.velocity = fireBallScript.direction * fireBallScript.fireBallVelocity;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if ((this.collisionMasks & (1 << collision.gameObject.layer)) != 0)
         {
-            Destroy(this.gameObject);
+            if (!this.isExploding)
+            {
+                // Play the explosion animation
+                var animator = gameObject.GetComponent<SpriteAnimator>();
+                animator.Play(this.nameOfExplosionAnimation, false);
+                var rigidBody = gameObject.GetComponent<Rigidbody2D>();
+                rigidBody.velocity = Vector2.zero;
+            }
+
+            // Shot collider away if its a player
+            if (collision.tag == this.playerTag)
+            {
+                var fireBallPos = this.transform.position;
+                var playerPos = collision.transform.position;
+
+                var playerDir = playerPos - fireBallPos;
+                var playerDirNormalized = playerDir.normalized;
+
+                // Add velocity to the player
+                var player = collision.gameObject;
+                var rb = player.GetComponent<Rigidbody2D>() as Rigidbody2D;
+                rb.AddForce(this.explosionVelocity * playerDirNormalized);
+
+                // Disable all movement of the player ecept special inputs
+                var playerStatus = player.GetComponent<PlayerStatus>() as PlayerStatus;
+                playerStatus.playerState = PlayerState.Uncontrolled;
+            }
         }       
+    }
+
+    public void explosionFinsihed()
+    {
+        Destroy(this.gameObject);
     }
 }

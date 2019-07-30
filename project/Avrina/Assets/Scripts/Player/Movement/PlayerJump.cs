@@ -5,9 +5,6 @@
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerJump : MonoBehaviour
 {
-
-    // -> rewrite code and use conditions instead -> better Code <---
-
     // Defines how long the Jump button can be pressed
     [SerializeField] public float maxJumpDuration;
     // How much force will be applied when the jump button is pressed first
