@@ -1,8 +1,8 @@
 ﻿//using UnityEngine;
 
 //[RequireComponent(typeof(Rigidbody2D))]
-//[RequireComponent(typeof(PlayerStatus))]
-//public class PlayerMovement : MonoBehaviour
+//[RequireComponent(typeof(PlayerInputController))]
+//public class PlayerHorizontalMovement : MonoBehaviour
 //{
 //    [SerializeField] public float forceOnGround;
 //    [SerializeField] public float forceInAir;
@@ -17,16 +17,16 @@
 //    [SerializeField] public float frictionOnIce;
 //    [SerializeField] public string iceTag;
 
-//    private PlayerStatus inputs;
+//    private PlayerInputController inputs;
 //    private Rigidbody2D rb;
     
 //    void Start()
 //    {
-//        this.inputs = GetComponent<PlayerStatus>();
+//        this.inputs = GetComponent<PlayerInputController>();
 //        this.rb = GetComponent<Rigidbody2D>();
 //    }
 
-//    void FixedUpdate()
+//    /*void FixedUpdate()
 //    {
 //        var force = this.rb.velocity.x;
 
@@ -37,6 +37,12 @@
 //                force = this.calculateFriction(force);
 //                break;
 //            case PlayerState.Mobile:
+//                if (this.inputs.jumpState == JumpState.WallJumping)
+//                {
+//                    force = this.calculateFriction(force);
+//                    break;
+//                }
+
 //                var absForceBeforeInputs = Mathf.Abs(force);
 //                force = this.calculateMovementThroughGivenInputs(force);
 //                var absForceAfterInputs = Mathf.Abs(force);
@@ -101,5 +107,5 @@
 //            force = 0;
 
 //        return force;
-//    }
+//    }*/
 //}
