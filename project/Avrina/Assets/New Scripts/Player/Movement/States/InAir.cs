@@ -1,29 +1,19 @@
-﻿public class InAir : State
+﻿using UnityEngine;
+
+public class InAir : State
 {
     /// <summary>
     ///  Name of the state is InAir
     /// </summary>
-    public override PlayerState name
-    {
-        get
-        {
-            return PlayerState.InAir;
-        }
-    }
+    public override PlayerState name { get; } = PlayerState.InAir;
     /// <summary>
     ///  The player is effected by gravity and can move while in air
     /// </summary>
-    protected override Action[] actions
+    protected override Action[] actions { get; } = new Action[]
     {
-        get
-        {
-            return new Action[]
-            {
-                new Gravity()
-            };
-        }
-    }
-
+        new Gravity(),
+        new VerticalMovement(),
+    };
 
     /**
      * <summary>

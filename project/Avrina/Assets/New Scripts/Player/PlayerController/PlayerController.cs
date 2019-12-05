@@ -21,6 +21,13 @@ public class PlayerController : MonoBehaviour
     private bool isTouchingLeftWall;
     private bool isTouchingRightWall;
 
+
+    /**
+     * <summary>
+     *  Will be called at the start of the game.
+     *  Sets the masks of the colliders.
+     * </summary>
+     */ 
     private void Start()
     {
         this.onGroundCollider.mask = this.groundMask;
@@ -28,6 +35,11 @@ public class PlayerController : MonoBehaviour
         this.wallSlideColliderRight.mask = this.groundMask;
     }
 
+    /**
+     * <summary>
+     *  Will check for all inputs and updates them.
+     * </summary>
+     */ 
     void Update()
     {
         // Get the player Inputs and write them into the global variables

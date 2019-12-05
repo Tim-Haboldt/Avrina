@@ -475,7 +475,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.081839845, y: -0.15791559}
+  m_Offset: {x: 0.081839845, y: -0.15769815}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 1}
@@ -486,7 +486,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.11347904, y: 0.0053491592}
+  m_Size: {x: 0.11347905, y: 0.0049142838}
   m_EdgeRadius: 0
 --- !u!114 &607542112
 MonoBehaviour:
@@ -643,6 +643,8 @@ MonoBehaviour:
   playerConfig:
     gravity: 1
     maxGravityVelocitry: 10
+    verticalForce: 2
+    maxVerticalMovement: 10
   currentState: 4
 --- !u!114 &686869210
 MonoBehaviour:
@@ -691,7 +693,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 686869208}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -11.55, z: 0}
+  m_LocalPosition: {x: -0.056, y: -9.325, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 607542110}
@@ -1229,7 +1231,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.16156983, y: -0.076937675}
+  m_Offset: {x: 0.15540299, y: -0.076937675}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 1}
@@ -1240,7 +1242,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.022594616, y: 0.14775085}
+  m_Size: {x: 0.01026094, y: 0.14775085}
   m_EdgeRadius: 0
 --- !u!114 &960598556
 MonoBehaviour:
@@ -1779,7 +1781,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0024761194, y: -0.07619572}
+  m_Offset: {x: 0.0044615786, y: -0.07619572}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 1}
@@ -1790,7 +1792,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.023995949, y: 0.14626694}
+  m_Size: {x: 0.010120553, y: 0.14626694}
   m_EdgeRadius: 0
 --- !u!114 &1319754066
 MonoBehaviour:

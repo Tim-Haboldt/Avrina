@@ -5,11 +5,11 @@ public class Gravity : Action
     /// <summary>
     ///  Gravity const for the gravity calculation
     /// </summary>
-    public float gravity = 1f;
+    private float gravity = 1f;
     /// <summary>
     ///  What is the gravity velocity
     /// </summary>
-    public float maxGravityVelocitry = 5f;
+    private float maxGravityVelocitry = 5f;
     /// <summary>
     ///  Current velocity
     /// </summary>

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Jumping : State, Action
 {
@@ -18,7 +16,8 @@ public class Jumping : State, Action
         {
             return new Action[]
             {
-                this
+                this,
+                new VerticalMovement(),
             };
         }
     }

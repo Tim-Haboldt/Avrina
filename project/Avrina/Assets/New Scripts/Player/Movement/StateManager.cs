@@ -18,7 +18,7 @@ public class StateManager : MonoBehaviour
     {
         { PlayerState.InAir, new InAir() },
         { PlayerState.OnGround, new OnGround() },
-        { PlayerState.Jumping, new Jumping() },
+        // { PlayerState.Jumping, new Jumping() },
     };
     /// <summary>
     ///  Stores the name of the current state
@@ -47,9 +47,11 @@ public class StateManager : MonoBehaviour
     private void Start()
     {
         this.rb = GetComponent<Rigidbody2D>();
+        foreach (var iterator in this.states)
+        {
+            iterator.Value.Setup(this.playerConfig);
+        }
     }
-
-    ushort tmp = 0;
 
     /**
      * <summary>
@@ -59,9 +61,6 @@ public class StateManager : MonoBehaviour
      */
     private void Update()
     {
-        tmp++;
-        Debug.Log(tmp.ToString());
-
         var nextState = this.states[this.currentState].Update();
         if (nextState != this.currentState)
         {

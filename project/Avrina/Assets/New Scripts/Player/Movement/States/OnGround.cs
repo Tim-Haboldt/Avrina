@@ -4,22 +4,17 @@ using UnityEngine;
 
 public class OnGround : State
 {
-    public override PlayerState name
+    ///<summary>
+    /// Name of the state is onGround
+    ///</summary>
+    public override PlayerState name { get; } = PlayerState.OnGround;
+    /// <summary>
+    ///  The player can move vertically
+    /// </summary>
+    protected override Action[] actions { get; } = new Action[]
     {
-        get
-        {
-            return PlayerState.OnGround;
-        }
-    }
-
-    protected override Action[] actions {
-        get {
-            return new Action[]
-            {
-                
-            };
-        }
-    }
+        new VerticalMovement(),
+    };
 
     public override PlayerState Update()
     {
