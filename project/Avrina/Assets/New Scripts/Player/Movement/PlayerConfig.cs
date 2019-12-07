@@ -19,4 +19,9 @@ public struct PlayerConfig
     ///  Maximal movement velocity
     /// </summary>
     public float maxVerticalMovement;
+    /// <summary>
+    ///  What is the base friction of the player.
+    ///  Material friction will be applied to the base friction
+    /// </summary>
+    public float verticalFriction;
 }

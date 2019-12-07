@@ -1,7 +1,6 @@
 ﻿[System.Serializable]
 public enum PlayerState
 {
-    Unchanged,      // Will be returned if the state did not change during an update
     Disabled,       // Inputs have no effect (If the Player is in the Menu etc.)
     Uncontrolled,   // Player is not on Ground and only special inputs have an effect
     OnGround,       // Player stands on ground and has two jumps left

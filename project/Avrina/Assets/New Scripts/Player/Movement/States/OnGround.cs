@@ -14,6 +14,7 @@ public class OnGround : State
     protected override Action[] actions { get; } = new Action[]
     {
         new VerticalMovement(),
+        new VerticalFriction(),
     };
 
     public override PlayerState Update()

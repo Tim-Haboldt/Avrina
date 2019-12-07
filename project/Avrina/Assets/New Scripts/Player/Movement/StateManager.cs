@@ -41,12 +41,23 @@ public class StateManager : MonoBehaviour
     /**
      * <summary>
      *  Will be called at the start of the game.
-     *  Gets the rigid body of the player and stores it
+     *  Gets the rigid body of the player and stores it.
+     *  Applies the player config to the states.
      * </summary>
      */
     private void Start()
     {
         this.rb = GetComponent<Rigidbody2D>();
+        this.ApplyConfig();
+    }
+
+    /**
+     * <summary>
+     *  Updates all states default values with the values from the player config
+     * </summary>
+     */ 
+    public void ApplyConfig()
+    {
         foreach (var iterator in this.states)
         {
             iterator.Value.Setup(this.playerConfig);
