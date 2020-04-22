@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OnGround : State
 {
@@ -29,5 +27,21 @@ public class OnGround : State
         }
 
         return this.name;
+    }
+
+    /**
+     * <summary>
+     *  Set the vertical movmeent 
+     * </summary>
+     */
+    public override void OnStateEnter()
+    {
+        base.OnStateEnter();
+
+        Rigidbody2D rb = StateManager.instance.rb;
+        rb.velocity = new Vector2(rb.velocity.x, 0);
+
+        //TODO set player position
+        //TODO add new states
     }
 }

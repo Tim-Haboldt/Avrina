@@ -29,10 +29,7 @@ public class VerticalFriction : Action
                 frictionMuliplier *= 0.4f; // Air material friction
             }
 
-            var fixedFriction = friction;
-            var velocityRelatedFriction = frciton;
-
-            //TODO move perform action into normal update loop and add time.deltaTime
+            velocity = new Vector2(velocity.x - frictionMuliplier * movementDir, velocity.y);
         }
     }
 

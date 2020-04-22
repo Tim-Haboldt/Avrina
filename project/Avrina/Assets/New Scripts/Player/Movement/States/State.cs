@@ -20,7 +20,7 @@ public abstract class State
      * </summary>
      * <param name="config">Contains all constants</param>
      */
-    public void Setup(PlayerConfig config)
+    public virtual void StateSetup(PlayerConfig config)
     {
         foreach (var action in this.actions)
         {
@@ -34,7 +34,7 @@ public abstract class State
      *  Will be triggered if the state is entered
      * </summary>
      */
-    public void OnEnter()
+    public virtual void OnStateEnter()
     {
         foreach (Action action in this.actions)
         {
@@ -57,7 +57,7 @@ public abstract class State
      * </summary>
      * <param name="velocity">Used to change the velocity of the player</param>
      */
-    public void PerformActions(ref Vector2 velocity)
+    public virtual void PerformActions(ref Vector2 velocity)
     {
         foreach (Action action in this.actions)
         {
@@ -71,7 +71,7 @@ public abstract class State
      *  Will be triggered if the state is exited
      * </summary>
      */
-    public void OnExit()
+    public virtual void OnStateExit()
     {
         foreach (Action action in this.actions)
         {

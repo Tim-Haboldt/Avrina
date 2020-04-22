@@ -24,4 +24,16 @@ public struct PlayerConfig
     ///  Material friction will be applied to the base friction
     /// </summary>
     public float verticalFriction;
+    /// <summary>
+    ///  What is the minimal jump duration
+    /// </summary>
+    public float minJumpDuration;
+    /// <summary>
+    ///  What is the maximal jump duration
+    /// </summary>
+    public float maxJumpDuration;
+    /// <summary>
+    ///  Is the velocity during the player jumping
+    /// </summary>
+    public float jumpVelocity;
 }

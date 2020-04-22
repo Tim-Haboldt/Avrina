@@ -4,13 +4,20 @@ using UnityEngine;
 public class StateManager : MonoBehaviour
 {
     /// <summary>
+    ///  Used to gain access to the StateManager from the States and Actions
+    /// </summary>
+    public static StateManager instance { private set; get; }
+
+    /// <summary>
     ///  Rigid body of the player
     /// </summary>
-    private Rigidbody2D rb;
+    [HideInInspector]
+    public Rigidbody2D rb;
     /// <summary>
     ///  Player Material defines all movement related player constants
     /// </summary>
-    public PlayerConfig playerConfig;
+    [SerializeField]
+    private PlayerConfig playerConfig;
     /// <summary>
     ///  Defines all states the player can possible have
     /// </summary>
@@ -18,7 +25,7 @@ public class StateManager : MonoBehaviour
     {
         { PlayerState.InAir, new InAir() },
         { PlayerState.OnGround, new OnGround() },
-        // { PlayerState.Jumping, new Jumping() },
+        { PlayerState.Jumping, new Jumping() },
     };
     /// <summary>
     ///  Stores the name of the current state
@@ -34,8 +41,9 @@ public class StateManager : MonoBehaviour
      */
     public void ChangeState(PlayerState state)
     {
-        this.states[this.currentState].OnExit();
+        this.states[this.currentState].OnStateExit();
         this.currentState = state;
+        this.states[this.currentState].OnStateEnter();
     }
     
     /**
@@ -48,6 +56,7 @@ public class StateManager : MonoBehaviour
     private void Start()
     {
         this.rb = GetComponent<Rigidbody2D>();
+        instance = this;
         this.ApplyConfig();
     }
 
@@ -60,7 +69,7 @@ public class StateManager : MonoBehaviour
     {
         foreach (var iterator in this.states)
         {
-            iterator.Value.Setup(this.playerConfig);
+            iterator.Value.StateSetup(this.playerConfig);
         }
     }
 
