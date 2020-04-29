@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 
-public class VerticalFriction : Action
+public class HorizontalFriction : Action
 {
     /// <summary>
-    ///  Base friction of the player.
-    ///  All friction calculation is based on this friction.
-    ///  Material friction modifies the base friction.
+    ///  What is the friction of the player in the air
     /// </summary>
-    private float friction;
+    private float airFriction;
+    /// <summary>
+    ///  Default friction of the ground if no other was set
+    /// </summary>
+    private float defaultGroundFriction;
 
     /**
      * <summary>
@@ -20,13 +22,13 @@ public class VerticalFriction : Action
         {
             var movementDir = Mathf.Sign(velocity.x);
 
-            var frictionMuliplier = this.friction;
+            var frictionMuliplier = 1f;
             if (PlayerController.onGround)
             {
                 frictionMuliplier *= 1f; // Ground material friction
             } else
             {
-                frictionMuliplier *= 0.4f; // Air material friction
+                frictionMuliplier *= this.airFriction;
             }
 
             velocity = new Vector2(velocity.x - frictionMuliplier * movementDir, velocity.y);
@@ -40,7 +42,8 @@ public class VerticalFriction : Action
      */ 
     public void Setup(PlayerConfig config)
     {
-        this.friction = config.verticalFriction;
+        this.airFriction = config.airFriction;
+        this.defaultGroundFriction = config.defaultGroundFriction;
     }
 
     /**

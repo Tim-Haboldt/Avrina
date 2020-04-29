@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 
-public class VerticalMovement : Action
+public class HorizontalMovement : Action
 {
     /// <summary>
-    ///  How much force will be added for each update tick
+    ///  How much force will be added each update tick
     /// </summary>
-    private float force;
+    private float defaultForceOnGround;
+    /// <summary>
+    ///  How much force will be added each update tick while the player is in air
+    /// </summary>
+    private float forceInAir;
     /// <summary>
     ///  What is the maximal velocity the player can have
     /// </summary>
@@ -35,11 +39,11 @@ public class VerticalMovement : Action
             // Take a different velocity mulitplier corresponding to the player is on ground or in the air
             if (PlayerController.onGround)
             {
-                newMovementSpeed += this.force * input; // * groundFriction(MaterialFriction)
+                newMovementSpeed += this.defaultForceOnGround * input; // * groundFriction(MaterialFriction)
             }
             else
             {
-                newMovementSpeed += this.force * input; // * airFriction(GasFriction)
+                newMovementSpeed += this.forceInAir * input;
             }
 
             var absNewMovementSpeed = Mathf.Abs(newMovementSpeed);
@@ -68,8 +72,9 @@ public class VerticalMovement : Action
      */
     public void Setup(PlayerConfig config)
     {
-        this.force = config.verticalForce;
-        this.maxVelocity = config.maxVerticalMovement;
+        this.defaultForceOnGround = config.defaultHorizontalForceOnGround;
+        this.forceInAir = config.horizontalForceInAir;
+        this.maxVelocity = config.maxHorizontalMovement;
     }
 
     /**

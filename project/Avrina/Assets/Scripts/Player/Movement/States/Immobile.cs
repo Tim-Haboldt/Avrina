@@ -1,4 +1,6 @@
-﻿public class Immobile : State
+﻿using UnityEngine;
+
+public class Immobile : State
 {
     /// <summary>
     ///  The name of the state is immobile
@@ -11,7 +13,8 @@
     protected override Action[] actions { get; } = new Action[]
     {
         new Gravity(),
-        new VerticalMovement(),
+        new HorizontalMovement(),
+        new HorizontalFriction(),
     };
 
     /// <summary>
@@ -20,9 +23,19 @@
     /// <returns>New state. Default is the same state</returns>
     public override PlayerState Update()
     {
+        var direction = PlayerController.movementInput;
+        if (direction != 0)
+        {
+            direction = Mathf.Sign(direction);
+        }
+
         if (PlayerController.onGround)
         {
             return PlayerState.OnGround;
+        }
+        else if (PlayerController.hasWallLeft && direction == -1 || PlayerController.hasWallRight && direction == 1)
+        {
+            return PlayerState.WallSliding;
         }
 
         return this.name;

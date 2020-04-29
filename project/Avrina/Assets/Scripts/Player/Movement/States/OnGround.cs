@@ -12,12 +12,12 @@ public class OnGround : State
     ///</summary>
     public override PlayerState name { get; } = PlayerState.OnGround;
     /// <summary>
-    ///  The player can move vertically
+    ///  The player can move horizontally
     /// </summary>
     protected override Action[] actions { get; } = new Action[]
     {
-        new VerticalMovement(),
-        new VerticalFriction(),
+        new HorizontalMovement(),
+        new HorizontalFriction(),
     };
 
 
@@ -47,7 +47,7 @@ public class OnGround : State
 
     /**
      * <summary>
-     *  Set the vertical movement and checks if the jump input is pressed while entering the state
+     *  Set the horizontal movement and checks if the jump input is pressed while entering the state
      * </summary>
      */
     public override void OnStateEnter()

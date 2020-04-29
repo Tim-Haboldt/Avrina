@@ -10,18 +10,25 @@ public struct PlayerConfig
     /// </summary>
     public float maxGravityVelocitry;
     /// <summary>
-    ///  How much force will be added each update tick
+    ///  How much force will be added to the horizontal movement speed each update tick if the ground has not specified something else
     /// </summary>
-    public float verticalForce;
+    public float defaultHorizontalForceOnGround;
+    /// <summary>
+    ///  How much force will be added to the horizontal movement each update tick while in air
+    /// </summary>
+    public float horizontalForceInAir;
     /// <summary>
     ///  Maximal movement velocity
     /// </summary>
-    public float maxVerticalMovement;
+    public float maxHorizontalMovement;
     /// <summary>
-    ///  What is the base friction of the player.
-    ///  Material friction will be applied to the base friction
+    ///  If the grond object has no friction this one will be used
     /// </summary>
-    public float verticalFriction;
+    public float defaultGroundFriction;
+    /// <summary>
+    ///  What is the friction of the player in the air
+    /// </summary>
+    public float airFriction;
     /// <summary>
     ///  What is the minimal jump duration
     /// </summary>
@@ -34,4 +41,24 @@ public struct PlayerConfig
     ///  Is the velocity during the player jumping
     /// </summary>
     public float jumpVelocity;
+    /// <summary>
+    ///  Speed of the player sliding down a wall
+    /// </summary>
+    public float wallslidingSpeed;
+    /// <summary>
+    ///  How much velocity will be added each update tick on the vertical axis
+    /// </summary>
+    public float wallJumpVelocityY;
+    /// <summary>
+    ///  How much velocity will be added each update tick on the horizontal axis
+    /// </summary>
+    public float wallJumpVelocityX;
+    /// <summary>
+    ///  How long does the walljump have to at least take
+    /// </summary>
+    public float wallJumpMinDuration;
+    /// <summary>
+    ///  How long does the walljump can last
+    /// </summary>
+    public float wallJumpMaxDuration;
 }

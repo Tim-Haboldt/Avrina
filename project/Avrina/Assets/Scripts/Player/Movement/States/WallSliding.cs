@@ -19,8 +19,12 @@ public class WallSliding : StateInheritingAction
     /// </summary>
     protected override Action[] actions { get; } = new Action[]
     {
-        new VerticalMovement()
+        new HorizontalMovement(),
     };
+    /// <summary>
+    ///  What is the speed of the player sliding down the wall
+    /// </summary>
+    private float wallslideSpeed;
 
     /// <summary>
     ///  Switches to the OnGround state if the ground is touched.
@@ -43,8 +47,8 @@ public class WallSliding : StateInheritingAction
         {
             return PlayerState.WallJumping;
         }
-        else if (!(this.dir == WallslidingDirection.Left && PlayerController.hasWallLeft && direction != -1)
-            && !(this.dir == WallslidingDirection.Right && PlayerController.hasWallRight && direction != 1))
+        else if (!(this.dir == WallslidingDirection.Left && PlayerController.hasWallLeft && direction == -1)
+            && !(this.dir == WallslidingDirection.Right && PlayerController.hasWallRight && direction == 1))
         {
             return PlayerState.InAir;
         }
@@ -57,19 +61,33 @@ public class WallSliding : StateInheritingAction
         return this.name;
     }
 
+    /// <summary>
+    ///  Sets the downwards velocity to the value of the variable wallslideSpeed
+    /// </summary>
+    /// <param name="velocity"></param>
     protected override void PerformAction(ref Vector2 velocity)
     {
-    }
-
-    protected override void Setup(PlayerConfig config)
-    {
+        velocity = new Vector2(velocity.x, this.wallslideSpeed);
     }
 
     /// <summary>
-    ///  Sets the direction of the wallslide
+    ///  Reads and sets the wallslide speed of the player from the config
+    /// </summary>
+    /// <param name="config">Stores all parameter regarding player movement</param>
+    protected override void Setup(PlayerConfig config)
+    {
+        this.wallslideSpeed = config.wallslidingSpeed * -1;
+    }
+
+    /// <summary>
+    ///  Sets the direction of the wallslide and sets the vertial movement to zero
     /// </summary>
     protected override void OnEnter()
     {
+        // Set the current horizontal movement to zero
+        Rigidbody2D rb = StateManager.instance.rb;
+        rb.velocity = new Vector2(rb.velocity.x, 0);
+
         if (PlayerController.hasWallRight)
         {
             this.dir = WallslidingDirection.Right;
@@ -87,7 +105,8 @@ public class WallSliding : StateInheritingAction
         }
     }
 
-    protected override void OnExit()
-    {
-    }
+    /// <summary>
+    ///  Unused
+    /// </summary>
+    protected override void OnExit() { }
 }

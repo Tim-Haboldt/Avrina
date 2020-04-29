@@ -646,12 +646,19 @@ MonoBehaviour:
   playerConfig:
     gravity: 0.4
     maxGravityVelocitry: 15
-    verticalForce: 2
-    maxVerticalMovement: 10
-    verticalFriction: 2
+    defaultHorizontalForceOnGround: 17
+    horizontalForceInAir: 3
+    maxHorizontalMovement: 20
+    defaultGroundFriction: 10
+    airFriction: 0.2
     minJumpDuration: 0.03
     maxJumpDuration: 0.1
     jumpVelocity: 17
+    wallslidingSpeed: 1
+    wallJumpVelocityY: 17
+    wallJumpVelocityX: 11
+    wallJumpMinDuration: 0.1
+    wallJumpMaxDuration: 0.3
   currentState: 2
 --- !u!114 &686869210
 MonoBehaviour:
@@ -1355,6 +1362,7 @@ GameObject:
   - component: {fileID: 1117853641}
   - component: {fileID: 1117853643}
   - component: {fileID: 1117853642}
+  - component: {fileID: 1117853644}
   m_Layer: 8
   m_Name: blackGround
   m_TagString: Untagged
@@ -1450,6 +1458,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1117853644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117853640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4dd7cc0a2167f54da6e05c54a0b2605, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundMaterial: {fileID: 11400000, guid: 14ab09f007c4ebe449e21a61c79f3398, type: 2}
+  wallMaterial: {fileID: 11400000, guid: e9e7bda578b6a884ea0d46d24efa61ac, type: 2}
 --- !u!1 &1193119888
 GameObject:
   m_ObjectHideFlags: 0

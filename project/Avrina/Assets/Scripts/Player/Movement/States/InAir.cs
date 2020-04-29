@@ -17,7 +17,8 @@ public class InAir : State
     protected override Action[] actions { get; } = new Action[]
     {
         new Gravity(),
-        new VerticalMovement(),
+        new HorizontalMovement(),
+        new HorizontalFriction(),
     };
 
 

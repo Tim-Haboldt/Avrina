@@ -24,11 +24,12 @@ public class AirJumping : StateInheritingAction
     /// </summary>
     public override PlayerState name { get; } = PlayerState.AirJumping;
     /// <summary>
-    ///  The player can jump and move vertical while jumping
+    ///  The player can jump and move horizontal while jumping
     /// </summary>
     protected override Action[] actions { get; } = new Action[]
     {
-        new VerticalMovement(),
+        new HorizontalMovement(),
+        new HorizontalFriction(),
     };
 
     /// <summary>
