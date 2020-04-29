@@ -1,18 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class WallJumping : MonoBehaviour
+public class WallJumping : StateInheritingAction
 {
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    ///  The name of the state is Walljumping
+    /// </summary>
+    public override PlayerState name { get; } = PlayerState.WallJumping;
+    /// <summary>
+    ///  Defines all actions that can occour in the walljumping state.
+    /// </summary>
+    protected override Action[] actions { get; } = new Action[] { };
+
+    public override PlayerState Update()
     {
-        
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void OnEnter()
     {
-        
+        throw new System.NotImplementedException();
+    }
+
+    protected override void OnExit()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void PerformAction(ref Vector2 velocity)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void Setup(PlayerConfig config)
+    {
+        throw new System.NotImplementedException();
     }
 }

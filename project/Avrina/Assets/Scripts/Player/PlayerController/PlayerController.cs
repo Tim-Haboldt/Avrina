@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,14 +13,13 @@ public class PlayerController : MonoBehaviour
     public static bool onGround { get; private set; }
     public static bool hasWallLeft { get; private set; }
     public static bool hasWallRight { get; private set; }
-    public static string groundTag { get; private set; }
+    public static Collider2D groundCollider { get; private set; }
+    public static Collider2D wallColliderLeft { get; private set; }
+    public static Collider2D wallColliderRight { get; private set; }
     [SerializeField] public LayerMask groundMask;
     [SerializeField] public PlayerCollider wallSlideColliderLeft;
     [SerializeField] public PlayerCollider wallSlideColliderRight;
     [SerializeField] public PlayerCollider onGroundCollider;
-
-    private bool isTouchingLeftWall;
-    private bool isTouchingRightWall;
 
 
     /**
@@ -50,5 +50,48 @@ public class PlayerController : MonoBehaviour
         PlayerController.onGround = this.onGroundCollider.isTriggered;
         PlayerController.hasWallLeft = this.wallSlideColliderLeft.isTriggered;
         PlayerController.hasWallRight = this.wallSlideColliderRight.isTriggered;
+
+        // Updates all colliders
+        PlayerController.groundCollider = this.setCollider(PlayerController.onGround, this.onGroundCollider.colliders);
+        PlayerController.wallColliderLeft = this.setCollider(PlayerController.hasWallLeft, this.wallSlideColliderLeft.colliders);
+        PlayerController.wallColliderRight = this.setCollider(PlayerController.hasWallRight, this.wallSlideColliderRight.colliders);
+    }
+
+    /// <summary>
+    ///  Selects the collider with the highest friction.
+    /// </summary>
+    /// <param name="possibleColliders">List of all possible colliders. Exepcted to contain at least one element.</param>
+    /// <returns>Returns the collider with the highest friction</returns>
+    private Collider2D setCollider(bool hasCollider, List<Collider2D> possibleColliders)
+    {
+        if (!hasCollider)
+        {
+            return null;
+        }
+    
+        lock(this.onGroundCollider.colliders)
+        {
+            var colliders = this.onGroundCollider.colliders;
+            var size = colliders.Count;
+
+            if (size == 0)
+            {
+                return null;
+            }
+            
+            var possibleCollider = colliders[0];
+
+            if (size > 1)
+            {
+                for (int i = 1; i < size; i++)
+                {
+                    Collider2D otherCollider = colliders[i];
+
+                    // Check the type of the ground
+                }
+            }
+
+            return possibleCollider;
+        }
     }
 }

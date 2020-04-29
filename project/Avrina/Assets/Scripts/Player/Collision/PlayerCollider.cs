@@ -16,15 +16,11 @@ public class PlayerCollider : MonoBehaviour
     /// <summary>
     ///  Stores all current colliders inside this dictionary
     /// </summary>
-    public Dictionary<ushort, Collider2D> colliders { get; private set; }
+    public List<Collider2D> colliders { get; private set; } 
     /// <summary>
     ///  What is the collider used as trigger
     /// </summary>
     private BoxCollider2D boxCollider;
-    /// <summary>
-    ///  Defines the next collider id
-    /// </summary>
-    private ushort currentId;
 
    
     /**
@@ -35,11 +31,10 @@ public class PlayerCollider : MonoBehaviour
      */ 
     private void Start()
     {
-        this.colliders = new Dictionary<ushort, Collider2D>();
+        this.colliders = new List<Collider2D>();
         this.boxCollider = GetComponent<BoxCollider2D>();
         this.boxCollider.isTrigger = true;
         this.isTriggered = false;
-        this.currentId = 0;
     }
 
     /**
@@ -53,9 +48,7 @@ public class PlayerCollider : MonoBehaviour
         if (((1 << otherCollider.gameObject.layer) & this.mask) != 0)
         {
             this.isTriggered = true;
-            otherCollider.name = this.currentId.ToString();
-            this.colliders.Add(this.currentId, otherCollider);
-            this.currentId++;
+            this.colliders.Add(otherCollider);
         }
     }
 
@@ -69,11 +62,15 @@ public class PlayerCollider : MonoBehaviour
     {
         if (((1 << otherCollider.gameObject.layer) & this.mask) != 0)
         {
-            var id = Convert.ToUInt16(otherCollider.name);
-            this.colliders.Remove(id);
+            if (this.colliders.Contains(otherCollider))
+            {
+                this.colliders.Remove(otherCollider);
+            }
 
             if (this.colliders.Count == 0)
+            {
                 this.isTriggered = false;
+            }
         }
     }
 }

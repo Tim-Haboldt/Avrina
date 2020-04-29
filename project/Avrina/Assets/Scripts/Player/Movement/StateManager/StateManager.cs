@@ -1,13 +1,18 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(PlayerAnimation))]
 public class StateManager : MonoBehaviour
 {
     /// <summary>
     ///  Used to gain access to the StateManager from the States and Actions
     /// </summary>
     public static StateManager instance { private set; get; }
-
+    /// <summary>
+    ///  
+    /// </summary>
+    private PlayerAnimation playerAnimation;
     /// <summary>
     ///  Rigid body of the player
     /// </summary>
@@ -27,7 +32,9 @@ public class StateManager : MonoBehaviour
         { PlayerState.OnGround, new OnGround() },
         { PlayerState.Jumping, new Jumping() },
         { PlayerState.AirJumping, new AirJumping() },
-        { PlayerState.Immobile, new Immobile() }
+        { PlayerState.Immobile, new Immobile() },
+        { PlayerState.WallSliding, new WallSliding() },
+        { PlayerState.WallJumping, new WallJumping() }
     };
     /// <summary>
     ///  Stores the name of the current state
@@ -46,6 +53,8 @@ public class StateManager : MonoBehaviour
         this.states[this.currentState].OnStateExit();
         this.currentState = state;
         this.states[this.currentState].OnStateEnter();
+
+        this.playerAnimation.TriggerState(state);
     }
     
     /**
@@ -58,6 +67,7 @@ public class StateManager : MonoBehaviour
     private void Start()
     {
         this.rb = GetComponent<Rigidbody2D>();
+        this.playerAnimation = GetComponent<PlayerAnimation>();
         instance = this;
         this.ApplyConfig();
     }

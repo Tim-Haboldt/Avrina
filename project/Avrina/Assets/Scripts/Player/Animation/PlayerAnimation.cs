@@ -22,6 +22,7 @@ public class PlayerAnimation : MonoBehaviour
     /// </summary>
     public float runningVelocity;
 
+
     /// <summary>
     ///  Finds the animator in the player object and sets the default values for the animation
     /// </summary>
@@ -31,9 +32,9 @@ public class PlayerAnimation : MonoBehaviour
         this.rb = GetComponent<Rigidbody2D>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
 
-        animator.SetFloat("X", 0);
-        animator.SetBool("isRunning", false);
-        animator.SetBool("isFalling", false);
+        this.animator.SetFloat("X", 0);
+        this.animator.SetBool("isRunning", false);
+        this.animator.SetBool("isFalling", false);
     }
     
     /// <summary>
@@ -49,8 +50,17 @@ public class PlayerAnimation : MonoBehaviour
             this.spriteRenderer.flipX = Mathf.Sign(movementInput) == -1;
         }
 
-        animator.SetFloat("X", movementAbs);
-        animator.SetBool("isRunning", this.rb.velocity.x >= runningVelocity);
-        animator.SetBool("isFalling", PlayerController.onGround);
+        this.animator.SetFloat("X", movementAbs);
+        this.animator.SetBool("isRunning", this.rb.velocity.x >= runningVelocity);
+        this.animator.SetBool("isFalling", PlayerController.onGround);
+    }
+
+    /// <summary>
+    ///  Triggers animations caused by state change
+    /// </summary>
+    /// <param name="state">What is the new state</param>
+    public void TriggerState(PlayerState state)
+    {
+        // this.animator.SetTrigger();
     }
 }

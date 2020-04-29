@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class Immobile : State
+﻿public class Immobile : State
 {
     /// <summary>
     ///  The name of the state is immobile
