@@ -23,4 +23,8 @@ public class WallMaterial : ScriptableObject
     ///  Enables or disables walljumps for this material
     /// </summary>
     public bool canBeWalljumpedFrom;
+    /// <summary>
+    ///  Can be climed on
+    /// </summary>
+    public bool canBeClimed;
 }
