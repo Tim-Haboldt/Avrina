@@ -24,9 +24,9 @@ public class HorizontalMovement : Action
      * </example>
      * <param name="velocity">Used to modify the velocity of the player</param>
      */
-    public void PerformAction(ref Vector2 velocity)
+    public void PerformAction(ref Vector2 velocity, PlayerController playerController)
     {
-        var input = PlayerController.movementInput;
+        var input = playerController.movementInput;
         // Only apply new forces if the player presses any key
         if (input != 0)
         {
@@ -37,9 +37,17 @@ public class HorizontalMovement : Action
             var absOldMovementSpeed = Mathf.Abs(oldMovementSpeed);
 
             // Take a different velocity mulitplier corresponding to the player is on ground or in the air
-            if (PlayerController.onGround)
+            if (playerController.onGround)
             {
-                newMovementSpeed += this.defaultForceOnGround * input; // * groundFriction(MaterialFriction)
+                float force = input;
+                if (playerController.groundMaterial.isForceEnabled)
+                {
+                    force *= playerController.groundMaterial.force;
+                } else
+                {
+                    force *= this.defaultForceOnGround;
+                }
+                newMovementSpeed += force;
             }
             else
             {

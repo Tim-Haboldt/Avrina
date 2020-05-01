@@ -28,16 +28,16 @@ public class OnGround : State
     /// <returns></returns>
     public override PlayerState Update()
     {
-        if (PlayerController.jumpInput && !this.holdingJump)
+        if (this.playerController.jumpInput && !this.holdingJump && this.playerController.groundMaterial.canBeJumpedFrom)
         {
             return PlayerState.Jumping;
         }
-        else if (!PlayerController.onGround)
+        else if (!this.playerController.onGround)
         {
             return PlayerState.InAir;
         }
 
-        if (this.holdingJump && !PlayerController.jumpInput)
+        if (this.holdingJump && !this.playerController.jumpInput)
         {
             this.holdingJump = false;
         }
@@ -54,16 +54,12 @@ public class OnGround : State
     {
         base.OnStateEnter();
 
-        if (PlayerController.jumpInput)
+        if (this.playerController.jumpInput)
         {
             this.holdingJump = true;
         }
 
-        Rigidbody2D rb = StateManager.instance.rb;
-        rb.velocity = new Vector2(rb.velocity.x, 0);
-
-        rb.AddForce(new Vector2(0, -10f));
-        //TODO set player position
-        //TODO add new states
+        this.rigidbody.velocity = new Vector2(this.rigidbody.velocity.x, 0);
+        this.rigidbody.AddForce(new Vector2(0, -10f));
     }
 }

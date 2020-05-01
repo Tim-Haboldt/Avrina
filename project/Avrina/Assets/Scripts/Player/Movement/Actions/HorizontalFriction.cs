@@ -16,16 +16,19 @@ public class HorizontalFriction : Action
      *  Applies friction to the player only if the player is currently not moving.
      * </summary>
      */ 
-    public void PerformAction(ref Vector2 velocity)
+    public void PerformAction(ref Vector2 velocity, PlayerController playerController)
     {
-        if (PlayerController.movementInput == 0 && velocity.x != 0)
+        if (playerController.movementInput == 0 && velocity.x != 0)
         {
             var movementDir = Mathf.Sign(velocity.x);
 
             var frictionMuliplier = 1f;
-            if (PlayerController.onGround)
+            if (playerController.onGround)
             {
-                frictionMuliplier *= 1f; // Ground material friction
+                if (playerController.groundMaterial.isFrictionEnabled)
+                {
+                    frictionMuliplier *= playerController.groundMaterial.friction;
+                }
             } else
             {
                 frictionMuliplier *= this.airFriction;

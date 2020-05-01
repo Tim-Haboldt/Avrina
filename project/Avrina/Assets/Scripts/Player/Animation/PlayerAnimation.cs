@@ -3,6 +3,7 @@
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(PlayerController))]
 public class PlayerAnimation : MonoBehaviour
 {
     /// <summary>
@@ -18,6 +19,10 @@ public class PlayerAnimation : MonoBehaviour
     /// </summary>
     private SpriteRenderer spriteRenderer;
     /// <summary>
+    ///  Used to get all inputs and collisions
+    /// </summary>
+    private PlayerController playerController;
+    /// <summary>
     ///  States what amount of velocity is necessary to switch to running
     /// </summary>
     public float runningVelocity;
@@ -31,6 +36,7 @@ public class PlayerAnimation : MonoBehaviour
         this.animator = GetComponent<Animator>();
         this.rb = GetComponent<Rigidbody2D>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
+        this.playerController = GetComponent<PlayerController>();
 
         this.animator.SetFloat("X", 0);
         this.animator.SetBool("isRunning", false);
@@ -42,7 +48,7 @@ public class PlayerAnimation : MonoBehaviour
     /// </summary>
     void Update()
     {
-        float movementInput = PlayerController.movementInput;
+        float movementInput = this.playerController.movementInput;
         float movementAbs = Mathf.Abs(movementInput);
 
         if (movementAbs > 0)
@@ -52,7 +58,7 @@ public class PlayerAnimation : MonoBehaviour
 
         this.animator.SetFloat("X", movementAbs);
         this.animator.SetBool("isRunning", this.rb.velocity.x >= runningVelocity);
-        this.animator.SetBool("isFalling", PlayerController.onGround);
+        this.animator.SetBool("isFalling", this.playerController.onGround);
     }
 
     /// <summary>

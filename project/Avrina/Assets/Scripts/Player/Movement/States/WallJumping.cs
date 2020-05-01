@@ -46,9 +46,8 @@ public class WallJumping : StateInheritingAction
     public override PlayerState Update()
     {
         var passedTime = Time.time - this.startTime;
-        var jumpInput = PlayerController.jumpInput;
 
-        if ((passedTime >= this.wallJumpMinDuration && !jumpInput) || passedTime >= this.wallJumpMaxDuration)
+        if ((passedTime >= this.wallJumpMinDuration && !this.playerController.jumpInput) || passedTime >= this.wallJumpMaxDuration)
         {
             return PlayerState.Immobile;
         }
@@ -90,7 +89,7 @@ public class WallJumping : StateInheritingAction
     {
         this.startTime = Time.time;
         
-        if (PlayerController.movementInput > 0)
+        if (this.playerController.movementInput > 0)
         {
             this.jumpDirection = WallslidingDirection.Right;
         } else

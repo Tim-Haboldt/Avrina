@@ -48,9 +48,8 @@ public class AirJumping : StateInheritingAction
     public override PlayerState Update()
     {
         var passedTime = Time.time - this.startTime;
-        var jumpInput = PlayerController.jumpInput;
 
-        if ((passedTime >= this.minJumpDuration && !jumpInput) || passedTime >= this.maxJumpDuration)
+        if ((passedTime >= this.minJumpDuration && !this.playerController.jumpInput) || passedTime >= this.maxJumpDuration)
         {
             return PlayerState.Immobile;
         }

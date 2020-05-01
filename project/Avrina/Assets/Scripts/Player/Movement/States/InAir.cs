@@ -31,25 +31,25 @@ public class InAir : State
      */ 
     public override PlayerState Update()
     {
-        var direction = PlayerController.movementInput;
+        var direction = this.playerController.movementInput;
         if (direction != 0)
         {
             direction = Mathf.Sign(direction);
         }
 
-        if (PlayerController.onGround)
+        if (this.playerController.onGround)
         {
             return PlayerState.OnGround;
         }
-        else if (PlayerController.jumpInput && !this.holdingJump)
+        else if (this.playerController.jumpInput && !this.holdingJump)
         {
             return PlayerState.AirJumping;
-        } else if (PlayerController.hasWallLeft && direction == -1 || PlayerController.hasWallRight && direction == 1)
+        } else if (this.playerController.hasWallLeft && direction == -1 || this.playerController.hasWallRight && direction == 1)
         {
             return PlayerState.WallSliding;
         }
 
-        if (this.holdingJump && !PlayerController.jumpInput)
+        if (this.holdingJump && !this.playerController.jumpInput)
         {
             this.holdingJump = false;
         }
@@ -64,7 +64,7 @@ public class InAir : State
     {
         base.OnStateEnter();
 
-        if (PlayerController.jumpInput)
+        if (this.playerController.jumpInput)
         {
             this.holdingJump = true;
         }

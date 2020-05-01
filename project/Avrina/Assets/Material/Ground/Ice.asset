@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3182e373007b864780f6d6e0081cbd1, type: 3}
   m_Name: Ice
   m_EditorClassIdentifier: 
-  isFrictionEnabled: 0
-  friction: 0
-  isForceEnabled: 0
-  force: 0
+  priority: 0
+  isFrictionEnabled: 1
+  friction: 0.01
+  isForceEnabled: 1
+  force: 1
+  canBeJumpedFrom: 1

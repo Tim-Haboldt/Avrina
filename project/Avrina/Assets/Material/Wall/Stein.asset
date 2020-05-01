@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b7956d6a4076214d88b0816de04c657, type: 3}
-  m_Name: Ice
+  m_Name: Stein
   m_EditorClassIdentifier: 
   priority: 0
   isFrictionEnabled: 1
-  friction: -1
+  friction: 0.2
   isForceEnabled: 0
   force: 0
   canBeJumpedFrom: 1
-  canBeClimedOn: 0
+  canBeClimedOn: 1

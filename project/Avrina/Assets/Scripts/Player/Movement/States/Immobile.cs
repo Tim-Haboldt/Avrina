@@ -23,17 +23,17 @@ public class Immobile : State
     /// <returns>New state. Default is the same state</returns>
     public override PlayerState Update()
     {
-        var direction = PlayerController.movementInput;
+        var direction = this.playerController.movementInput;
         if (direction != 0)
         {
             direction = Mathf.Sign(direction);
         }
 
-        if (PlayerController.onGround)
+        if (this.playerController.onGround)
         {
             return PlayerState.OnGround;
         }
-        else if (PlayerController.hasWallLeft && direction == -1 || PlayerController.hasWallRight && direction == 1)
+        else if (this.playerController.hasWallLeft && direction == -1 || this.playerController.hasWallRight && direction == 1)
         {
             return PlayerState.WallSliding;
         }

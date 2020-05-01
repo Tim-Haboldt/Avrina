@@ -3,6 +3,14 @@
 public class WallSliding : StateInheritingAction
 {
     /// <summary>
+    ///  What is the speed of the player sliding down the wall
+    /// </summary>
+    private float defaultWallslidingForce;
+    /// <summary>
+    ///  What is the maximal speed of the player sliding down the wall
+    /// </summary>
+    private float maxWallslidingForce;
+    /// <summary>
     ///  Stores if the player was holding jump before the state was entered
     /// </summary>
     private bool holdingJump;
@@ -21,10 +29,6 @@ public class WallSliding : StateInheritingAction
     {
         new HorizontalMovement(),
     };
-    /// <summary>
-    ///  What is the speed of the player sliding down the wall
-    /// </summary>
-    private float wallslideSpeed;
 
     /// <summary>
     ///  Switches to the OnGround state if the ground is touched.
@@ -34,26 +38,26 @@ public class WallSliding : StateInheritingAction
     /// <returns>New state. Default is the same state</returns>
     public override PlayerState Update()
     {
-        var direction = PlayerController.movementInput;
+        var direction = this.playerController.movementInput;
         if (direction != 0)
         {
             direction = Mathf.Sign(direction);
         }
 
-        if (PlayerController.onGround)
+        if (this.playerController.onGround)
         {
             return PlayerState.OnGround;
-        } else if (PlayerController.jumpInput && !this.holdingJump)
+        } else if (this.playerController.jumpInput && !this.holdingJump && this.playerController.wallMaterial.canBeJumpedFrom)
         {
             return PlayerState.WallJumping;
         }
-        else if (!(this.dir == WallslidingDirection.Left && PlayerController.hasWallLeft && direction == -1)
-            && !(this.dir == WallslidingDirection.Right && PlayerController.hasWallRight && direction == 1))
+        else if (!(this.dir == WallslidingDirection.Left && this.playerController.hasWallLeft && direction == -1)
+            && !(this.dir == WallslidingDirection.Right && this.playerController.hasWallRight && direction == 1))
         {
             return PlayerState.InAir;
         }
 
-        if (this.holdingJump && !PlayerController.jumpInput)
+        if (this.holdingJump && !this.playerController.jumpInput)
         {
             this.holdingJump = false;
         }
@@ -67,7 +71,27 @@ public class WallSliding : StateInheritingAction
     /// <param name="velocity"></param>
     protected override void PerformAction(ref Vector2 velocity)
     {
-        velocity = new Vector2(velocity.x, this.wallslideSpeed);
+        float velocityY = velocity.y;
+        if (this.playerController.wallMaterial.isForceEnabled)
+        {
+            velocityY -= this.playerController.wallMaterial.force;
+        } else
+        {
+            velocityY -= this.defaultWallslidingForce;
+        }
+
+        float maxVelocity = this.maxWallslidingForce * -1;
+        if (this.playerController.wallMaterial.isFrictionEnabled)
+        {
+            maxVelocity *= 0.5f - this.playerController.wallMaterial.friction;
+        }
+
+        if (velocityY < maxVelocity)
+        {
+            velocityY = maxVelocity;
+        }
+
+        velocity = new Vector2(velocity.x, velocityY);
     }
 
     /// <summary>
@@ -76,7 +100,8 @@ public class WallSliding : StateInheritingAction
     /// <param name="config">Stores all parameter regarding player movement</param>
     protected override void Setup(PlayerConfig config)
     {
-        this.wallslideSpeed = config.wallslidingSpeed * -1;
+        this.defaultWallslidingForce = config.defaultWallslidingForce;
+        this.maxWallslidingForce = config.maxWallslidingSpeed;
     }
 
     /// <summary>
@@ -85,13 +110,12 @@ public class WallSliding : StateInheritingAction
     protected override void OnEnter()
     {
         // Set the current horizontal movement to zero
-        Rigidbody2D rb = StateManager.instance.rb;
-        rb.velocity = new Vector2(rb.velocity.x, 0);
+        this.rigidbody.velocity = new Vector2(this.rigidbody.velocity.x, 0);
 
-        if (PlayerController.hasWallRight)
+        if (this.playerController.hasWallRight)
         {
             this.dir = WallslidingDirection.Right;
-        } else if (PlayerController.hasWallLeft)
+        } else if (this.playerController.hasWallLeft)
         {
             this.dir = WallslidingDirection.Left;
         } else
@@ -99,7 +123,7 @@ public class WallSliding : StateInheritingAction
             this.dir = WallslidingDirection.Unknown;
         }
 
-        if (PlayerController.jumpInput)
+        if (this.playerController.jumpInput)
         {
             this.holdingJump = true;
         }

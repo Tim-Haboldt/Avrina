@@ -3,21 +3,17 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerAnimation))]
+[RequireComponent(typeof(PlayerController))]
 public class StateManager : MonoBehaviour
 {
     /// <summary>
-    ///  Used to gain access to the StateManager from the States and Actions
-    /// </summary>
-    public static StateManager instance { private set; get; }
-    /// <summary>
-    ///  
+    ///  Handels the animations of the player
     /// </summary>
     private PlayerAnimation playerAnimation;
     /// <summary>
-    ///  Rigid body of the player
+    /// 
     /// </summary>
-    [HideInInspector]
-    public Rigidbody2D rb;
+    private Rigidbody2D rb;
     /// <summary>
     ///  Player Material defines all movement related player constants
     /// </summary>
@@ -68,7 +64,13 @@ public class StateManager : MonoBehaviour
     {
         this.rb = GetComponent<Rigidbody2D>();
         this.playerAnimation = GetComponent<PlayerAnimation>();
-        instance = this;
+
+        var playerController = GetComponent<PlayerController>();
+        foreach (State state in this.states.Values)
+        {
+            state.Init(playerController, this.rb);
+        }
+
         this.ApplyConfig();
     }
 

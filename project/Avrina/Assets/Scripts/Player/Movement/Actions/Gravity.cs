@@ -22,7 +22,7 @@ public class Gravity : Action
      * </summary>
      * <param name="velocity">The gravity is applyed to</param>
      */ 
-    public void PerformAction(ref Vector2 velocity)
+    public void PerformAction(ref Vector2 velocity, PlayerController playerController)
     {
         this.currentVelocity += this.gravity;
         velocity.y -= this.currentVelocity * this.gravity;

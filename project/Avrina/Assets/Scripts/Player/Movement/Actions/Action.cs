@@ -26,8 +26,9 @@ public interface Action
      *  Apply gravity to player
      * </example>
      * <param name="velocity">Used to modify the velocity of the player</param>
+     * <param name="playerController">Stores all inputs and collsions</param>
      */ 
-    void PerformAction(ref Vector2 velocity);
+    void PerformAction(ref Vector2 velocity, PlayerController playerController);
 
     /**
      * <summary>

@@ -42,9 +42,13 @@ public struct PlayerConfig
     /// </summary>
     public float jumpVelocity;
     /// <summary>
-    ///  Speed of the player sliding down a wall
+    ///  Will be added each update tick while sliding down a the wall
     /// </summary>
-    public float wallslidingSpeed;
+    public float defaultWallslidingForce;
+    /// <summary>
+    ///  Maximal speed the player can slide down a wall
+    /// </summary>
+    public float maxWallslidingSpeed;
     /// <summary>
     ///  How much velocity will be added each update tick on the vertical axis
     /// </summary>

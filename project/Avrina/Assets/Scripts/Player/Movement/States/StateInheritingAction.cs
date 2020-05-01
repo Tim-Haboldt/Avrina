@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class StateInheritingAction : State
 {
@@ -80,7 +78,7 @@ public abstract class StateInheritingAction : State
 
         foreach (Action action in this.actions)
         {
-            action.PerformAction(ref velocity);
+            action.PerformAction(ref velocity, this.playerController);
         }
     }
 
