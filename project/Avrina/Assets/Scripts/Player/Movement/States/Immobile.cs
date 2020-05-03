@@ -14,7 +14,6 @@ public class Immobile : State
     {
         new Gravity(),
         new HorizontalMovement(),
-        new HorizontalFriction(),
     };
 
     /// <summary>

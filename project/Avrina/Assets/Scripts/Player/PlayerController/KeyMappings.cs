@@ -8,6 +8,10 @@ public class KeyMappings
     /// </summary>
     public string horizontalMovement;
     /// <summary>
+    ///  What is the name of the vertical movement input axis in the unity input controller
+    /// </summary>
+    public string verticalMovement;
+    /// <summary>
     ///  What is the name of the horizontal aim input axis in the unity input controller
     /// </summary>
     public string horizontalAim;
@@ -15,10 +19,6 @@ public class KeyMappings
     ///  What is the name of the vertical aim input axis in the unity input controller
     /// </summary>
     public string verticalAim;
-    /// <summary>
-    ///  What is the duck key
-    /// </summary>
-    public KeyCode duck;
     /// <summary>
     ///  What key opens the settings
     /// </summary>

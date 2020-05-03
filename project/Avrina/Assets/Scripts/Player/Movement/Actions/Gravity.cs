@@ -10,10 +10,6 @@ public class Gravity : Action
     ///  What is the gravity velocity
     /// </summary>
     private float maxGravityVelocitry = 5f;
-    /// <summary>
-    ///  Current velocity
-    /// </summary>
-    private float currentVelocity = 0f;
 
 
     /**
@@ -24,22 +20,11 @@ public class Gravity : Action
      */ 
     public void PerformAction(ref Vector2 velocity, PlayerController playerController)
     {
-        this.currentVelocity += this.gravity;
-        velocity.y -= this.currentVelocity * this.gravity;
+        velocity.y -= this.gravity;
         if (velocity.y < this.maxGravityVelocitry * -1)
         {
             velocity.y = this.maxGravityVelocitry * -1;
         }
-    }
-
-    /**
-     * <summary>
-     *  Resets the current velocity of the player
-     * </summary>
-     */
-    public void OnExit()
-    {
-        this.currentVelocity = 0f;
     }
 
     /**
@@ -50,16 +35,20 @@ public class Gravity : Action
     public void Setup(PlayerConfig config)
     {
         this.gravity = config.gravity;
-        this.maxGravityVelocitry = config.maxGravityVelocitry;
+        this.maxGravityVelocitry = config.maxGravityVelocity;
     }
 
     /**
      * <summary>
-     *  Resets the current velocity of the player
+     *  Unused
      * </summary>
      */ 
-    public void OnEnter()
-    {
-        this.currentVelocity = 0f;
-    }
+    public void OnEnter() {}
+
+    /**
+     * <summary>
+     *  Unused
+     * </summary>
+     */
+    public void OnExit() {}
 }

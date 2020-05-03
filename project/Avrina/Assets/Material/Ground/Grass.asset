@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3182e373007b864780f6d6e0081cbd1, type: 3}
-  m_Name: Ice
+  m_Name: Grass
   m_EditorClassIdentifier: 
-  priority: 0
-  friction: 0.01
-  force: 1
-  maxMovementSpeed: 10
+  priority: 1
+  acceleration: 6
+  frictionWhileNoInputGiven: 0.3
+  frictionWhileMoving: 0.17
+  frictionWhileTurning: 0.4
+  smallestMovementBeforeStop: 0.04
   canBeJumpedFrom: 1
   jumpVelocity: 20

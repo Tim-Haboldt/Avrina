@@ -76,10 +76,6 @@ public class WallJumping : StateInheritingAction
     /// <param name="config"></param>
     protected override void Setup(PlayerConfig config)
     {
-        this.wallJumpVelocityX = config.wallJumpVelocityX;
-        this.wallJumpVelocityY = config.wallJumpVelocityY;
-        this.wallJumpMinDuration = config.wallJumpMinDuration;
-        this.wallJumpMaxDuration = config.wallJumpMaxDuration;
     }
 
     /// <summary>

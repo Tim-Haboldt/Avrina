@@ -7,17 +7,17 @@ public class Jumping : StateInheritingAction
     /// </summary>
     private float startTime;
     /// <summary>
-    ///  What is the minimal jump duration
-    /// </summary>
-    public float minJumpDuration;
-    /// <summary>
     ///  What is the maximal jump duration
     /// </summary>
     public float maxJumpDuration;
     /// <summary>
-    ///  Is the velocity during the player jumping
+    ///  What is the air jump velocity. Will be used if the groundMask is unknown
     /// </summary>
-    public float jumpVelocity;
+    private float airJumpVelocity;
+    /// <summary>
+    ///  What is the gravity while the player is jumping
+    /// </summary>
+    private float gravityDuringJump;
 
     /// <summary>
     ///  Name of the state is Jumping
@@ -29,7 +29,6 @@ public class Jumping : StateInheritingAction
     protected override Action[] actions { get; } = new Action[]
     {
         new HorizontalMovement(),
-        new HorizontalFriction(),
     };
 
     /// <summary>
@@ -38,7 +37,7 @@ public class Jumping : StateInheritingAction
     /// <param name="velocity"></param>
     protected override void PerformAction(ref Vector2 velocity)
     {
-        velocity = new Vector2(velocity.x, this.jumpVelocity);
+        velocity = new Vector2(velocity.x, velocity.y - this.gravityDuringJump);
     }
 
     /// <summary>
@@ -49,7 +48,7 @@ public class Jumping : StateInheritingAction
     {
         var passedTime = Time.time - this.startTime;
 
-        if ((passedTime >= this.minJumpDuration && !this.playerController.jumpInput) || passedTime >= this.maxJumpDuration)
+        if (!this.playerController.jumpInput || passedTime >= this.maxJumpDuration)
         {
             return PlayerState.InAir;
         }
@@ -64,9 +63,9 @@ public class Jumping : StateInheritingAction
     */
     protected override void Setup(PlayerConfig config)
     {
-        this.minJumpDuration = config.minJumpDuration;
         this.maxJumpDuration = config.maxJumpDuration;
-        this.jumpVelocity = config.jumpVelocity;
+        this.airJumpVelocity = config.airJumpStartVelocity;
+        this.gravityDuringJump = config.gravityDuringJump;
     }
 
     /**
@@ -77,6 +76,14 @@ public class Jumping : StateInheritingAction
     protected override void OnEnter()
     {
         this.startTime = Time.time;
+        if (this.playerController.groundMaterial == null)
+        {
+            this.rigidbody.velocity = new Vector2(rigidbody.velocity.x, this.airJumpVelocity);
+        }
+        else
+        {
+            this.rigidbody.velocity = new Vector2(rigidbody.velocity.x, this.playerController.groundMaterial.jumpVelocity);
+        }
     }
 
     /**

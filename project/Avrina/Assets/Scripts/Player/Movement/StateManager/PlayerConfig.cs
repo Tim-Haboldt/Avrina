@@ -1,4 +1,6 @@
-﻿[System.Serializable]
+﻿using UnityEngine;
+
+[System.Serializable]
 public struct PlayerConfig
 {
     /// <summary>
@@ -6,63 +8,43 @@ public struct PlayerConfig
     /// </summary>
     public float gravity;
     /// <summary>
+    ///  Lowers the gravity during the jump
+    /// </summary>
+    public float gravityDuringJump;
+    /// <summary>
     ///  What is the maximal gravity velocity
     /// </summary>
-    public float maxGravityVelocitry;
-    /// <summary>
-    ///  How much force will be added to the horizontal movement speed each update tick if the ground has not specified something else
-    /// </summary>
-    public float defaultHorizontalForceOnGround;
-    /// <summary>
-    ///  How much force will be added to the horizontal movement each update tick while in air
-    /// </summary>
-    public float horizontalForceInAir;
-    /// <summary>
-    ///  Maximal movement velocity
-    /// </summary>
-    public float maxHorizontalMovement;
-    /// <summary>
-    ///  If the grond object has no friction this one will be used
-    /// </summary>
-    public float defaultGroundFriction;
-    /// <summary>
-    ///  What is the friction of the player in the air
-    /// </summary>
-    public float airFriction;
-    /// <summary>
-    ///  What is the minimal jump duration
-    /// </summary>
-    public float minJumpDuration;
+    public float maxGravityVelocity;
     /// <summary>
     ///  What is the maximal jump duration
     /// </summary>
     public float maxJumpDuration;
     /// <summary>
-    ///  Is the velocity during the player jumping
+    ///  If the ground is farther away then the max distance the player will not be clipped on the ground
     /// </summary>
-    public float jumpVelocity;
+    public float maxGroundDistance;
     /// <summary>
-    ///  Will be added each update tick while sliding down a the wall
+    ///  What is the layer mask of the ground objects
     /// </summary>
-    public float defaultWallslidingForce;
+    public LayerMask groundMask;
     /// <summary>
-    ///  Maximal speed the player can slide down a wall
+    ///  How much acceleration will be added to the horizontal movement each update tick while in air
     /// </summary>
-    public float maxWallslidingSpeed;
+    public float horizontalAccelerationInAir;
     /// <summary>
-    ///  How much velocity will be added each update tick on the vertical axis
+    ///  What is the friction of the player in the air while no input is given
     /// </summary>
-    public float wallJumpVelocityY;
+    public float airFrictionWhileNoInputGiven;
     /// <summary>
-    ///  How much velocity will be added each update tick on the horizontal axis
+    ///  What is the friction of the player in the air while moving
     /// </summary>
-    public float wallJumpVelocityX;
+    public float airFrictionWhileMoving;
     /// <summary>
-    ///  How long does the walljump have to at least take
+    ///  What is the friction of the player while turning around
     /// </summary>
-    public float wallJumpMinDuration;
+    public float airFrictionWhileTurning;
     /// <summary>
-    ///  How long does the walljump can last
+    ///  Velocity on the start of the air jump
     /// </summary>
-    public float wallJumpMaxDuration;
+    public float airJumpStartVelocity;
 }

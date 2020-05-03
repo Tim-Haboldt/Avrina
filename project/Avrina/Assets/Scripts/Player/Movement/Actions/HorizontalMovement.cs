@@ -3,17 +3,21 @@
 public class HorizontalMovement : Action
 {
     /// <summary>
-    ///  How much force will be added each update tick
-    /// </summary>
-    private float defaultForceOnGround;
-    /// <summary>
     ///  How much force will be added each update tick while the player is in air
     /// </summary>
-    private float forceInAir;
+    private float accelerationInAir;
     /// <summary>
-    ///  What is the maximal velocity the player can have
+    ///  How much friction will occour in the air while no input is given
     /// </summary>
-    private float maxVelocity;
+    private float airFrictionWhileNoInputGiven;
+    /// <summary>
+    ///  How much friction will occour in the air while moving
+    /// </summary>
+    private float airFrictionWhileMoving;
+    /// <summary>
+    ///  How much friction will occour in the air while turning
+    /// </summary>
+    private float airFrictionWhileTurning;
 
     /**
      * <summary>
@@ -26,51 +30,71 @@ public class HorizontalMovement : Action
      */
     public void PerformAction(ref Vector2 velocity, PlayerController playerController)
     {
-        var input = playerController.movementInput;
-        // Only apply new forces if the player presses any key
-        if (input != 0)
+        if (playerController.onGround)
         {
-            // Store the old movement speed with the direction and the absolute speed
-            var currentMovementDir = Mathf.Sign(velocity.x);
-            var oldMovementSpeed = velocity.x;
-            var newMovementSpeed = velocity.x;
-            var absOldMovementSpeed = Mathf.Abs(oldMovementSpeed);
-
-            // Take a different velocity mulitplier corresponding to the player is on ground or in the air
-            if (playerController.onGround)
-            {
-                float force = input;
-                if (playerController.groundMaterial.isForceEnabled)
-                {
-                    force *= playerController.groundMaterial.force;
-                } else
-                {
-                    force *= this.defaultForceOnGround;
-                }
-                newMovementSpeed += force;
-            }
-            else
-            {
-                newMovementSpeed += this.forceInAir * input;
-            }
-
-            var absNewMovementSpeed = Mathf.Abs(newMovementSpeed);
-            if (absOldMovementSpeed > this.maxVelocity)
-            {
-                // Only allow forces that reduce force if the force is over max already
-                if (absOldMovementSpeed < absNewMovementSpeed)
-                {
-                    newMovementSpeed = oldMovementSpeed;
-                }
-            }
-            else if (absNewMovementSpeed > this.maxVelocity)
-            {
-                newMovementSpeed = this.maxVelocity * currentMovementDir;
-            }
-
-            // Apply new velocity to the actual player object
-            velocity = new Vector2(newMovementSpeed, velocity.y);
+            velocity = this.GroundMovement(velocity, playerController);
         }
+        else
+        {
+            velocity = this.AirMovement(velocity, playerController);
+        }
+    }
+
+    /// <summary>
+    ///  Handels the movement while in air
+    /// </summary>
+    /// <param name="velocity"></param>
+    /// <param name="controller"></param>
+    /// <returns></returns>
+    private Vector2 AirMovement(Vector2 velocity, PlayerController playerController)
+    {
+        var movementInput = playerController.movementInput;
+
+        if (movementInput == 0)
+        {
+            velocity.x -= this.airFrictionWhileNoInputGiven * velocity.x;
+        }
+        else if (Mathf.Sign(movementInput) == Mathf.Sign(velocity.x))
+        {
+            velocity.x += movementInput * this.accelerationInAir - this.airFrictionWhileMoving * velocity.x;
+        }
+        else
+        {
+            velocity.x += movementInput * this.accelerationInAir - this.airFrictionWhileTurning * velocity.x;
+        }
+
+        return new Vector2(velocity.x, velocity.y);
+    }
+
+    /// <summary>
+    ///  Handels the movement while on ground
+    /// </summary>
+    /// <param name="velocity"></param>
+    /// <param name="controller"></param>
+    /// <returns></returns>
+    private Vector2 GroundMovement(Vector2 velocity, PlayerController playerController)
+    {
+        var movementInput = playerController.movementInput;
+        var groundMaterial = playerController.groundMaterial;
+
+        if (movementInput == 0) {
+            velocity.x -= groundMaterial.frictionWhileNoInputGiven * velocity.x;
+
+            if (Mathf.Abs(velocity.x) < groundMaterial.smallestMovementBeforeStop)
+            {
+                velocity.x = 0;
+            }
+        }
+        else if (Mathf.Sign(movementInput) == Mathf.Sign(velocity.x))
+        {
+            velocity.x += movementInput * groundMaterial.acceleration - groundMaterial.frictionWhileMoving * velocity.x;
+        }
+        else
+        {
+            velocity.x += movementInput * groundMaterial.acceleration - groundMaterial.frictionWhileTurning * velocity.x;
+        }
+
+        return new Vector2(velocity.x, velocity.y);
     }
 
     /**
@@ -80,9 +104,10 @@ public class HorizontalMovement : Action
      */
     public void Setup(PlayerConfig config)
     {
-        this.defaultForceOnGround = config.defaultHorizontalForceOnGround;
-        this.forceInAir = config.horizontalForceInAir;
-        this.maxVelocity = config.maxHorizontalMovement;
+        this.accelerationInAir = config.horizontalAccelerationInAir;
+        this.airFrictionWhileNoInputGiven = config.airFrictionWhileNoInputGiven;
+        this.airFrictionWhileMoving = config.airFrictionWhileMoving;
+        this.airFrictionWhileTurning = config.airFrictionWhileTurning;
     }
 
     /**

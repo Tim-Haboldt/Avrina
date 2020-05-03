@@ -1,11 +1,19 @@
 ﻿using UnityEngine;
 
-public class OnGround : State
+public class OnGround : StateInheritingAction
 {
     /// <summary>
     ///  If the player was jumping before the OnGround state the Jumping state will not be triggered until the player is not pressing jump
     /// </summary>
     private bool holdingJump = false;
+    /// <summary>
+    ///  If the ground is farther away then the max distance the player will not be clipped on the ground
+    /// </summary>
+    private float maxGroundDistance;
+    /// <summary>
+    ///  What is the mask of the ground objects
+    /// </summary>
+    private LayerMask groundMask;
 
     ///<summary>
     /// Name of the state is onGround
@@ -17,9 +25,35 @@ public class OnGround : State
     protected override Action[] actions { get; } = new Action[]
     {
         new HorizontalMovement(),
-        new HorizontalFriction(),
     };
 
+
+    /// <summary>
+    ///  Reads some values from the config
+    /// </summary>
+    /// <param name="config"></param>
+    protected override void Setup(PlayerConfig config)
+    {
+        this.groundMask = config.groundMask;
+        this.maxGroundDistance = config.maxGroundDistance;
+    }
+
+    /// <summary>
+    ///  Sets the player to the groun dall the time
+    /// </summary>
+    /// <param name="velocity"></param>
+    protected override void PerformAction(ref Vector2 velocity)
+    {
+        velocity = new Vector2(velocity.x, 0);
+
+        var playerPosition = this.rigidbody.transform.position;
+        RaycastHit2D hit = Physics2D.Raycast(playerPosition, -Vector2.up, this.maxGroundDistance, this.groundMask);
+
+        if (hit.collider != null) {
+            float distance = Mathf.Abs(hit.point.y - playerPosition.y);
+            playerPosition.y -= distance;
+        }
+    }
 
     /// <summary>
     ///  Returns the Jumping state if the jump input is pressed.
@@ -45,21 +79,21 @@ public class OnGround : State
         return this.name;
     }
 
-    /**
-     * <summary>
-     *  Set the horizontal movement and checks if the jump input is pressed while entering the state
-     * </summary>
-     */
-    public override void OnStateEnter()
+    /// <summary>
+    ///  Sets the vertical velocity of the player to zero
+    /// </summary>
+    protected override void OnEnter()
     {
-        base.OnStateEnter();
-
         if (this.playerController.jumpInput)
         {
             this.holdingJump = true;
         }
 
         this.rigidbody.velocity = new Vector2(this.rigidbody.velocity.x, 0);
-        this.rigidbody.AddForce(new Vector2(0, -10f));
     }
+
+    /// <summary>
+    ///  Unused
+    /// </summary>
+    protected override void OnExit() {}
 }

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Stein
   m_EditorClassIdentifier: 
   priority: 0
-  isFrictionEnabled: 0
   friction: 0
-  isForceEnabled: 1
   force: 1
+  maxMovementSpeed: 10
   canBeJumpedFrom: 1
+  jumpVelocity: 10

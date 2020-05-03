@@ -36,6 +36,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public bool duckInput { get; private set; }
     /// <summary>
+    ///  Is the look up input pressed
+    /// </summary>
+    public bool lookUpInput { get; private set; }
+    /// <summary>
     ///  Is the cast input pressed
     /// </summary>
     public bool castInput { get; private set; }
@@ -103,10 +107,23 @@ public class PlayerController : MonoBehaviour
      */ 
     void Update()
     {
+        // Convert vertical movement axis to duck and look up input
+        var verticalMovementInput = Input.GetAxisRaw(this.keyMappings.verticalMovement);
+        this.duckInput = false;
+        this.lookUpInput = false;
+
+        if (verticalMovementInput > 0)
+        {
+            this.duckInput = true;
+        }
+        else if (verticalMovementInput < 0)
+        {
+            this.lookUpInput = true;
+        }
+
         // Get the player Inputs and write them into the global variables
         this.movementInput = Input.GetAxisRaw(this.keyMappings.horizontalMovement);
         this.jumpInput = Input.GetKey(this.keyMappings.jump);
-        this.duckInput = Input.GetKey(this.keyMappings.duck);
         this.castInput = Input.GetKey(this.keyMappings.cast);
         this.cancelInput = Input.GetKey(this.keyMappings.cancel);
         this.waterElementInput = Input.GetKey(this.keyMappings.waterElement);

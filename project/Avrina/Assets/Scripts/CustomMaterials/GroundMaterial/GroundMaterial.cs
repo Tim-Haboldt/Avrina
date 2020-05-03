@@ -8,23 +8,31 @@ public class GroundMaterial: ScriptableObject
     /// </summary>
     public int priority;
     /// <summary>
-    ///  Is the friction variable defined and used
-    /// </summary>
-    public bool isFrictionEnabled;
-    /// <summary>
-    ///  Defines the friction of the material
-    /// </summary>
-    public float friction;
-    /// <summary>
-    ///  Is the force variable defined and used
-    /// </summary>
-    public bool isForceEnabled;
-    /// <summary>
     ///  Defines how much of the horizontal force will be applied each update tick
     /// </summary>
-    public float force;
+    public float acceleration;
+    /// <summary>
+    ///  What is the friction while the player is not giving any movement input
+    /// </summary>
+    public float frictionWhileNoInputGiven;
+    /// <summary>
+    ///  What is the friction while the player is moving
+    /// </summary>
+    public float frictionWhileMoving;
+    /// <summary>
+    ///  What is the frction while the player is turning
+    /// </summary>
+    public float frictionWhileTurning;
+    /// <summary>
+    ///  Smallest possible movement speed on the material
+    /// </summary>
+    public float smallestMovementBeforeStop;
     /// <summary>
     ///  Enables or disables jumping for this material
     /// </summary>
     public bool canBeJumpedFrom;
+    /// <summary>
+    ///  Is the start velocity of the jump
+    /// </summary>
+    public float jumpVelocity;
 }

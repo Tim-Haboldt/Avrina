@@ -46,9 +46,13 @@ public class StateManager : MonoBehaviour
      */
     public void ChangeState(PlayerState state)
     {
-        this.states[this.currentState].OnStateExit();
+        var previousState = this.states[this.currentState];
+        var nextState = this.states[state];
+
+        previousState.OnStateExit();
+        nextState.previousState = this.currentState;
+        nextState.OnStateEnter();
         this.currentState = state;
-        this.states[this.currentState].OnStateEnter();
 
         this.playerAnimation.TriggerState(state);
     }

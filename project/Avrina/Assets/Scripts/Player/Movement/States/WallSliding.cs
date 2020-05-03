@@ -72,19 +72,10 @@ public class WallSliding : StateInheritingAction
     protected override void PerformAction(ref Vector2 velocity)
     {
         float velocityY = velocity.y;
-        if (this.playerController.wallMaterial.isForceEnabled)
-        {
-            velocityY -= this.playerController.wallMaterial.force;
-        } else
-        {
-            velocityY -= this.defaultWallslidingForce;
-        }
+        velocityY -= this.playerController.wallMaterial.acceleration;
 
         float maxVelocity = this.maxWallslidingForce * -1;
-        if (this.playerController.wallMaterial.isFrictionEnabled)
-        {
-            maxVelocity *= 0.5f - this.playerController.wallMaterial.friction;
-        }
+        maxVelocity *= 0.5f - this.playerController.wallMaterial.friction;
 
         if (velocityY < maxVelocity)
         {
@@ -100,8 +91,6 @@ public class WallSliding : StateInheritingAction
     /// <param name="config">Stores all parameter regarding player movement</param>
     protected override void Setup(PlayerConfig config)
     {
-        this.defaultWallslidingForce = config.defaultWallslidingForce;
-        this.maxWallslidingForce = config.maxWallslidingSpeed;
     }
 
     /// <summary>

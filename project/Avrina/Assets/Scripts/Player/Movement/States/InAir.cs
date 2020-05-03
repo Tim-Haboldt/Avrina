@@ -6,7 +6,6 @@ public class InAir : State
     ///  If the player was jumping before the InAir state the AirJump state will not be triggered until the player is not pressing jump
     /// </summary>
     private bool holdingJump = false;
-
     /// <summary>
     ///  Name of the state is InAir
     /// </summary>
@@ -18,7 +17,6 @@ public class InAir : State
     {
         new Gravity(),
         new HorizontalMovement(),
-        new HorizontalFriction(),
     };
 
 
@@ -43,8 +41,14 @@ public class InAir : State
         }
         else if (this.playerController.jumpInput && !this.holdingJump)
         {
+            if (this.previousState == PlayerState.OnGround && Time.time - this.stateEnterTime < 0.15)
+            {
+                return PlayerState.Jumping;
+            }
+
             return PlayerState.AirJumping;
-        } else if (this.playerController.hasWallLeft && direction == -1 || this.playerController.hasWallRight && direction == 1)
+        }
+        else if (this.playerController.hasWallLeft && direction == -1 || this.playerController.hasWallRight && direction == 1)
         {
             return PlayerState.WallSliding;
         }

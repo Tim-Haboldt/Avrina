@@ -20,6 +20,14 @@ public abstract class State
     /// The order inside the actions can effect the gameplay.
     ///</summary>
     protected abstract Action[] actions { get; }
+    /// <summary>
+    ///  Stores the time when the state was entered
+    /// </summary>
+    protected float stateEnterTime { get; private set; }
+    /// <summary>
+    ///  What was the state before this state
+    /// </summary>
+    public PlayerState previousState { protected get; set; }
 
     /// <summary>
     ///  Sets the player controller
@@ -54,6 +62,8 @@ public abstract class State
      */
     public virtual void OnStateEnter()
     {
+        this.stateEnterTime = Time.time;
+
         foreach (Action action in this.actions)
         {
             action.OnEnter();

@@ -48,7 +48,7 @@ public class PlayerAnimation : MonoBehaviour
     /// </summary>
     void Update()
     {
-        float movementInput = this.playerController.movementInput;
+        /*float movementInput = this.playerController.movementInput;
         float movementAbs = Mathf.Abs(movementInput);
 
         if (movementAbs > 0)
@@ -58,7 +58,7 @@ public class PlayerAnimation : MonoBehaviour
 
         this.animator.SetFloat("X", movementAbs);
         this.animator.SetBool("isRunning", this.rb.velocity.x >= runningVelocity);
-        this.animator.SetBool("isFalling", this.playerController.onGround);
+        this.animator.SetBool("isFalling", this.playerController.onGround);*/
     }
 
     /// <summary>
