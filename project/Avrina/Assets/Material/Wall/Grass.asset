@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Grass
   m_EditorClassIdentifier: 
   priority: 0
-  isFrictionEnabled: 0
-  friction: 0
-  isForceEnabled: 0
-  force: 0
+  friction: 0.3
   canBeJumpedFrom: 1
-  canBeClimedOn: 0
+  startJumpVelocityX: 0
+  startJumpVelocityY: 0
+  canBeClimedOn: 1
+  acceleration: 5
+  frictionWhileMovingUp: 0.6
+  frictionWhileMovingDown: 0.2

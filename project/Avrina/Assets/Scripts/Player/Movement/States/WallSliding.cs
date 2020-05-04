@@ -3,21 +3,17 @@
 public class WallSliding : StateInheritingAction
 {
     /// <summary>
-    ///  What is the speed of the player sliding down the wall
-    /// </summary>
-    private float defaultWallslidingForce;
-    /// <summary>
-    ///  What is the maximal speed of the player sliding down the wall
-    /// </summary>
-    private float maxWallslidingForce;
-    /// <summary>
     ///  Stores if the player was holding jump before the state was entered
     /// </summary>
     private bool holdingJump;
     /// <summary>
+    ///  What is the gravitation
+    /// </summary>
+    private float gravity;
+    /// <summary>
     ///  Stores the direction of the wall
     /// </summary>
-    private WallslidingDirection dir;
+    private WallslidingDirection direction;
     /// <summary>
     ///  The name of the state is Wallsliding
     /// </summary>
@@ -38,21 +34,28 @@ public class WallSliding : StateInheritingAction
     /// <returns>New state. Default is the same state</returns>
     public override PlayerState Update()
     {
-        var direction = this.playerController.movementInput;
-        if (direction != 0)
+        if (this.direction == WallslidingDirection.Unknown)
         {
-            direction = Mathf.Sign(direction);
+            return PlayerState.InAir;
+        }
+
+        var inputDirection = this.playerController.movementInput;
+        if (inputDirection != 0)
+        {
+            inputDirection = Mathf.Sign(inputDirection);
         }
 
         if (this.playerController.onGround)
         {
             return PlayerState.OnGround;
-        } else if (this.playerController.jumpInput && !this.holdingJump && this.playerController.wallMaterial.canBeJumpedFrom)
+        }
+        else if (this.playerController.jumpInput && !this.holdingJump && this.playerController.wallMaterial.canBeJumpedFrom)
         {
             return PlayerState.WallJumping;
         }
-        else if (!(this.dir == WallslidingDirection.Left && this.playerController.hasWallLeft && direction == -1)
-            && !(this.dir == WallslidingDirection.Right && this.playerController.hasWallRight && direction == 1))
+        else if (!(this.direction == WallslidingDirection.Left && this.playerController.hasWallLeft && inputDirection == -1)
+            && !(this.direction == WallslidingDirection.Right && this.playerController.hasWallRight && inputDirection == 1)
+            || this.playerController.duckInput && !this.playerController.wallMaterial.canBeClimedOn)
         {
             return PlayerState.InAir;
         }
@@ -71,45 +74,57 @@ public class WallSliding : StateInheritingAction
     /// <param name="velocity"></param>
     protected override void PerformAction(ref Vector2 velocity)
     {
-        float velocityY = velocity.y;
-        velocityY -= this.playerController.wallMaterial.acceleration;
+        var wallMaterial = this.playerController.wallMaterial;
+        var newVelocityY = velocity.y;
 
-        float maxVelocity = this.maxWallslidingForce * -1;
-        maxVelocity *= 0.5f - this.playerController.wallMaterial.friction;
-
-        if (velocityY < maxVelocity)
+        if (wallMaterial.canBeClimedOn)
         {
-            velocityY = maxVelocity;
+            if (this.playerController.duckInput)
+            {
+                newVelocityY -= wallMaterial.acceleration + newVelocityY * wallMaterial.frictionWhileMovingDown;
+            }
+            else if (this.playerController.lookUpInput)
+            {
+                newVelocityY += wallMaterial.acceleration - newVelocityY * wallMaterial.frictionWhileMovingUp;
+            }
+            else
+            {
+                newVelocityY -= newVelocityY * wallMaterial.friction;
+            }
+        }
+        else
+        {
+            newVelocityY -= this.gravity * wallMaterial.friction;
         }
 
-        velocity = new Vector2(velocity.x, velocityY);
+        velocity = new Vector2(velocity.x, newVelocityY);
     }
 
     /// <summary>
-    ///  Reads and sets the wallslide speed of the player from the config
+    ///  Reads the gravitation from the config
     /// </summary>
     /// <param name="config">Stores all parameter regarding player movement</param>
     protected override void Setup(PlayerConfig config)
     {
+        this.gravity = config.gravity;
     }
 
     /// <summary>
-    ///  Sets the direction of the wallslide and sets the vertial movement to zero
+    ///  Reads the wallslide directions and resets the vertical player movement if the player can climb
     /// </summary>
     protected override void OnEnter()
     {
-        // Set the current horizontal movement to zero
-        this.rigidbody.velocity = new Vector2(this.rigidbody.velocity.x, 0);
-
         if (this.playerController.hasWallRight)
         {
-            this.dir = WallslidingDirection.Right;
-        } else if (this.playerController.hasWallLeft)
+            this.direction = WallslidingDirection.Right;
+        }
+        else if (this.playerController.hasWallLeft)
         {
-            this.dir = WallslidingDirection.Left;
-        } else
+            this.direction = WallslidingDirection.Left;
+        }
+        else
         {
-            this.dir = WallslidingDirection.Unknown;
+            this.direction = WallslidingDirection.Unknown;
         }
 
         if (this.playerController.jumpInput)

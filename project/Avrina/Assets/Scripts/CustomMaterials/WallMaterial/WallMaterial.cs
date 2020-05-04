@@ -12,27 +12,31 @@ public class WallMaterial : ScriptableObject
     /// </summary>
     public float friction;
     /// <summary>
-    ///  Defines how much of the vertical force will be applied each update tick
-    /// </summary>
-    public float acceleration;
-    /// <summary>
-    ///  How fast can the player glide on this material
-    /// </summary>
-    public float maxGlideSpeed;
-    /// <summary>
     ///  Enables or disables jumping for this material
     /// </summary>
     public bool canBeJumpedFrom;
     /// <summary>
     ///  Is the start velocity in the horizontal direction
     /// </summary>
-    public float startVelocityX;
+    public float startJumpVelocityX;
     /// <summary>
     ///  Is the start velocity in the vertical direction
     /// </summary>
-    public float startVelocityY;
+    public float startJumpVelocityY;
     /// <summary>
     ///  Can be climed on
     /// </summary>
     public bool canBeClimedOn;
+    /// <summary>
+    ///  What is the acceleration of the player object while climbing
+    /// </summary>
+    public float acceleration;
+    /// <summary>
+    ///  Changes the friction while the player is moving up
+    /// </summary>
+    public float frictionWhileMovingUp;
+    /// <summary>
+    ///  Changes the friction while the player is moving down
+    /// </summary>
+    public float frictionWhileMovingDown;
 }

@@ -114,11 +114,11 @@ public class PlayerController : MonoBehaviour
 
         if (verticalMovementInput > 0)
         {
-            this.duckInput = true;
+            this.lookUpInput = true;
         }
         else if (verticalMovementInput < 0)
         {
-            this.lookUpInput = true;
+            this.duckInput = true;
         }
 
         // Get the player Inputs and write them into the global variables
