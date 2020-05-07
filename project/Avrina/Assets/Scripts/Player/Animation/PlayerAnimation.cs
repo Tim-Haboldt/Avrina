@@ -48,17 +48,17 @@ public class PlayerAnimation : MonoBehaviour
     /// </summary>
     void Update()
     {
-        /*float movementInput = this.playerController.movementInput;
+        float movementInput = this.playerController.movementInput;
         float movementAbs = Mathf.Abs(movementInput);
 
         if (movementAbs > 0)
         {
-            this.spriteRenderer.flipX = Mathf.Sign(movementInput) == -1;
+            this.spriteRenderer.flipX = Mathf.Sign(movementInput) == 1;
         }
 
         this.animator.SetFloat("X", movementAbs);
-        this.animator.SetBool("isRunning", this.rb.velocity.x >= runningVelocity);
-        this.animator.SetBool("isFalling", this.playerController.onGround);*/
+        this.animator.SetBool("isRunning", false);
+        this.animator.SetBool("isFalling", this.playerController.onGround);
     }
 
     /// <summary>

@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Ice
   m_EditorClassIdentifier: 
   priority: 0
-  isFrictionEnabled: 1
-  friction: -1
-  isForceEnabled: 0
-  force: 0
-  canBeJumpedFrom: 1
+  friction: 0.2
+  canBeJumpedFrom: 0
+  startJumpVelocityX: 0
+  startJumpVelocityY: 0
   canBeClimedOn: 0
+  acceleration: 0
+  frictionWhileMovingUp: 0
+  frictionWhileMovingDown: 0

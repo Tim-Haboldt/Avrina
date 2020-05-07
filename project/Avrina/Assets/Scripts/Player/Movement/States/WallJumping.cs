@@ -3,29 +3,17 @@
 public class WallJumping : StateInheritingAction
 {
     /// <summary>
-    ///  How much velocity will be added each update tick on the vertical axis
-    /// </summary>
-    private float wallJumpVelocityY;
-    /// <summary>
-    ///  How much velocity will be added each update tick on the horizontal axis
-    /// </summary>
-    private float wallJumpVelocityX;
-    /// <summary>
-    ///  How long does the walljump have to at least take
-    /// </summary>
-    private float wallJumpMinDuration;
-    /// <summary>
     ///  How long does the walljump can last
     /// </summary>
     private float wallJumpMaxDuration;
     /// <summary>
+    ///  Lowers the gravity during the jump
+    /// </summary>
+    private float gravityDuringJump;
+    /// <summary>
     ///  Start time of the air jump
     /// </summary>
     private float startTime;
-    /// <summary>
-    ///  Sets the direction of the jump
-    /// </summary>
-    private WallslidingDirection jumpDirection;
     /// <summary>
     ///  The name of the state is Walljumping
     /// </summary>
@@ -35,7 +23,7 @@ public class WallJumping : StateInheritingAction
     /// </summary>
     protected override Action[] actions { get; } = new Action[] 
     {
-        new HorizontalMovement(),
+        new HorizontalAirMovement(),
     };
 
 
@@ -47,7 +35,7 @@ public class WallJumping : StateInheritingAction
     {
         var passedTime = Time.time - this.startTime;
 
-        if ((passedTime >= this.wallJumpMinDuration && !this.playerController.jumpInput) || passedTime >= this.wallJumpMaxDuration)
+        if ((!this.playerController.jumpInput) || passedTime >= this.wallJumpMaxDuration)
         {
             return PlayerState.Immobile;
         }
@@ -61,21 +49,17 @@ public class WallJumping : StateInheritingAction
     /// <param name="velocity"></param>
     protected override void PerformAction(ref Vector2 velocity)
     {
-        var direction = 1f;
-        if (this.jumpDirection == WallslidingDirection.Right)
-        {
-            direction = -1f;
-        }
-
-        velocity = new Vector2(this.wallJumpVelocityX * direction, this.wallJumpVelocityY);
+        velocity = new Vector2(velocity.x, velocity.y - this.gravityDuringJump);
     }
 
     /// <summary>
-    ///  Reads some values from the config and stores them locally
+    ///  Reads some values from the config
     /// </summary>
     /// <param name="config"></param>
     protected override void Setup(PlayerConfig config)
     {
+        this.wallJumpMaxDuration = config.maxJumpDuration;
+        this.gravityDuringJump = config.gravityDuringJump;
     }
 
     /// <summary>
@@ -84,14 +68,11 @@ public class WallJumping : StateInheritingAction
     protected override void OnEnter()
     {
         this.startTime = Time.time;
-        
-        if (this.playerController.movementInput > 0)
-        {
-            this.jumpDirection = WallslidingDirection.Right;
-        } else
-        {
-            this.jumpDirection = WallslidingDirection.Left;
-        }
+
+        var wallMaterial = this.playerController.wallMaterial;
+        var direction = Mathf.Sign(this.playerController.movementInput) * -1;
+
+        this.rigidbody.velocity = new Vector2(wallMaterial.startJumpVelocityX * direction, wallMaterial.startJumpVelocityY);
     }
 
     /// <summary>

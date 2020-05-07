@@ -20,10 +20,6 @@ public struct PlayerConfig
     /// </summary>
     public float maxJumpDuration;
     /// <summary>
-    ///  If the ground is farther away then the max distance the player will not be clipped on the ground
-    /// </summary>
-    public float maxGroundDistance;
-    /// <summary>
     ///  What is the layer mask of the ground objects
     /// </summary>
     public LayerMask groundMask;

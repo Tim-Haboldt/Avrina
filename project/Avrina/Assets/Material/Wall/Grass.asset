@@ -16,8 +16,8 @@ MonoBehaviour:
   friction: 0.3
   canBeJumpedFrom: 1
   startJumpVelocityX: 0
-  startJumpVelocityY: 0
+  startJumpVelocityY: 20
   canBeClimedOn: 1
   acceleration: 5
   frictionWhileMovingUp: 0.6
-  frictionWhileMovingDown: 0.2
+  frictionWhileMovingDown: 0.3

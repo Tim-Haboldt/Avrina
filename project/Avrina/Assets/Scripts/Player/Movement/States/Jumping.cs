@@ -28,7 +28,7 @@ public class Jumping : StateInheritingAction
     /// </summary>
     protected override Action[] actions { get; } = new Action[]
     {
-        new HorizontalMovement(),
+        new HorizontalAirMovement(),
     };
 
     /// <summary>

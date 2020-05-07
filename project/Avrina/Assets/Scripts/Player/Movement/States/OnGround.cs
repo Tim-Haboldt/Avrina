@@ -7,13 +7,13 @@ public class OnGround : StateInheritingAction
     /// </summary>
     private bool holdingJump = false;
     /// <summary>
-    ///  If the ground is farther away then the max distance the player will not be clipped on the ground
-    /// </summary>
-    private float maxGroundDistance;
-    /// <summary>
     ///  What is the mask of the ground objects
     /// </summary>
     private LayerMask groundMask;
+    /// <summary>
+    ///  Stores the last ground position before the player left the ground.
+    /// </summary>
+    private Vector2 lastGroundPosition;
 
     ///<summary>
     /// Name of the state is onGround
@@ -24,7 +24,7 @@ public class OnGround : StateInheritingAction
     /// </summary>
     protected override Action[] actions { get; } = new Action[]
     {
-        new HorizontalMovement(),
+        new HorizontalGroundMovement(),
     };
 
 
@@ -35,25 +35,13 @@ public class OnGround : StateInheritingAction
     protected override void Setup(PlayerConfig config)
     {
         this.groundMask = config.groundMask;
-        this.maxGroundDistance = config.maxGroundDistance;
     }
 
     /// <summary>
-    ///  Sets the player to the groun dall the time
+    ///  Unused for now
     /// </summary>
     /// <param name="velocity"></param>
-    protected override void PerformAction(ref Vector2 velocity)
-    {
-        velocity = new Vector2(velocity.x, 0);
-
-        var playerPosition = this.rigidbody.transform.position;
-        RaycastHit2D hit = Physics2D.Raycast(playerPosition, -Vector2.up, this.maxGroundDistance, this.groundMask);
-
-        if (hit.collider != null) {
-            float distance = Mathf.Abs(hit.point.y - playerPosition.y);
-            playerPosition.y -= distance;
-        }
-    }
+    protected override void PerformAction(ref Vector2 velocity) {}
 
     /// <summary>
     ///  Returns the Jumping state if the jump input is pressed.
@@ -62,13 +50,34 @@ public class OnGround : StateInheritingAction
     /// <returns></returns>
     public override PlayerState Update()
     {
+        var movementInput = this.playerController.movementInput;
+
         if (this.playerController.jumpInput && !this.holdingJump && this.playerController.groundMaterial.canBeJumpedFrom)
         {
             return PlayerState.Jumping;
         }
         else if (!this.playerController.onGround)
         {
+            Vector2 groundPos;
+            if (this.getCurrentGroundPosition(out groundPos))
+            {
+                var distance = Vector2.Distance(this.lastGroundPosition, groundPos);
+                Debug.Log(distance);
+                if (distance < 1)
+                {
+                    this.lastGroundPosition = groundPos;
+
+                    return this.name;
+                }
+            }
+
             return PlayerState.InAir;
+        }
+        else if ((movementInput > 0 && this.playerController.hasWallRight
+            || movementInput < 0 && this.playerController.hasWallLeft)
+            && this.playerController.wallMaterial.canBeClimedOn)
+        {
+            return PlayerState.WallSliding;
         }
 
         if (this.holdingJump && !this.playerController.jumpInput)
@@ -77,6 +86,29 @@ public class OnGround : StateInheritingAction
         }
 
         return this.name;
+    }
+
+    /// <summary>
+    ///  Gets the current ground position
+    /// </summary>
+    /// <returns></returns>
+    private bool getCurrentGroundPosition(out Vector2 groundPos)
+    {
+        var capsuleCollider = this.playerController.transform.gameObject.GetComponent<CapsuleCollider2D>();
+        var position = capsuleCollider.bounds.center;
+        var halfSizeY = capsuleCollider.bounds.size.y * 0.5f;
+
+        var playerBottom = new Vector2(position.x, position.y - halfSizeY);
+
+        RaycastHit2D hit = Physics2D.Raycast(playerBottom, Vector2.down, 5, this.groundMask);
+        if (hit.collider != null)
+        {
+            groundPos = hit.point;
+            return true;
+        }
+
+        groundPos = new Vector2(0, 0);
+        return false;
     }
 
     /// <summary>
