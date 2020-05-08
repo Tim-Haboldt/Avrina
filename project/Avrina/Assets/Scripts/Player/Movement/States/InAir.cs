@@ -39,6 +39,20 @@ public class InAir : State
         {
             return PlayerState.OnGround;
         }
+        else if (this.playerController.hasWallLeft && direction == -1 || this.playerController.hasWallRight && direction == 1)
+        {
+            if (this.rigidbody.velocity.y > 0)
+            {
+                if (this.playerController.jumpInput && !this.holdingJump)
+                {
+                    return PlayerState.AirJumping;
+                }
+            }
+            else
+            {
+                return PlayerState.WallSliding;
+            }
+        }
         else if (this.playerController.jumpInput && !this.holdingJump)
         {
             if (this.previousState == PlayerState.OnGround && Time.time - this.stateEnterTime < 0.15)
@@ -47,10 +61,6 @@ public class InAir : State
             }
 
             return PlayerState.AirJumping;
-        }
-        else if (this.playerController.hasWallLeft && direction == -1 || this.playerController.hasWallRight && direction == 1)
-        {
-            return PlayerState.WallSliding;
         }
 
         if (this.holdingJump && !this.playerController.jumpInput)
@@ -68,9 +78,6 @@ public class InAir : State
     {
         base.OnStateEnter();
 
-        if (this.playerController.jumpInput)
-        {
-            this.holdingJump = true;
-        }
+        this.holdingJump = this.playerController.jumpInput;
     }
 }

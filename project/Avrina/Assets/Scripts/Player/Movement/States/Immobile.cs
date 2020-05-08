@@ -3,6 +3,10 @@
 public class Immobile : State
 {
     /// <summary>
+    ///  If the player was jumping before the InAir state the AirJump state will not be triggered until the player is not pressing jump
+    /// </summary>
+    private bool holdingJump = false;
+    /// <summary>
     ///  The name of the state is immobile
     /// </summary>
     public override PlayerState name { get; } = PlayerState.Immobile;
@@ -34,9 +38,29 @@ public class Immobile : State
         }
         else if (this.playerController.hasWallLeft && direction == -1 || this.playerController.hasWallRight && direction == 1)
         {
-            return PlayerState.WallSliding;
+            if (this.rigidbody.velocity.y > 0)
+            {
+                if (this.playerController.jumpInput && !this.holdingJump)
+                {
+                    return PlayerState.AirJumping;
+                }
+            }
+            else
+            {
+                return PlayerState.WallSliding;
+            }
         }
 
         return this.name;
+    }
+
+    /// <summary>
+    ///  Stores if the jump input was pressed while the state was entered
+    /// </summary>
+    public override void OnStateEnter()
+    {
+        base.OnStateEnter();
+
+        this.holdingJump = playerController.jumpInput;
     }
 }

@@ -1303,7 +1303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab3c69f50d1ea64db39e9feb8d527e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runningVelocity: 6
+  runningVelocity: 4
 --- !u!1 &713373658
 GameObject:
   m_ObjectHideFlags: 0
@@ -1774,6 +1774,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3978996698424449669, guid: 74e6eff02e65c3549824f48d13d20b34,
+        type: 3}
+      propertyPath: groundMaterial
+      value: 
+      objectReference: {fileID: 11400000, guid: 23b4cd22ec7a06246a1c9338a16fc5f6,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74e6eff02e65c3549824f48d13d20b34, type: 3}
 --- !u!1 &1140883494
@@ -6651,7 +6657,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1214011557}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f6f639b1261140469d75eb1ae2b04f8, type: 3}
   m_Name: 
@@ -8234,6 +8240,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 270
       objectReference: {fileID: 0}
+    - target: {fileID: 8341751727554773714, guid: 060f8201ad4365843bae8a877fb7ec56,
+        type: 3}
+      propertyPath: wallMaterial
+      value: 
+      objectReference: {fileID: 11400000, guid: e9e7bda578b6a884ea0d46d24efa61ac,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 060f8201ad4365843bae8a877fb7ec56, type: 3}
 --- !u!1001 &1944568833343678380

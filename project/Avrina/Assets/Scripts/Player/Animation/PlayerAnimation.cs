@@ -57,7 +57,7 @@ public class PlayerAnimation : MonoBehaviour
         }
 
         this.animator.SetFloat("X", movementAbs);
-        this.animator.SetBool("isRunning", false);
+        this.animator.SetBool("isRunning", Mathf.Abs(this.rb.velocity.x) > this.runningVelocity);
         this.animator.SetBool("isFalling", this.playerController.onGround);
     }
 

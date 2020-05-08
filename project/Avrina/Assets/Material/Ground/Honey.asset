@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3182e373007b864780f6d6e0081cbd1, type: 3}
-  m_Name: Grass
+  m_Name: Honey
   m_EditorClassIdentifier: 
-  priority: 1
-  acceleration: 4
-  frictionWhileNoInputGiven: 0.3
-  frictionWhileMoving: 0.17
-  frictionWhileTurning: 0.4
-  smallestMovementBeforeStop: 0.04
-  canBeJumpedFrom: 1
-  jumpVelocity: 20
+  priority: 0
+  acceleration: 3
+  frictionWhileNoInputGiven: 1
+  frictionWhileMoving: 0.8
+  frictionWhileTurning: 0.7
+  smallestMovementBeforeStop: 0
+  canBeJumpedFrom: 0
+  jumpVelocity: 0
