@@ -18,7 +18,7 @@ public class Gravity : Action
      * </summary>
      * <param name="velocity">The gravity is applyed to</param>
      */ 
-    public void PerformAction(ref Vector2 velocity, PlayerController playerController)
+    public void PerformAction(ref Vector2 velocity, InputController inputController)
     {
         velocity.y -= this.gravity;
         if (velocity.y < this.maxGravityVelocitry * -1)

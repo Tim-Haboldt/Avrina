@@ -1,90 +1,86 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public abstract class InputController : MonoBehaviour
 {
     /// <summary>
     ///  Left wall trigger. Stores the information about all close wall to the left of the player
     /// </summary>
-    [SerializeField] private PlayerCollider wallSlideColliderLeft;
+    [SerializeField] protected PlayerCollider wallSlideColliderLeft;
     /// <summary>
     ///  Right wall trigger. Stores the information about all close wall to the right of the player
     /// </summary>
-    [SerializeField] private PlayerCollider wallSlideColliderRight;
+    [SerializeField] protected PlayerCollider wallSlideColliderRight;
     /// <summary>
     ///  Ground trigger. Stores the information about all ground colliders the player is staying on
     /// </summary>
-    [SerializeField] private PlayerCollider onGroundCollider;
+    [SerializeField] protected PlayerCollider onGroundCollider;
     /// <summary>
     ///  What is the mask of the ground or wall objects
     /// </summary>
-    [SerializeField] private LayerMask groundMask;
-    /// <summary>
-    ///  Stores all keymappings of the player controller
-    /// </summary>
-    [SerializeField] private KeyMappings keyMappings;
+    [SerializeField] protected LayerMask groundMask;
     /// <summary>
     ///  Stores the current movement input
     /// </summary>
-    public float movementInput { get; private set; }
+    public float movementInput { get; protected set; }
     /// <summary>
     ///  Is the jump input pressed
     /// </summary>
-    public bool jumpInput { get; private set; }
+    public bool jumpInput { get; protected set; }
     /// <summary>
     ///  Is the duck input pressed
     /// </summary>
-    public bool duckInput { get; private set; }
+    public bool duckInput { get; protected set; }
     /// <summary>
     ///  Is the look up input pressed
     /// </summary>
-    public bool lookUpInput { get; private set; }
+    public bool lookUpInput { get; protected set; }
     /// <summary>
     ///  Is the cast input pressed
     /// </summary>
-    public bool castInput { get; private set; }
+    public bool castInput { get; protected set; }
     /// <summary>
     ///  Is the cancel input pressed
     /// </summary>
-    public bool cancelInput { get; private set; }
+    public bool cancelInput { get; protected set; }
     /// <summary>
     ///  Is the water element input pressed
     /// </summary>
-    public bool waterElementInput { get; private set; }
+    public bool waterElementInput { get; protected set; }
     /// <summary>
     ///  Is the fire element input pressed
     /// </summary>
-    public bool fireElementInput { get; private set; }
+    public bool fireElementInput { get; protected set; }
     /// <summary>
     ///  Is the earth element input pressed
     /// </summary>
-    public bool earthElementInput { get; private set; }
+    public bool earthElementInput { get; protected set; }
     /// <summary>
     ///  Is the air element input pressed
     /// </summary>
-    public bool airElementInput { get; private set; }
+    public bool airElementInput { get; protected set; }
     /// <summary>
     ///  Stores the information if the player is touching the ground
     /// </summary>
-    public bool onGround { get; private set; }
+    public bool onGround { get; protected set; }
     /// <summary>
     ///  Stores the information if a wall is on the left side of the player
     /// </summary>
-    public bool hasWallLeft { get; private set; }
+    public bool hasWallLeft { get; protected set; }
     /// <summary>
     ///  Stores the information if a wall is on the right side of the player
     /// </summary>
-    public bool hasWallRight { get; private set; }
+    public bool hasWallRight { get; protected set; }
     /// <summary>
     ///  Stores the information what material the ground object has the player is staying on.
     ///  If the player is not on ground the variable is null
     /// </summary>
-    public GroundMaterial groundMaterial { get; private set; }
+    public GroundMaterial groundMaterial { get; protected set; }
     /// <summary>
     ///  Stores the information what material the wall object has the player is wallsliding on.
     ///  If the player is not wallsliding the variable is null
     /// </summary>
-    public WallMaterial wallMaterial { get; private set; }
+    public WallMaterial wallMaterial { get; protected set; }
 
 
     /**
@@ -92,7 +88,7 @@ public class PlayerController : MonoBehaviour
      *  Will be called at the start of the game.
      *  Sets the masks of the colliders.
      * </summary>
-     */ 
+     */
     private void Start()
     {
         this.onGroundCollider.mask = this.groundMask;
@@ -100,37 +96,11 @@ public class PlayerController : MonoBehaviour
         this.wallSlideColliderRight.mask = this.groundMask;
     }
 
-    /**
-     * <summary>
-     *  Will check for all inputs and updates them.
-     * </summary>
-     */ 
-    void Update()
+    /// <summary>
+    ///  Udpates all collider states
+    /// </summary>
+    protected void ColliderUpdate()
     {
-        // Convert vertical movement axis to duck and look up input
-        var verticalMovementInput = Input.GetAxisRaw(this.keyMappings.verticalMovement);
-        this.duckInput = false;
-        this.lookUpInput = false;
-
-        if (verticalMovementInput > 0)
-        {
-            this.lookUpInput = true;
-        }
-        else if (verticalMovementInput < 0)
-        {
-            this.duckInput = true;
-        }
-
-        // Get the player Inputs and write them into the global variables
-        this.movementInput = Input.GetAxisRaw(this.keyMappings.horizontalMovement);
-        this.jumpInput = Input.GetKey(this.keyMappings.jump);
-        this.castInput = Input.GetKey(this.keyMappings.cast);
-        this.cancelInput = Input.GetKey(this.keyMappings.cancel);
-        this.waterElementInput = Input.GetKey(this.keyMappings.waterElement);
-        this.fireElementInput = Input.GetKey(this.keyMappings.fireElement);
-        this.earthElementInput = Input.GetKey(this.keyMappings.earthElement);
-        this.airElementInput = Input.GetKey(this.keyMappings.airElement);
-
         // Update all colliding states
         this.onGround = this.onGroundCollider.isTriggered;
         this.hasWallLeft = this.wallSlideColliderLeft.isTriggered;
@@ -173,7 +143,8 @@ public class PlayerController : MonoBehaviour
         if (this.hasWallLeft)
         {
             colliders = this.wallSlideColliderLeft.colliders;
-        } else
+        }
+        else
         {
             colliders = this.wallSlideColliderRight.colliders;
         }

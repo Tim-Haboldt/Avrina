@@ -10,7 +10,7 @@ public abstract class State
     /// <summary>
     ///  Handels all key inputs and collisions
     /// </summary>
-    protected PlayerController playerController { private set; get; }
+    protected InputController inputController { private set; get; }
     /// <summary>
     ///  Rigidbody of the player. Can be used to change position in more detail. Don`t use it everywhere.
     /// </summary>
@@ -34,9 +34,9 @@ public abstract class State
     /// </summary>
     /// <param name="playerController">Used to get all inputs and collisions</param>
     /// <param name="rb">Can be used to modify the player position in more detail.</param>
-    public void Init(PlayerController playerController, Rigidbody2D rb)
+    public void Init(InputController inputController, Rigidbody2D rb)
     {
-        this.playerController = playerController;
+        this.inputController = inputController;
         this.rigidbody = rb;
     }
 
@@ -89,7 +89,7 @@ public abstract class State
     {
         foreach (Action action in this.actions)
         {
-            action.PerformAction(ref velocity, this.playerController);
+            action.PerformAction(ref velocity, this.inputController);
         }
     }
 

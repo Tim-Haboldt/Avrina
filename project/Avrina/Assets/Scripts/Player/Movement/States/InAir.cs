@@ -29,21 +29,21 @@ public class InAir : State
      */ 
     public override PlayerState Update()
     {
-        var direction = this.playerController.movementInput;
+        var direction = this.inputController.movementInput;
         if (direction != 0)
         {
             direction = Mathf.Sign(direction);
         }
 
-        if (this.playerController.onGround)
+        if (this.inputController.onGround)
         {
             return PlayerState.OnGround;
         }
-        else if (this.playerController.hasWallLeft && direction == -1 || this.playerController.hasWallRight && direction == 1)
+        else if (this.inputController.hasWallLeft && direction == -1 || this.inputController.hasWallRight && direction == 1)
         {
             if (this.rigidbody.velocity.y > 0)
             {
-                if (this.playerController.jumpInput && !this.holdingJump)
+                if (this.inputController.jumpInput && !this.holdingJump)
                 {
                     return PlayerState.AirJumping;
                 }
@@ -53,7 +53,7 @@ public class InAir : State
                 return PlayerState.WallSliding;
             }
         }
-        else if (this.playerController.jumpInput && !this.holdingJump)
+        else if (this.inputController.jumpInput && !this.holdingJump)
         {
             if (this.previousState == PlayerState.OnGround && Time.time - this.stateEnterTime < 0.15)
             {
@@ -63,7 +63,7 @@ public class InAir : State
             return PlayerState.AirJumping;
         }
 
-        if (this.holdingJump && !this.playerController.jumpInput)
+        if (this.holdingJump && !this.inputController.jumpInput)
         {
             this.holdingJump = false;
         }
@@ -78,6 +78,6 @@ public class InAir : State
     {
         base.OnStateEnter();
 
-        this.holdingJump = this.playerController.jumpInput;
+        this.holdingJump = this.inputController.jumpInput;
     }
 }

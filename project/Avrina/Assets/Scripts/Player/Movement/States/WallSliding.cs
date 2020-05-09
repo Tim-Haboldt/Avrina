@@ -39,34 +39,34 @@ public class WallSliding : StateInheritingAction
             return PlayerState.InAir;
         }
 
-        var inputDirection = this.playerController.movementInput;
+        var inputDirection = this.inputController.movementInput;
         if (inputDirection != 0)
         {
             inputDirection = Mathf.Sign(inputDirection);
         }
 
 
-        var wallMaterial = this.playerController.wallMaterial;
+        var wallMaterial = this.inputController.wallMaterial;
         if (wallMaterial == null)
         {
             return PlayerState.InAir;
         }
-        else if (this.playerController.onGround && !wallMaterial.canBeClimedOn)
+        else if (this.inputController.onGround && !wallMaterial.canBeClimedOn)
         {
             return PlayerState.OnGround;
         }
-        else if (this.playerController.jumpInput && !this.holdingJump && wallMaterial.canBeJumpedFrom)
+        else if (this.inputController.jumpInput && !this.holdingJump && wallMaterial.canBeJumpedFrom)
         {
             return PlayerState.WallJumping;
         }
-        else if (!(this.direction == WallslidingDirection.Left && this.playerController.hasWallLeft && inputDirection == -1)
-            && !(this.direction == WallslidingDirection.Right && this.playerController.hasWallRight && inputDirection == 1)
-            || this.playerController.duckInput && !wallMaterial.canBeClimedOn)
+        else if (!(this.direction == WallslidingDirection.Left && this.inputController.hasWallLeft && inputDirection == -1)
+            && !(this.direction == WallslidingDirection.Right && this.inputController.hasWallRight && inputDirection == 1)
+            || this.inputController.duckInput && !wallMaterial.canBeClimedOn)
         {
             return PlayerState.InAir;
         }
 
-        if (this.holdingJump && !this.playerController.jumpInput)
+        if (this.holdingJump && !this.inputController.jumpInput)
         {
             this.holdingJump = false;
         }
@@ -80,7 +80,7 @@ public class WallSliding : StateInheritingAction
     /// <param name="velocity"></param>
     protected override void PerformAction(ref Vector2 velocity)
     {
-        var wallMaterial = this.playerController.wallMaterial;
+        var wallMaterial = this.inputController.wallMaterial;
         if (wallMaterial == null)
         {
             return;
@@ -91,11 +91,11 @@ public class WallSliding : StateInheritingAction
 
         if (wallMaterial.canBeClimedOn)
         {
-            if (this.playerController.duckInput)
+            if (this.inputController.duckInput)
             {
                 newVelocityY -= wallMaterial.acceleration + newVelocityY * wallMaterial.frictionWhileMovingDown;
             }
-            else if (this.playerController.lookUpInput)
+            else if (this.inputController.lookUpInput)
             {
                 newVelocityY += wallMaterial.acceleration - newVelocityY * wallMaterial.frictionWhileMovingUp;
             }
@@ -126,11 +126,11 @@ public class WallSliding : StateInheritingAction
     /// </summary>
     protected override void OnEnter()
     {
-        if (this.playerController.hasWallRight)
+        if (this.inputController.hasWallRight)
         {
             this.direction = WallslidingDirection.Right;
         }
-        else if (this.playerController.hasWallLeft)
+        else if (this.inputController.hasWallLeft)
         {
             this.direction = WallslidingDirection.Left;
         }
@@ -139,7 +139,7 @@ public class WallSliding : StateInheritingAction
             this.direction = WallslidingDirection.Unknown;
         }
 
-        if (this.playerController.jumpInput)
+        if (this.inputController.jumpInput)
         {
             this.holdingJump = true;
         }

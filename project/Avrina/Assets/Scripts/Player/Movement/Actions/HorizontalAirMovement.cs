@@ -28,9 +28,9 @@ public class HorizontalAirMovement : Action
      * </example>
      * <param name="velocity">Used to modify the velocity of the player</param>
      */
-    public void PerformAction(ref Vector2 velocity, PlayerController playerController)
+    public void PerformAction(ref Vector2 velocity, InputController inputController)
     {
-        var movementInput = playerController.movementInput;
+        var movementInput = inputController.movementInput;
         var nextVelocityX = velocity.x;
 
         if (movementInput == 0)

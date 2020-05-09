@@ -17,10 +17,10 @@ public class HorizontalGroundMovement : Action
      * </example>
      * <param name="velocity">Used to modify the velocity of the player</param>
      */
-    public void PerformAction(ref Vector2 velocity, PlayerController playerController)
+    public void PerformAction(ref Vector2 velocity, InputController inputController)
     {
-        var movementInput = playerController.movementInput;
-        var groundMaterial = playerController.groundMaterial;
+        var movementInput = inputController.movementInput;
+        var groundMaterial = inputController.groundMaterial;
         if (groundMaterial == null)
         {
             return;
@@ -54,7 +54,7 @@ public class HorizontalGroundMovement : Action
         else
         {
             // Do not change from ground to air state if the last ground position height was close to the same as the next one even if the player is in the air.
-            var playerBottom = this.GetCenterOfPlayer(playerController, Vector2.down, 0.5f);
+            var playerBottom = this.GetCenterOfPlayer(inputController, Vector2.down, 0.5f);
             RaycastHit2D ground = Physics2D.Raycast(playerBottom, Vector2.down, 5, this.groundMask);
             var slopeAngle = 0f;
             if (ground.collider != null)
@@ -69,7 +69,7 @@ public class HorizontalGroundMovement : Action
             {
                 // The player is moving up a slope
                 var movementDirection = new Vector2(Mathf.Sign(nextMovementSpeed), 0);
-                var corner = this.GetCenterOfPlayer(playerController, movementDirection, 0.5f);
+                var corner = this.GetCenterOfPlayer(inputController, movementDirection, 0.5f);
                 RaycastHit2D nextGround = Physics2D.Raycast(corner, Vector2.down, 5, this.groundMask);
                 if (nextGround.collider != null)
                 {
@@ -92,7 +92,7 @@ public class HorizontalGroundMovement : Action
     /// <param name="direction">What is the direction of the offset</param>
     /// <param name="offset">How much is the center offset in the given direction</param>
     /// <returns></returns>
-    private Vector2 GetCenterOfPlayer(PlayerController controller, Vector2 direction, float offset)
+    private Vector2 GetCenterOfPlayer(InputController controller, Vector2 direction, float offset)
     {
         var capsuleCollider = controller.transform.gameObject.GetComponent<CapsuleCollider2D>();
         var position = capsuleCollider.bounds.center;

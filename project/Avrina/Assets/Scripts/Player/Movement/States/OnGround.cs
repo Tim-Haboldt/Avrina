@@ -27,27 +27,27 @@ public class OnGround : State
     /// <returns></returns>
     public override PlayerState Update()
     {
-        var movementInput = this.playerController.movementInput;
+        var movementInput = this.inputController.movementInput;
         
         if (
-            this.playerController.jumpInput && !this.holdingJump
-            && (this.playerController.groundMaterial == null || this.playerController.groundMaterial.canBeJumpedFrom)
+            this.inputController.jumpInput && !this.holdingJump
+            && (this.inputController.groundMaterial == null || this.inputController.groundMaterial.canBeJumpedFrom)
         ) {
             return PlayerState.Jumping;
         }
-        else if (!this.playerController.onGround)
+        else if (!this.inputController.onGround)
         {
             return PlayerState.InAir;
         }
         else if (
-            (movementInput > 0 && this.playerController.hasWallRight
-            || movementInput < 0 && this.playerController.hasWallLeft)
-            && this.playerController.wallMaterial.canBeClimedOn
+            (movementInput > 0 && this.inputController.hasWallRight
+            || movementInput < 0 && this.inputController.hasWallLeft)
+            && this.inputController.wallMaterial.canBeClimedOn
         ) {
             return PlayerState.WallSliding;
         }
 
-        if (this.holdingJump && !this.playerController.jumpInput)
+        if (this.holdingJump && !this.inputController.jumpInput)
         {
             this.holdingJump = false;
         }
@@ -62,7 +62,7 @@ public class OnGround : State
     {
         base.OnStateEnter();
 
-        if (this.playerController.jumpInput)
+        if (this.inputController.jumpInput)
         {
             this.holdingJump = true;
         }

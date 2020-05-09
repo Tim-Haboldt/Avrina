@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerAnimation))]
-[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(InputController))]
 public class StateManager : MonoBehaviour
 {
     /// <summary>
@@ -69,10 +69,10 @@ public class StateManager : MonoBehaviour
         this.rb = GetComponent<Rigidbody2D>();
         this.playerAnimation = GetComponent<PlayerAnimation>();
 
-        var playerController = GetComponent<PlayerController>();
+        var inputController = GetComponent<InputController>();
         foreach (State state in this.states.Values)
         {
-            state.Init(playerController, this.rb);
+            state.Init(inputController, this.rb);
         }
 
         this.ApplyConfig();

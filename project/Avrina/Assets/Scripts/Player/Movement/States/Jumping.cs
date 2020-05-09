@@ -48,7 +48,7 @@ public class Jumping : StateInheritingAction
     {
         var passedTime = Time.time - this.startTime;
 
-        if (!this.playerController.jumpInput || passedTime >= this.maxJumpDuration)
+        if (!this.inputController.jumpInput || passedTime >= this.maxJumpDuration)
         {
             return PlayerState.InAir;
         }
@@ -76,13 +76,13 @@ public class Jumping : StateInheritingAction
     protected override void OnEnter()
     {
         this.startTime = Time.time;
-        if (this.playerController.groundMaterial == null)
+        if (this.inputController.groundMaterial == null)
         {
             this.rigidbody.velocity = new Vector2(rigidbody.velocity.x, this.airJumpVelocity);
         }
         else
         {
-            this.rigidbody.velocity = new Vector2(rigidbody.velocity.x, this.playerController.groundMaterial.jumpVelocity);
+            this.rigidbody.velocity = new Vector2(rigidbody.velocity.x, this.inputController.groundMaterial.jumpVelocity);
         }
     }
 

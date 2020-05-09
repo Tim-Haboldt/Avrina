@@ -35,7 +35,7 @@ public class WallJumping : StateInheritingAction
     {
         var passedTime = Time.time - this.startTime;
 
-        if ((!this.playerController.jumpInput) || passedTime >= this.wallJumpMaxDuration)
+        if ((!this.inputController.jumpInput) || passedTime >= this.wallJumpMaxDuration)
         {
             return PlayerState.Immobile;
         }
@@ -69,8 +69,8 @@ public class WallJumping : StateInheritingAction
     {
         this.startTime = Time.time;
 
-        var wallMaterial = this.playerController.wallMaterial;
-        var direction = Mathf.Sign(this.playerController.movementInput) * -1;
+        var wallMaterial = this.inputController.wallMaterial;
+        var direction = Mathf.Sign(this.inputController.movementInput) * -1;
 
         this.rigidbody.velocity = new Vector2(wallMaterial.startJumpVelocityX * direction, wallMaterial.startJumpVelocityY);
     }

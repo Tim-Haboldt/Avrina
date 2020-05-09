@@ -3,7 +3,8 @@
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(InputController))]
+[RequireComponent(typeof(StateManager))]
 public class PlayerAnimation : MonoBehaviour
 {
     /// <summary>
@@ -21,7 +22,11 @@ public class PlayerAnimation : MonoBehaviour
     /// <summary>
     ///  Used to get all inputs and collisions
     /// </summary>
-    private PlayerController playerController;
+    private InputController inputController;
+    /// <summary>
+    ///  Used to get the current state of the player
+    /// </summary>
+    private StateManager stateManager;
     /// <summary>
     ///  States what amount of velocity is necessary to switch to running
     /// </summary>
@@ -36,7 +41,8 @@ public class PlayerAnimation : MonoBehaviour
         this.animator = GetComponent<Animator>();
         this.rb = GetComponent<Rigidbody2D>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
-        this.playerController = GetComponent<PlayerController>();
+        this.inputController = GetComponent<InputController>();
+        this.stateManager = GetComponent<StateManager>();
 
         this.animator.SetFloat("X", 0);
         this.animator.SetBool("isRunning", false);
@@ -47,18 +53,25 @@ public class PlayerAnimation : MonoBehaviour
     ///  Updates the animation inputs
     /// </summary>
     void Update()
-    {
-        float movementInput = this.playerController.movementInput;
-        float movementAbs = Mathf.Abs(movementInput);
+    { 
+        // Read the movement input
+        var movementInput = this.inputController.movementInput;
+        var movementAbs = Mathf.Abs(movementInput);
+        this.animator.SetFloat("X", movementAbs);
 
+        // Set the isRunning attribute
+        this.animator.SetBool("isRunning", Mathf.Abs(this.rb.velocity.x) > this.runningVelocity);
+
+        // Set the isFalling attribute
+        var currentState = this.stateManager.currentState;
+        var isFalling = (currentState == PlayerState.InAir || currentState == PlayerState.Immobile) && this.rb.velocity.y < 0;
+        this.animator.SetBool("isFalling", isFalling);
+
+        // Set the direction the sprite is facing
         if (movementAbs > 0)
         {
             this.spriteRenderer.flipX = Mathf.Sign(movementInput) == 1;
         }
-
-        this.animator.SetFloat("X", movementAbs);
-        this.animator.SetBool("isRunning", Mathf.Abs(this.rb.velocity.x) > this.runningVelocity);
-        this.animator.SetBool("isFalling", this.playerController.onGround);
     }
 
     /// <summary>

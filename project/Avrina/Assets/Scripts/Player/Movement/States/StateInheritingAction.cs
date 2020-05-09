@@ -78,7 +78,7 @@ public abstract class StateInheritingAction : State
 
         foreach (Action action in this.actions)
         {
-            action.PerformAction(ref velocity, this.playerController);
+            action.PerformAction(ref velocity, this.inputController);
         }
     }
 

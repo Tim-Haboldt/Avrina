@@ -26,21 +26,21 @@ public class Immobile : State
     /// <returns>New state. Default is the same state</returns>
     public override PlayerState Update()
     {
-        var direction = this.playerController.movementInput;
+        var direction = this.inputController.movementInput;
         if (direction != 0)
         {
             direction = Mathf.Sign(direction);
         }
 
-        if (this.playerController.onGround)
+        if (this.inputController.onGround)
         {
             return PlayerState.OnGround;
         }
-        else if (this.playerController.hasWallLeft && direction == -1 || this.playerController.hasWallRight && direction == 1)
+        else if (this.inputController.hasWallLeft && direction == -1 || this.inputController.hasWallRight && direction == 1)
         {
             if (this.rigidbody.velocity.y > 0)
             {
-                if (this.playerController.jumpInput && !this.holdingJump)
+                if (this.inputController.jumpInput && !this.holdingJump)
                 {
                     return PlayerState.AirJumping;
                 }
@@ -61,6 +61,6 @@ public class Immobile : State
     {
         base.OnStateEnter();
 
-        this.holdingJump = playerController.jumpInput;
+        this.holdingJump = inputController.jumpInput;
     }
 }

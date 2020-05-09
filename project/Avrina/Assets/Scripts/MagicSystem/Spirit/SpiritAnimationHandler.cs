@@ -4,39 +4,67 @@
 public class SpiritAnimationHandler : MonoBehaviour
 {
     /// <summary>
-    ///  Used to know which spirit 
+    ///  Sprite of the default none element selected state
     /// </summary>
-    [SerializeField] public int spiritIndex;
+    [SerializeField] private Sprite noElementSprite;
     /// <summary>
-    ///  Particle system of default spirit when it represents no specific element
+    ///  Sprite of the fire state
     /// </summary>
-    [SerializeField] private ParticleSystem noElementParticles;
+    [SerializeField] private Sprite fireSprite;
     /// <summary>
-    ///  Particle system of the fire element
+    ///  Sprite of the water state
     /// </summary>
-    [SerializeField] private ParticleSystem fireParticles;
+    [SerializeField] private Sprite waterSprite;
     /// <summary>
-    ///  Particle system of the fire element
+    ///  Sprite of the air state
     /// </summary>
-    [SerializeField] private ParticleSystem waterParticles;
+    [SerializeField] private Sprite airSprite;
     /// <summary>
-    ///  Particle system of the fire element
+    ///  Sprite of the earth state
     /// </summary>
-    [SerializeField] private ParticleSystem windParticles;
+    [SerializeField] private Sprite earthSprite;
     /// <summary>
-    ///  Particle system of the fire element
+    ///  Stores the current state of the spirit
     /// </summary>
-    [SerializeField] private ParticleSystem earthParticles;
+    public SpiritState state { private set; get; }
+    /// <summary>
+    ///  Used to update the sprite of the spirit corresponding to its state
+    /// </summary>
+    private SpriteRenderer spriteRenderer;
 
-    // Start is called before the first frame update
+
+    /// <summary>
+    ///  Inits some default values
+    /// </summary>
     void Start()
     {
-        
+        this.state = SpiritState.None;
+        this.spriteRenderer = this.GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    ///  Updates the current state of the spirit
+    /// </summary>
+    public void UpdateState(SpiritState nextState)
     {
-        
+        this.state = nextState;
+        switch (this.state)
+        {
+            case SpiritState.None:
+                this.spriteRenderer.sprite = this.noElementSprite;
+                break;
+            case SpiritState.Air:
+                this.spriteRenderer.sprite = this.airSprite;
+                break;
+            case SpiritState.Fire:
+                this.spriteRenderer.sprite = this.fireSprite;
+                break;
+            case SpiritState.Water:
+                this.spriteRenderer.sprite = this.waterSprite;
+                break;
+            case SpiritState.Earth:
+                this.spriteRenderer.sprite = this.earthSprite;
+                break;
+        }
     }
 }
