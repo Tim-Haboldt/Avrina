@@ -3,6 +3,10 @@
 public class KeyBoardInputController : InputController
 {
     /// <summary>
+    ///  Defines the controller type
+    /// </summary>
+    public override MappingType type { get { return MappingType.KeyBoard; } }
+    /// <summary>
     ///  Stores all keymappings of the player controller
     /// </summary>
     [SerializeField] private KeyBoardMapping keyMapping;

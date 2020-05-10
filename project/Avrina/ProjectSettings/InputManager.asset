@@ -22,7 +22,7 @@ InputManager:
     axis: 5
     joyNum: 1
   - serializedVersion: 3
-    m_Name: JoyStickAimHorziontal
+    m_Name: JoyStickAimHorizontal
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: left
@@ -36,7 +36,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 4
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: JoyStickAimVertical
     descriptiveName: 
@@ -52,7 +52,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 3
-    joyNum: 2
+    joyNum: 1
   - serializedVersion: 3
     m_Name: KeyBoardMoveHorizontal
     descriptiveName: 

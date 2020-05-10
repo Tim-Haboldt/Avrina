@@ -4,6 +4,10 @@ using UnityEngine;
 public abstract class InputController : MonoBehaviour
 {
     /// <summary>
+    ///  Defines the controller type
+    /// </summary>
+    public abstract MappingType type { get; }
+    /// <summary>
     ///  Left wall trigger. Stores the information about all close wall to the left of the player
     /// </summary>
     [SerializeField] protected PlayerCollider wallSlideColliderLeft;
@@ -23,6 +27,10 @@ public abstract class InputController : MonoBehaviour
     ///  Stores the current movement input
     /// </summary>
     public float movementInput { get; protected set; }
+    /// <summary>
+    ///  Stores the current aim direction as vector
+    /// </summary>
+    public Vector2 aimDirecton { get; protected set; }
     /// <summary>
     ///  Is the jump input pressed
     /// </summary>
@@ -94,6 +102,8 @@ public abstract class InputController : MonoBehaviour
         this.onGroundCollider.mask = this.groundMask;
         this.wallSlideColliderLeft.mask = this.groundMask;
         this.wallSlideColliderRight.mask = this.groundMask;
+
+        this.aimDirecton = new Vector2(1, 0);
     }
 
     /// <summary>
