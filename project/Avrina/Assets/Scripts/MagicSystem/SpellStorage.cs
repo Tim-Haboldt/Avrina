@@ -6,22 +6,22 @@ public class SpellStorage : MonoBehaviour
     /// <summary>
     ///  References to all possible spells
     /// </summary>
-    public Spell fireFireSpell;
-    public Spell fireWaterSpell;
-    public Spell fireEarthSpell;
-    public Spell fireAirSpell;
-    public Spell waterFireSpell;
-    public Spell waterWaterSpell;
-    public Spell waterEarthSpell;
-    public Spell waterAirSpell;
-    public Spell earthFireSpell;
-    public Spell earthWaterSpell;
-    public Spell earthEarthSpell;
-    public Spell earthAirSpell;
-    public Spell airFireSpell;
-    public Spell airWaterSpell;
-    public Spell airEarthSpell;
-    public Spell airAirSpell;
+    [SerializeField] private Spell fireFireSpell;
+    [SerializeField] private Spell fireWaterSpell;
+    [SerializeField] private Spell fireEarthSpell;
+    [SerializeField] private Spell fireAirSpell;
+    [SerializeField] private Spell waterFireSpell;
+    [SerializeField] private Spell waterWaterSpell;
+    [SerializeField] private Spell waterEarthSpell;
+    [SerializeField] private Spell waterAirSpell;
+    [SerializeField] private Spell earthFireSpell;
+    [SerializeField] private Spell earthWaterSpell;
+    [SerializeField] private Spell earthEarthSpell;
+    [SerializeField] private Spell earthAirSpell;
+    [SerializeField] private Spell airFireSpell;
+    [SerializeField] private Spell airWaterSpell;
+    [SerializeField] private Spell airEarthSpell;
+    [SerializeField] private Spell airAirSpell;
     /// <summary>
     ///  Stores all possible spells and their combination during runtime.
     /// </summary>

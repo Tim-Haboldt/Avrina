@@ -36,6 +36,7 @@ public class MagicSystemController : MonoBehaviour
     void Start()
     {
         this.inputController = this.GetComponent<InputController>();
+        this.spells = this.GetComponent<SpellStorage>();
         this.state = MagicSystemState.ElementSelection;
         this.castIndicator.gameObject.SetActive(false);
     }
@@ -87,7 +88,7 @@ public class MagicSystemController : MonoBehaviour
         }
 
         // Cast Spell if both spirits have en element selected
-        if (this.inputController.castInput)
+        if (this.inputController.castInput && this.firstSpirit.state != SpiritState.None && this.secondSpirit.state != SpiritState.None)
         {
             this.state = MagicSystemState.SelectSpellcastDirection;
             this.castIndicator.gameObject.SetActive(true);
@@ -126,7 +127,12 @@ public class MagicSystemController : MonoBehaviour
     /// </summary>
     private void CastSpell()
     {
+        var spell = this.spells.GetCopyOfSpell(this.firstSpirit.state, this.secondSpirit.state);
+        spell.GetComponent<Spell>().CastSpell(this.transform.position, this.castIndicator.currentOrientation);
 
+        this.firstSpirit.UpdateState(SpiritState.None);
+        this.secondSpirit.UpdateState(SpiritState.None);
+        this.state = MagicSystemState.ElementSelection;
     }
 
     /// <summary>

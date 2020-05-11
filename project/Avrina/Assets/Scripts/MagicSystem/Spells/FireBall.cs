@@ -16,16 +16,8 @@ public class FireBall : Spell
     /// <summary>
     ///  Used to move the spell
     /// </summary>
-    private Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D rb;
 
-
-    /// <summary>
-    ///  Get all needed components from the gameobejct
-    /// </summary>
-    private void Start()
-    {
-        this.rb = this.GetComponent<Rigidbody2D>();
-    }
 
     /// <summary>
     ///  Will be called at the start of the lifetime of the spell

@@ -1375,7 +1375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c017884a2b3d14aa12c7125e13f56b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireFireSpell: {fileID: 0}
+  fireFireSpell: {fileID: 1237312399}
   fireWaterSpell: {fileID: 0}
   fireEarthSpell: {fileID: 0}
   fireAirSpell: {fileID: 0}
@@ -2514,8 +2514,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10c292614a907b4fbeffc40bed9a553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 0
-  initalCastDistance: 0
+  movementSpeed: 12
+  initalCastDistance: 2
+  rb: {fileID: 1237312400}
 --- !u!50 &1237312400
 Rigidbody2D:
   serializedVersion: 4
@@ -2530,13 +2531,13 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &1246357154
 GameObject:
   m_ObjectHideFlags: 0
