@@ -67,6 +67,9 @@ public class PlayerAnimation : MonoBehaviour
         var isFalling = (currentState == PlayerState.InAir || currentState == PlayerState.Immobile) && this.rb.velocity.y < 0;
         this.animator.SetBool("isFalling", isFalling);
 
+        // Set the isClimbing attribute
+        this.animator.SetBool("isClimbing", currentState == PlayerState.WallSliding);
+
         // Set the direction the sprite is facing
         if (movementAbs > 0)
         {
