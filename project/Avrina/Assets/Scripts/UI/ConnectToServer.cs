@@ -1,7 +1,8 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Mirror;
 
-[RequireComponent(typeof(SceneLoader))]
 public class ConnectToServer : MonoBehaviour
 {
     [Header("Inputs")]
@@ -28,12 +29,17 @@ public class ConnectToServer : MonoBehaviour
     /// <summary>
     ///  Handles all network related traffic of the client
     /// </summary>
-    [SerializeField] private ClientNetworkManager networkManager;
+    [SerializeField] private Client networkManager;
 
     /// <summary>
     ///  Used to change the scene once an connection occoured
     /// </summary>
-    private SceneLoader sceneLoader;
+    [Scene] [SerializeField] private string serverLobbyScene;
+
+    /// <summary>
+    ///  Used to change the scene once an disconnect occoured
+    /// </summary>
+    [Scene] [SerializeField] private string serverListScene;
 
 
     /// <summary>
@@ -42,7 +48,6 @@ public class ConnectToServer : MonoBehaviour
     private void Start()
     {
         this.connectingCanvas.enabled = false;
-        this.sceneLoader = this.GetComponent<SceneLoader>();
     }
 
     /// <summary>
@@ -50,8 +55,8 @@ public class ConnectToServer : MonoBehaviour
     /// </summary>
     public void JoinLobby()
     {
-        var serverAdress = this.serverIp.text;
-        var playerName = this.playerName.text;
+        var serverAdress = "localhost"; //this.serverIp.text;
+        var playerName = "tmp"; //this.playerName.text;
 
         if (string.IsNullOrEmpty(serverAdress) || string.IsNullOrEmpty(playerName))
         {
@@ -62,7 +67,7 @@ public class ConnectToServer : MonoBehaviour
         this.connectingCanvas.enabled = true;
 
         this.networkManager.networkAddress = serverAdress;
-        this.networkManager.ingameName = playerName;
+        PlayerInformation.playerName = playerName;
         this.networkManager.StartClient();
     }
 
@@ -71,7 +76,7 @@ public class ConnectToServer : MonoBehaviour
     /// </summary>
     public void OnConnectionSuccess()
     {
-        this.sceneLoader.LoadScene();
+        SceneManager.LoadSceneAsync(this.serverLobbyScene, LoadSceneMode.Single);
     }
 
     /// <summary>
@@ -79,7 +84,8 @@ public class ConnectToServer : MonoBehaviour
     /// </summary>
     public void OnConnectionFailed()
     {
-        this.inputCanvas.enabled = true;
-        this.connectingCanvas.enabled = false;
+        Destroy(this.networkManager.gameObject);
+
+        SceneManager.LoadSceneAsync(this.serverListScene, LoadSceneMode.Single);
     }
 }

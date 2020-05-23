@@ -104,6 +104,12 @@ public class CustomInputModule : PointerInputModule
         {
             this.backEvent.Invoke();
         }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            var axisEventData = GetAxisEventData(0, -1, 0.6f);
+            ExecuteEvents.Execute(this.eventSystem.currentSelectedGameObject, axisEventData, ExecuteEvents.moveHandler);
+        }
     }
 
     /// <summary>
@@ -140,15 +146,16 @@ public class CustomInputModule : PointerInputModule
         {
             var data = GetBaseEventData();
             var selectedObject = this.eventSystem.currentSelectedGameObject;
+            this.SetSelectedGameObject();
             ExecuteEvents.Execute(selectedObject, data, ExecuteEvents.submitHandler);
         }
     }
 
     /// <summary>
-    ///  Will be called if the input mode is set to buttons.
-    ///  Handles all keyboard / joystick inputs
+    ///  Selects a gameobject if no gameobject was selected
     /// </summary>
-    private void HandleButtonInputs(bool isWritingToObject)
+    /// <returns>Returns if it was necessary to select a gameobject</returns>
+    private bool SetSelectedGameObject()
     {
         if (this.eventSystem.currentSelectedGameObject == null)
         {
@@ -161,6 +168,20 @@ public class CustomInputModule : PointerInputModule
                 this.eventSystem.SetSelectedGameObject(this.firstObjectToBeSelected);
             }
 
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    ///  Will be called if the input mode is set to buttons.
+    ///  Handles all keyboard / joystick inputs
+    /// </summary>
+    private void HandleButtonInputs(bool isWritingToObject)
+    {
+        if (this.SetSelectedGameObject())
+        {
             return;
         }
 
@@ -214,11 +235,6 @@ public class CustomInputModule : PointerInputModule
             {
                 move.y = Input.GetAxisRaw(this.verticalKeyBoardInput);
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            move.y = -1;
         }
 
         return move;
