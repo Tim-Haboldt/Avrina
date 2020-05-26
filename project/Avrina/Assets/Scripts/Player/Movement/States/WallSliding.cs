@@ -45,7 +45,6 @@ public class WallSliding : StateInheritingAction
             inputDirection = Mathf.Sign(inputDirection);
         }
 
-
         var wallMaterial = this.inputController.wallMaterial;
         if (wallMaterial == null)
         {

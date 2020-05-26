@@ -91,7 +91,7 @@ public class LobbyBehaviour : NetworkBehaviour
 
         this.startGameButton = this.lobbyUI.transform.Find("StartGame").GetComponent<Button>();
         this.startGameButton.interactable = false;
-        this.startGameButton.onClick.AddListener(this.OnReadyClick);
+        this.startGameButton.onClick.AddListener(this.CmdStartGame);
 
         this.CmdSetDisplayName(PlayerInformation.playerName);
     }
@@ -137,10 +137,20 @@ public class LobbyBehaviour : NetworkBehaviour
     }
 
     /// <summary>
+    ///  Will be called if the player wants to start the game
+    /// </summary>
+    [Command]
+    public void CmdStartGame()
+    {
+        this.Server.StartGame();
+    }
+
+    /// <summary>
     ///  Send to all players if the game can be started
     /// </summary>
     /// <param name="readyToStartGame"></param>
-    public void HandleReadyToStartGame(bool readyToStartGame)
+    [ClientRpc]
+    public void RpcHandleReadyToStartGame(bool readyToStartGame)
     {
         if (!this.hasAuthority)
         {
@@ -189,5 +199,18 @@ public class LobbyBehaviour : NetworkBehaviour
                 playerLobbyUiElement.isReadyObject.text = readyText;
             }
         }
+    }
+
+    /// <summary>
+    ///  Will be called if the gameobject is destroyed
+    /// </summary>
+    private void OnDestroy()
+    {
+        if (!this.hasAuthority)
+        {
+            return;
+        }
+
+        Destroy(this.lobbyUI);
     }
 }

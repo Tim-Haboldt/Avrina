@@ -28,6 +28,13 @@ public class Server : NetworkManager
     /// </summary>
     [Header("Prefabs")]
     [SerializeField] private LobbyBehaviour lobbyBehaviourPrefab = null;
+    [SerializeField] private PlayerStateManager playerBehaviourPrefab = null;
+
+    [Header("Scenes")]
+    /// <summary>
+    ///  Stores a reference to the game scene. Will be opened if the server starts the game
+    /// </summary>
+    [Scene] [SerializeField] private string gameScene = null;
 
     /// <summary>
     ///  State of the server
@@ -98,7 +105,8 @@ public class Server : NetworkManager
     /// <summary>
     ///  Will be called at the start of the server and loads all server related resources
     /// </summary>
-    public override void OnStartServer() {
+    public override void OnStartServer()
+    {
         this.spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs").ToList();
     }
 
@@ -115,7 +123,7 @@ public class Server : NetworkManager
         foreach (var connection in NetworkServer.connections.Values)
         {
             var client = connection.identity.GetComponent<LobbyBehaviour>();
-            client.HandleReadyToStartGame(this.IsReadyToStart());
+            client.RpcHandleReadyToStartGame(this.IsReadyToStart());
         }
     }
 
@@ -134,5 +142,48 @@ public class Server : NetworkManager
         }
 
         return true;
+    }
+
+    /// <summary>
+    ///  Will be called to start the game
+    /// </summary>
+    public void StartGame()
+    {
+        if (!this.IsReadyToStart() || this.state != ServerState.InLobby)
+        {
+            return;
+        }
+
+        this.state = ServerState.InGame;
+
+        foreach (var connection in NetworkServer.connections.Values)
+        {
+            var playerInstance = Instantiate(this.playerBehaviourPrefab);
+            var lobbyInstance = connection.identity.gameObject;
+
+            NetworkServer.ReplacePlayerForConnection(connection, playerInstance.gameObject, true);
+            NetworkServer.Destroy(lobbyInstance);
+        }
+
+        this.ChangeSceneForAllClients(this.gameScene);
+    }
+
+    /// <summary>
+    ///  You can change the scene of all clients
+    /// </summary>
+    /// <param name="newSceneName">Name of the next scene</param>
+    public void ChangeSceneForAllClients(string newSceneName)
+    {
+        if (string.IsNullOrEmpty(newSceneName))
+        {
+            Debug.LogError("ServerChangeScene empty scene name");
+            return;
+        }
+
+        if (LogFilter.Debug) Debug.Log("ServerChangeScene for all Clients to " + newSceneName);
+        NetworkServer.SetAllClientsNotReady();
+
+        // notify all clients about the new scene
+        NetworkServer.SendToAll(new SceneMessage { sceneName = newSceneName });
     }
 }

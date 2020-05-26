@@ -55,12 +55,16 @@ public class ConnectToServer : MonoBehaviour
     /// </summary>
     public void JoinLobby()
     {
-        var serverAdress = "localhost"; //this.serverIp.text;
-        var playerName = "tmp"; //this.playerName.text;
+        var serverAdress = this.serverIp.text;
+        var playerName = this.playerName.text;
 
-        if (string.IsNullOrEmpty(serverAdress) || string.IsNullOrEmpty(playerName))
+        if (string.IsNullOrEmpty(serverAdress))
         {
-            return;
+            serverAdress = "localhost";
+        }
+        if (string.IsNullOrEmpty(playerName))
+        {
+            playerName = "Stranger";
         }
 
         this.inputCanvas.enabled = false;

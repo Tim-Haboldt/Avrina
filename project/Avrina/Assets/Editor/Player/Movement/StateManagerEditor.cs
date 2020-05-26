@@ -1,13 +1,13 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(StateManager))]
+[CustomEditor(typeof(PlayerStateManager))]
 public class StateManagerEditor : Editor
 {
     /// <summary>
     ///  Target object all changes will be applied to
     /// </summary>
-    StateManager manager;
+    PlayerStateManager manager;
 
     /**
      * <summary>
@@ -17,7 +17,7 @@ public class StateManagerEditor : Editor
      */
     private void OnEnable()
     {
-        this.manager = (StateManager)target;
+        this.manager = (PlayerStateManager)target;
     }
 
     /**

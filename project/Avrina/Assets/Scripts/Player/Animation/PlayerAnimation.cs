@@ -4,7 +4,7 @@
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(InputController))]
-[RequireComponent(typeof(StateManager))]
+[RequireComponent(typeof(PlayerStateManager))]
 public class PlayerAnimation : MonoBehaviour
 {
     /// <summary>
@@ -26,7 +26,7 @@ public class PlayerAnimation : MonoBehaviour
     /// <summary>
     ///  Used to get the current state of the player
     /// </summary>
-    private StateManager stateManager;
+    private PlayerStateManager stateManager;
     /// <summary>
     ///  States what amount of velocity is necessary to switch to running
     /// </summary>
@@ -42,7 +42,7 @@ public class PlayerAnimation : MonoBehaviour
         this.rb = GetComponent<Rigidbody2D>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.inputController = GetComponent<InputController>();
-        this.stateManager = GetComponent<StateManager>();
+        this.stateManager = GetComponent<PlayerStateManager>();
 
         this.animator.SetFloat("X", 0);
         this.animator.SetBool("isRunning", false);
@@ -54,6 +54,11 @@ public class PlayerAnimation : MonoBehaviour
     /// </summary>
     void Update()
     { 
+        if (!this.stateManager.hasAuthority)
+        {
+            return;
+        }
+
         // Read the movement input
         var movementInput = this.inputController.movementInput;
         var movementAbs = Mathf.Abs(movementInput);

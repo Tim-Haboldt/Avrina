@@ -24,6 +24,10 @@ public abstract class InputController : MonoBehaviour
     /// </summary>
     [SerializeField] protected LayerMask groundMask;
     /// <summary>
+    ///  Is the player object the original one in the network thus has authority
+    /// </summary>
+    public bool hasAuthority = false;
+    /// <summary>
     ///  Stores the current movement input
     /// </summary>
     public float movementInput { get; protected set; }
@@ -104,7 +108,39 @@ public abstract class InputController : MonoBehaviour
         this.wallSlideColliderRight.mask = this.groundMask;
 
         this.aimDirecton = new Vector2(1, 0);
+
+        this.movementInput = 0;
+        this.duckInput = false;
+        this.lookUpInput = false;
+        this.cancelInput = false;
+        this.castInput = false;
+        this.jumpInput = false;
+        this.aimDirecton = Vector2.zero;
+        this.waterElementInput = false;
+        this.fireElementInput = false;
+        this.airElementInput = false;
+        this.earthElementInput = false;
     }
+
+    /// <summary>
+    ///  Handles all inputs
+    /// </summary>
+    public void Update()
+    {
+        // Updates the collider of the player object
+        this.ColliderUpdate();
+
+        // Only use the movement inputs if the player has authority
+        if (this.hasAuthority)
+        {
+            this.HandleKeyInputs();
+        }
+    }
+
+    /// <summary>
+    ///  Handels all key inputs
+    /// </summary>
+    public abstract void HandleKeyInputs();
 
     /// <summary>
     ///  Udpates all collider states

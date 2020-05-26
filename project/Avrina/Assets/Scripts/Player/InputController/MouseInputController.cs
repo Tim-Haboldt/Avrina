@@ -15,11 +15,8 @@ public class MouseInputController : InputController
     /// <summary>
     ///  Checks for all inputs and sets the public variables corresponding
     /// </summary>
-    private void Update()
+    public override void HandleKeyInputs()
     {
-        // Updates all collider states
-        this.ColliderUpdate();
-
         // Reads and stores all movement related inputs
         this.movementInput = Input.GetAxisRaw(this.keyMapping.horizontalMovement);
         this.jumpInput = Input.GetKey(this.keyMapping.jump);

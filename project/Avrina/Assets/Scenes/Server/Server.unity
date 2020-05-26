@@ -308,9 +308,10 @@ MonoBehaviour:
   autoCreatePlayer: 0
   playerSpawnMethod: 0
   spawnPrefabs: []
-  minPlayers: 2
+  minPlayers: 1
   maxPlayers: 8
   lobbyBehaviourPrefab: {fileID: -2631998810766152884, guid: b949bf54a29b5b94392aa66ece6e6e26,
     type: 3}
-  playerUIPrefab: {fileID: 796669841596518213, guid: 342af912dbba04b4eb5993ac10f1cd26,
+  playerBehaviourPrefab: {fileID: 635187082934474879, guid: ab6ac1607b621b648af8832ee0918bc2,
     type: 3}
+  gameScene: Assets/Scenes/Client/OnlineMultiplayer.unity

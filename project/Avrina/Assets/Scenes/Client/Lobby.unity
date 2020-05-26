@@ -301,4 +301,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f667b80c67070fe41809da21937832d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Assets/Scenes/ServerList.unity
+  sceneName: Assets/Scenes/Client/ServerList.unity

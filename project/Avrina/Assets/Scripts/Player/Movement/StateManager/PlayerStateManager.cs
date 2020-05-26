@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerAnimation))]
 [RequireComponent(typeof(InputController))]
-public class StateManager : MonoBehaviour
+public class PlayerStateManager : NetworkBehaviour
 {
     /// <summary>
     ///  Handels the animations of the player
     /// </summary>
     private PlayerAnimation playerAnimation;
     /// <summary>
-    /// 
+    ///  Stores a reference to the rigidbody of the player
     /// </summary>
     private Rigidbody2D rb;
     /// <summary>
@@ -35,28 +36,10 @@ public class StateManager : MonoBehaviour
     /// <summary>
     ///  Stores the name of the current state
     /// </summary>
+    [SyncVar(hook = nameof(HandlePlayerStateChange))]
     public PlayerState currentState = PlayerState.InAir;
 
 
-    /**
-     * <summary>
-     *  Used to change the state of the player
-     * </summary>
-     * <param name="state">Name of the next state</param>
-     */
-    public void ChangeState(PlayerState state)
-    {
-        var previousState = this.states[this.currentState];
-        var nextState = this.states[state];
-
-        previousState.OnStateExit();
-        nextState.previousState = this.currentState;
-        nextState.OnStateEnter();
-        this.currentState = state;
-
-        this.playerAnimation.TriggerState(state);
-    }
-    
     /**
      * <summary>
      *  Will be called at the start of the game.
@@ -70,12 +53,56 @@ public class StateManager : MonoBehaviour
         this.playerAnimation = GetComponent<PlayerAnimation>();
 
         var inputController = GetComponent<InputController>();
+        inputController.hasAuthority = this.hasAuthority;
+
         foreach (State state in this.states.Values)
         {
             state.Init(inputController, this.rb);
         }
 
         this.ApplyConfig();
+    }
+
+    /**
+     * <summary>
+     *  Used to change the state of the player
+     * </summary>
+     * <param name="state">Name of the next state</param>
+     */
+    public void ChangeState(PlayerState state)
+    {
+        this.CmdUpdatePlayerState(state);
+
+        var previousState = this.states[this.currentState];
+        var nextState = this.states[state];
+
+        previousState.OnStateExit();
+        nextState.previousState = this.currentState;
+        nextState.OnStateEnter();
+        this.currentState = state;
+
+        this.playerAnimation.TriggerState(state);
+    }
+
+    /// <summary>
+    ///  Will be called on all other clients to make sure the states are setup correctly
+    /// </summary>
+    /// <param name="oldState"></param>
+    /// <param name="newState"></param>
+    private void HandlePlayerStateChange(PlayerState oldState, PlayerState newState)
+    {
+        this.states[oldState].OnStateExit();
+        this.states[newState].OnStateEnter();
+    }
+
+    /// <summary>
+    ///  Updates the player state for all clients via the server
+    /// </summary>
+    /// <param name="state"></param>
+    [Command]
+    private void CmdUpdatePlayerState(PlayerState state)
+    {
+        this.currentState = state;
     }
 
     /**
@@ -99,6 +126,11 @@ public class StateManager : MonoBehaviour
      */
     private void Update()
     {
+        if (!this.hasAuthority)
+        {
+            return;
+        }
+
         var nextState = this.states[this.currentState].Update();
         if (nextState != this.currentState)
         {
@@ -114,6 +146,11 @@ public class StateManager : MonoBehaviour
      */
     private void FixedUpdate()
     {
+        if (!this.hasAuthority)
+        {
+            Debug.Log(this.currentState);
+        }
+
         var playerVelocity = this.rb.velocity;
         this.states[this.currentState].PerformActions(ref playerVelocity);
         this.rb.velocity = playerVelocity;
