@@ -47,7 +47,15 @@ public class Server : NetworkManager
     /// </summary>
     public override void Start()
     {
-        this.StartServer();
+        if (Server.isHeadless)
+        {
+            this.StartServer();
+        }
+        else
+        {
+            this.StartHost();
+        }
+
 
         this.state = ServerState.InLobby;
     }
@@ -96,6 +104,8 @@ public class Server : NetworkManager
                 NetworkServer.AddPlayerForConnection(conn, client.gameObject);
                 break;
             case ServerState.InGame:
+                var playerInstance = Instantiate(this.playerBehaviourPrefab);
+                NetworkServer.ReplacePlayerForConnection(conn, playerInstance.gameObject, true);
                 break;
         }
 
@@ -158,32 +168,10 @@ public class Server : NetworkManager
 
         foreach (var connection in NetworkServer.connections.Values)
         {
-            var playerInstance = Instantiate(this.playerBehaviourPrefab);
             var lobbyInstance = connection.identity.gameObject;
-
-            NetworkServer.ReplacePlayerForConnection(connection, playerInstance.gameObject, true);
             NetworkServer.Destroy(lobbyInstance);
         }
 
-        this.ChangeSceneForAllClients(this.gameScene);
-    }
-
-    /// <summary>
-    ///  You can change the scene of all clients
-    /// </summary>
-    /// <param name="newSceneName">Name of the next scene</param>
-    public void ChangeSceneForAllClients(string newSceneName)
-    {
-        if (string.IsNullOrEmpty(newSceneName))
-        {
-            Debug.LogError("ServerChangeScene empty scene name");
-            return;
-        }
-
-        if (LogFilter.Debug) Debug.Log("ServerChangeScene for all Clients to " + newSceneName);
-        NetworkServer.SetAllClientsNotReady();
-
-        // notify all clients about the new scene
-        NetworkServer.SendToAll(new SceneMessage { sceneName = newSceneName });
+        this.ServerChangeScene(this.gameScene);
     }
 }

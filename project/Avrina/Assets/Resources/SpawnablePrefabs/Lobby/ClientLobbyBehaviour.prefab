@@ -69,5 +69,5 @@ MonoBehaviour:
   syncInterval: 0.1
   displayName: Loading...
   isReady: 0
-  lobbyUIPrefab: {fileID: 796669841596518213, guid: 342af912dbba04b4eb5993ac10f1cd26,
+  lobbyUIPrefab: {fileID: 6764012737672541686, guid: d6f24bcb3345e894fb3b5dabeeba3f27,
     type: 3}

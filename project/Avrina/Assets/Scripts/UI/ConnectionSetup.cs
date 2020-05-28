@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
 
-public class ConnectToServer : MonoBehaviour
+public class ConnectionSetup : MonoBehaviour
 {
     [Header("Inputs")]
     /// <summary>
@@ -32,10 +32,13 @@ public class ConnectToServer : MonoBehaviour
     [SerializeField] private Client networkManager;
 
     /// <summary>
+    ///  Used to change to the host scene once the user hosts a server
+    /// </summary>
+    [Scene] [SerializeField] private string serverHostScene;
+    /// <summary>
     ///  Used to change the scene once an connection occoured
     /// </summary>
     [Scene] [SerializeField] private string serverLobbyScene;
-
     /// <summary>
     ///  Used to change the scene once an disconnect occoured
     /// </summary>
@@ -73,6 +76,26 @@ public class ConnectToServer : MonoBehaviour
         this.networkManager.networkAddress = serverAdress;
         PlayerInformation.playerName = playerName;
         this.networkManager.StartClient();
+    }
+
+    /// <summary>
+    ///  Tries to create a host server
+    /// </summary>
+    public void HostLobby()
+    {
+        var playerName = this.playerName.text;
+
+        if (string.IsNullOrEmpty(playerName))
+        {
+            playerName = "Stranger";
+        }
+
+        this.inputCanvas.enabled = false;
+        this.connectingCanvas.enabled = true;
+
+        PlayerInformation.playerName = playerName;
+        Destroy(this.networkManager.gameObject);
+        SceneManager.LoadScene(this.serverHostScene, LoadSceneMode.Single);
     }
 
     /// <summary>
