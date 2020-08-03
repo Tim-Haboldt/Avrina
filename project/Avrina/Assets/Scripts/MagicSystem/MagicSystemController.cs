@@ -1,21 +1,21 @@
 ﻿using UnityEngine;
+using Mirror;
 
-[RequireComponent(typeof(InputController))]
 [RequireComponent(typeof(SpellStorage))]
-public class MagicSystemController : MonoBehaviour
+public class MagicSystemController : NetworkBehaviour
 {
     /// <summary>
     ///  Reference to the animation handler of the first spirit
     /// </summary>
-    [SerializeField] private SpiritAnimationHandler firstSpirit;
+    [HideInInspector] public SpiritStateManager firstSpirit;
     /// <summary>
     ///  Reference to the animation handler of the second spirit
     /// </summary>
-    [SerializeField] private SpiritAnimationHandler secondSpirit;
+    [HideInInspector] public SpiritStateManager secondSpirit;
     /// <summary>
     ///  Used to get the information about pressed inputs and occoured collisions
     /// </summary>
-    private InputController inputController;
+    public InputController inputController { private get; set; }
     /// <summary>
     ///  Stores all Spellcombinations
     /// </summary>
@@ -35,7 +35,6 @@ public class MagicSystemController : MonoBehaviour
     /// </summary>
     void Start()
     {
-        this.inputController = this.GetComponent<InputController>();
         this.spells = this.GetComponent<SpellStorage>();
         this.state = MagicSystemState.ElementSelection;
         this.castIndicator.gameObject.SetActive(false);
@@ -61,8 +60,8 @@ public class MagicSystemController : MonoBehaviour
         // Cancel Spell cast
         if (this.inputController.cancelInput)
         {
-            this.firstSpirit.UpdateState(SpiritState.None);
-            this.secondSpirit.UpdateState(SpiritState.None);
+            this.firstSpirit.CmdUpdateState(SpiritState.None);
+            this.secondSpirit.CmdUpdateState(SpiritState.None);
             this.state = MagicSystemState.ElementSelection;
             this.castIndicator.gameObject.SetActive(false);
         }
@@ -79,11 +78,11 @@ public class MagicSystemController : MonoBehaviour
         {
             if (this.firstSpirit.state == SpiritState.None)
             {
-                this.firstSpirit.UpdateState(elementInput);
+                this.firstSpirit.CmdUpdateState(elementInput);
             }
             else if (this.secondSpirit.state == SpiritState.None)
             {
-                this.secondSpirit.UpdateState(elementInput);
+                this.secondSpirit.CmdUpdateState(elementInput);
             }
         }
 
@@ -127,12 +126,29 @@ public class MagicSystemController : MonoBehaviour
     /// </summary>
     private void CastSpell()
     {
-        var spell = this.spells.GetCopyOfSpell(this.firstSpirit.state, this.secondSpirit.state);
-        spell.GetComponent<Spell>().CastSpell(this.transform.position, this.castIndicator.currentOrientation);
+        var firstState = this.firstSpirit.state;
+        var secondState = this.secondSpirit.state;
 
-        this.firstSpirit.UpdateState(SpiritState.None);
-        this.secondSpirit.UpdateState(SpiritState.None);
+        this.firstSpirit.CmdUpdateState(SpiritState.None);
+        this.secondSpirit.CmdUpdateState(SpiritState.None);
         this.state = MagicSystemState.ElementSelection;
+
+        this.CmdCreateSpell(firstState, secondState, this.transform.position, this.castIndicator.currentOrientation);
+    }
+
+    /// <summary>
+    ///  Will create the spell serverside for all players
+    /// </summary>
+    /// <param name="firstElement">Used to find the spell instance</param>
+    /// <param name="secondElement">Used to find the spell instance</param>
+    /// <param name="position">Position were the spell will be created</param>
+    /// <param name="orientation">Orientation of the spell</param>
+    [Command]
+    private void CmdCreateSpell(SpiritState firstElement, SpiritState secondElement, Vector2 position, Vector2 orientation)
+    {
+        var spell = this.spells.GetCopyOfSpell(firstElement, secondElement);
+        NetworkServer.Spawn(spell.gameObject);
+        spell.GetComponent<Spell>().CastSpell(position, orientation);
     }
 
     /// <summary>

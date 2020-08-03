@@ -29,6 +29,10 @@ public class Server : NetworkManager
     [Header("Prefabs")]
     [SerializeField] private LobbyBehaviour lobbyBehaviourPrefab = null;
     [SerializeField] private PlayerStateManager playerBehaviourPrefab = null;
+    [SerializeField] private SpiritAnimationHandler whiteSpirit = null;
+    [SerializeField] private SpiritAnimationHandler blackSpirit = null;
+    [SerializeField] private SpiritAnimationHandler whiteSpiritSecondPlayer = null;
+    [SerializeField] private SpiritAnimationHandler blackSpiritSecondPlayer = null;
 
     [Header("Scenes")]
     /// <summary>
@@ -40,6 +44,10 @@ public class Server : NetworkManager
     ///  State of the server
     /// </summary>
     private ServerState state;
+    /// <summary>
+    ///  Stores additional information about connected clients
+    /// </summary>
+    private Dictionary<int, ClientInformation> clientInformations = new Dictionary<int, ClientInformation>(); 
 
 
     /// <summary>
@@ -55,7 +63,6 @@ public class Server : NetworkManager
         {
             this.StartHost();
         }
-
 
         this.state = ServerState.InLobby;
     }
@@ -86,6 +93,8 @@ public class Server : NetworkManager
             NotifyPlayersOfReadyState();
         }
 
+        this.clientInformations.Remove(conn.connectionId);
+
         base.OnServerDisconnect(conn);
     }
 
@@ -102,14 +111,46 @@ public class Server : NetworkManager
             case ServerState.InLobby:
                 var client = Instantiate(this.lobbyBehaviourPrefab);
                 NetworkServer.AddPlayerForConnection(conn, client.gameObject);
+
+                this.clientInformations.Add(conn.connectionId, new ClientInformation());
                 break;
             case ServerState.InGame:
                 var playerInstance = Instantiate(this.playerBehaviourPrefab);
                 NetworkServer.ReplacePlayerForConnection(conn, playerInstance.gameObject, true);
+
+                if (this.clientInformations[conn.connectionId].isControllingTwoPlayers)
+                {
+                    var secondPlayerInstance = Instantiate(this.playerBehaviourPrefab);
+                    NetworkServer.Spawn(secondPlayerInstance.gameObject, conn);
+                }
+
                 break;
         }
 
         base.OnServerReady(conn);
+    }
+
+    /// <summary>
+    ///  Spawns two spirits which are searching for the player object
+    /// </summary>
+    public void SpawnSpirits(NetworkConnection conn, bool isSecondPlayer = false)
+    {
+        SpiritAnimationHandler backSpiritInstance = null;
+        SpiritAnimationHandler whiteSpiritInstance = null;
+
+        if (isSecondPlayer)
+        {
+            backSpiritInstance = Instantiate(this.blackSpiritSecondPlayer);
+            whiteSpiritInstance = Instantiate(this.whiteSpiritSecondPlayer);
+        }
+        else
+        {
+            backSpiritInstance = Instantiate(this.blackSpirit);
+            whiteSpiritInstance = Instantiate(this.whiteSpirit);
+        }
+        
+        NetworkServer.Spawn(backSpiritInstance.gameObject, conn);
+        NetworkServer.Spawn(whiteSpiritInstance.gameObject, conn);
     }
 
     /// <summary>
@@ -169,6 +210,12 @@ public class Server : NetworkManager
         foreach (var connection in NetworkServer.connections.Values)
         {
             var lobbyInstance = connection.identity.gameObject;
+
+            var lobbyBehaviour = lobbyInstance.GetComponent<LobbyBehaviour>();
+            var clientInformation = this.clientInformations[connection.connectionId];
+            clientInformation.isControllingTwoPlayers = lobbyBehaviour.isRepresentingTwoPlayers;
+            this.clientInformations[connection.connectionId] = clientInformation;
+
             NetworkServer.Destroy(lobbyInstance);
         }
 

@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using Mirror;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class SpiritAnimationHandler : MonoBehaviour
+public class SpiritAnimationHandler : NetworkBehaviour
 {
+    [Header("Sprites")]
     /// <summary>
     ///  Sprite of the default none element selected state
     /// </summary>
@@ -23,10 +25,7 @@ public class SpiritAnimationHandler : MonoBehaviour
     ///  Sprite of the earth state
     /// </summary>
     [SerializeField] private Sprite earthSprite;
-    /// <summary>
-    ///  Stores the current state of the spirit
-    /// </summary>
-    public SpiritState state { private set; get; }
+
     /// <summary>
     ///  Used to update the sprite of the spirit corresponding to its state
     /// </summary>
@@ -34,21 +33,19 @@ public class SpiritAnimationHandler : MonoBehaviour
 
 
     /// <summary>
-    ///  Inits some default values
+    ///  Get the sprite renderer
     /// </summary>
     void Start()
     {
-        this.state = SpiritState.None;
         this.spriteRenderer = this.GetComponent<SpriteRenderer>();
     }
 
     /// <summary>
-    ///  Updates the current state of the spirit
+    ///  Updates the appearance of the spirit
     /// </summary>
-    public void UpdateState(SpiritState nextState)
+    public void UpdateSpiritAppearance(SpiritState spiritState)
     {
-        this.state = nextState;
-        switch (this.state)
+        switch (spiritState)
         {
             case SpiritState.None:
                 this.spriteRenderer.sprite = this.noElementSprite;

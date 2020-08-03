@@ -70,6 +70,7 @@ public class SpellStorage : MonoBehaviour
     {
         var nextSpell = Instantiate(this.spells[elementOne][elementTwo].gameObject);
         nextSpell.SetActive(true);
+
         return nextSpell;
     }
 }

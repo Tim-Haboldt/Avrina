@@ -10,23 +10,19 @@ public abstract class InputController : MonoBehaviour
     /// <summary>
     ///  Left wall trigger. Stores the information about all close wall to the left of the player
     /// </summary>
-    [SerializeField] protected PlayerCollider wallSlideColliderLeft;
+    [HideInInspector] public PlayerCollider wallSlideColliderLeft { private set; get; }
     /// <summary>
     ///  Right wall trigger. Stores the information about all close wall to the right of the player
     /// </summary>
-    [SerializeField] protected PlayerCollider wallSlideColliderRight;
+    [HideInInspector] public PlayerCollider wallSlideColliderRight { private set; get; }
     /// <summary>
     ///  Ground trigger. Stores the information about all ground colliders the player is staying on
     /// </summary>
-    [SerializeField] protected PlayerCollider onGroundCollider;
+    [HideInInspector] public PlayerCollider onGroundCollider { private set; get; }
     /// <summary>
-    ///  What is the mask of the ground or wall objects
+    ///  Ground trigger. Stores the information about all ground colliders the player is staying on
     /// </summary>
-    [SerializeField] protected LayerMask groundMask;
-    /// <summary>
-    ///  Is the player object the original one in the network thus has authority
-    /// </summary>
-    public bool hasAuthority = false;
+    [HideInInspector] public CapsuleCollider2D playerCollider { private set; get; }
     /// <summary>
     ///  Stores the current movement input
     /// </summary>
@@ -101,13 +97,16 @@ public abstract class InputController : MonoBehaviour
      *  Sets the masks of the colliders.
      * </summary>
      */
-    private void Start()
+    public void Init(CapsuleCollider2D playerCollider, PlayerCollider wallLeft, PlayerCollider wallRight, PlayerCollider ground, LayerMask groundMask)
     {
-        this.onGroundCollider.mask = this.groundMask;
-        this.wallSlideColliderLeft.mask = this.groundMask;
-        this.wallSlideColliderRight.mask = this.groundMask;
+        this.playerCollider = playerCollider;
+        this.onGroundCollider = ground;
+        this.wallSlideColliderLeft = wallLeft;
+        this.wallSlideColliderRight = wallRight;
 
-        this.aimDirecton = new Vector2(1, 0);
+        this.onGroundCollider.mask = groundMask;
+        this.wallSlideColliderLeft.mask = groundMask;
+        this.wallSlideColliderRight.mask = groundMask;
 
         this.movementInput = 0;
         this.duckInput = false;
@@ -115,7 +114,7 @@ public abstract class InputController : MonoBehaviour
         this.cancelInput = false;
         this.castInput = false;
         this.jumpInput = false;
-        this.aimDirecton = Vector2.zero;
+        this.aimDirecton = Vector2.right;
         this.waterElementInput = false;
         this.fireElementInput = false;
         this.airElementInput = false;
@@ -125,16 +124,10 @@ public abstract class InputController : MonoBehaviour
     /// <summary>
     ///  Handles all inputs
     /// </summary>
-    public void Update()
+    private void Update()
     {
-        // Updates the collider of the player object
+        this.HandleKeyInputs();
         this.ColliderUpdate();
-
-        // Only use the movement inputs if the player has authority
-        if (this.hasAuthority)
-        {
-            this.HandleKeyInputs();
-        }
     }
 
     /// <summary>
@@ -145,7 +138,7 @@ public abstract class InputController : MonoBehaviour
     /// <summary>
     ///  Udpates all collider states
     /// </summary>
-    protected void ColliderUpdate()
+    private void ColliderUpdate()
     {
         // Update all colliding states
         this.onGround = this.onGroundCollider.isTriggered;

@@ -40,6 +40,15 @@ public abstract class State
         this.rigidbody = rb;
     }
 
+    /// <summary>
+    ///  Updates the input controller for the state
+    /// </summary>
+    /// <param name="inputController"></param>
+    public void UpdateInputController(InputController inputController)
+    {
+        this.inputController = inputController;
+    }
+
     /**
      * <summary>
      *  Used to instanciate all states and actions

@@ -94,7 +94,7 @@ public class HorizontalGroundMovement : Action
     /// <returns></returns>
     private Vector2 GetCenterOfPlayer(InputController controller, Vector2 direction, float offset)
     {
-        var capsuleCollider = controller.transform.gameObject.GetComponent<CapsuleCollider2D>();
+        var capsuleCollider = controller.playerCollider;
         var position = capsuleCollider.bounds.center;
         var halfSizeX = capsuleCollider.bounds.size.x * offset;
         var halfSizeY = capsuleCollider.bounds.size.x * offset;

@@ -17,6 +17,12 @@ public class LobbyBehaviour : NetworkBehaviour
     [SyncVar(hook = nameof(HandleReadyStatusChanged))]
     public bool isReady = false;
     public void HandleReadyStatusChanged(bool oldReadyStatus, bool newReadyStatus) => this.UpdateUI();
+    /// <summary>
+    ///  Does the local client reprensent two players
+    /// </summary>
+    [SyncVar(hook = nameof(HandleAmountOfPlayersChanged))]
+    public bool isRepresentingTwoPlayers = false;
+    public void HandleAmountOfPlayersChanged(bool oldReadyStatus, bool newReadyStatus) => this.UpdateUI();
 
     [Header("UI")]
     /// <summary>
@@ -31,6 +37,18 @@ public class LobbyBehaviour : NetworkBehaviour
     ///  Used to change the ready state of the player
     /// </summary>
     private Button readyButton = null;
+    /// <summary>
+    ///  Used to add remove the second player on the local client instance
+    /// </summary>
+    private Toggle secondPlayerToggle = null;
+    /// <summary>
+    ///  Stores the controlls of the first player
+    /// </summary>
+    private Dropdown firstPlayerControlls = null;
+    /// <summary>
+    ///  Stores the controlls of the second player
+    /// </summary>
+    private Dropdown secondPlayerControlls = null;
     /// <summary>
     ///  Stores the instance of the lobby UI
     /// </summary>
@@ -93,7 +111,22 @@ public class LobbyBehaviour : NetworkBehaviour
         this.startGameButton.interactable = false;
         this.startGameButton.onClick.AddListener(this.CmdStartGame);
 
+        this.secondPlayerToggle = this.lobbyUI.transform.Find("SecondPlayerToggle").GetComponent<Toggle>();
+        this.secondPlayerToggle.interactable = true;
+        this.secondPlayerToggle.onValueChanged.AddListener(this.OnSecondPlayerToggle);
+
+        this.firstPlayerControlls = this.lobbyUI.transform.Find("FirstPlayerControlls").GetComponent<Dropdown>();
+        this.firstPlayerControlls.interactable = true;
+        this.firstPlayerControlls.onValueChanged.AddListener(this.OnPlayerOneControllsChanged);
+
+        this.secondPlayerControlls = this.lobbyUI.transform.Find("SecondPlayerControlls").GetComponent<Dropdown>();
+        this.secondPlayerControlls.gameObject.SetActive(false);
+        this.secondPlayerControlls.interactable = true;
+        this.secondPlayerControlls.onValueChanged.AddListener(this.OnPlayerTwoControllsChanged);
+
         this.CmdSetDisplayName(PlayerInformation.playerName);
+
+        this.UpdateUI();
     }
 
     /// <summary>
@@ -116,6 +149,69 @@ public class LobbyBehaviour : NetworkBehaviour
     }
 
     /// <summary>
+    ///  Will be called if the player changes if the client represents two or one player
+    /// </summary>
+    /// <param name="isRepresentingTwoPlayers"></param>
+    private void OnSecondPlayerToggle(bool isRepresentingTwoPlayers)
+    {
+        this.CmdSetIsRepresentingTwoPlayers(isRepresentingTwoPlayers);
+
+        this.secondPlayerControlls.gameObject.SetActive(isRepresentingTwoPlayers);
+        if (isRepresentingTwoPlayers)
+        {
+            this.OnPlayerTwoControllsChanged(this.secondPlayerControlls.value);
+        }
+    }
+
+    /// <summary>
+    ///  Will be called if the first player changes his controll scheme
+    /// </summary>
+    /// <param name="isRepresentingTwoPlayers"></param>
+    private void OnPlayerOneControllsChanged(int controllScheme)
+    {
+        if (this.isRepresentingTwoPlayers && this.secondPlayerControlls.value == controllScheme)
+        {
+            this.secondPlayerControlls.value = (int) PlayerInformation.playerOneMapping;
+            PlayerInformation.playerTwoMapping = PlayerInformation.playerOneMapping;
+        }
+
+        PlayerInformation.playerOneMapping = (MappingType) controllScheme;
+    }
+
+    /// <summary>
+    ///  Will be called if the second player changes his controll scheme or the second player was enabled
+    /// </summary>
+    /// <param name="isRepresentingTwoPlayers"></param>
+    private void OnPlayerTwoControllsChanged(int controllScheme)
+    {
+        if (this.firstPlayerControlls.value == controllScheme)
+        {
+            var oldPlayerTwoMapping = (int)PlayerInformation.playerTwoMapping;
+
+            if (oldPlayerTwoMapping == controllScheme)
+            {
+                if (oldPlayerTwoMapping == 0)
+                {
+                    this.firstPlayerControlls.value = 1;
+                }
+                else
+                {
+                    this.firstPlayerControlls.value = 0;
+                }
+
+                PlayerInformation.playerOneMapping = (MappingType) this.firstPlayerControlls.value;
+            }
+            else
+            {
+                this.firstPlayerControlls.value = oldPlayerTwoMapping;
+                PlayerInformation.playerOneMapping = PlayerInformation.playerTwoMapping;
+            }
+        }
+
+        PlayerInformation.playerTwoMapping = (MappingType)controllScheme;
+    }
+
+    /// <summary>
     ///  Sets the display name of the player
     /// </summary>
     /// <param name="displayName"></param>
@@ -123,6 +219,16 @@ public class LobbyBehaviour : NetworkBehaviour
     private void CmdSetDisplayName(string displayName)
     {
         this.displayName = displayName;
+    }
+
+    /// <summary>
+    ///  Sets the variable is representing two players for all clients and the server
+    /// </summary>
+    /// <param name="isRepresentingTwoPlayers"></param>
+    [Command]
+    private void CmdSetIsRepresentingTwoPlayers(bool isRepresentingTwoPlayers)
+    {
+        this.isRepresentingTwoPlayers = isRepresentingTwoPlayers;
     }
 
     /// <summary>
@@ -165,7 +271,6 @@ public class LobbyBehaviour : NetworkBehaviour
     /// </summary>
     private void UpdateUI()
     {
-        Debug.Log("Called Dispaly Draw");
         if (!this.hasAuthority)
         {
             foreach (var client in LobbyBehaviour.clients)
@@ -179,24 +284,56 @@ public class LobbyBehaviour : NetworkBehaviour
             return;
         }
 
-        var amountOfClients = LobbyBehaviour.clients.Count;
-        for (var i = 0; i < this.lobbyUI.playerUIElements.Count; i++)
+        if (this.lobbyUI == null)
         {
-            var uiElement = this.lobbyUI.playerUIElements[i];
-            uiElement.gameObject.SetActive(i < amountOfClients);
+            return;
+        }
 
-            if (i < amountOfClients)
+        Debug.Log("Called Dispaly Draw");
+
+        var amountOfPlayers = 0;
+        foreach (var client in LobbyBehaviour.clients)
+        {
+            amountOfPlayers++;
+            if (client.isRepresentingTwoPlayers)
+            {
+                amountOfPlayers++;
+            }
+        }
+
+        var clientCounter = 0;
+        var nextRoutineWillBeSecondPlayer = false;
+        for (var playerCounter = 0; playerCounter < this.lobbyUI.playerUIElements.Count; playerCounter++)
+        {
+            var uiElement = this.lobbyUI.playerUIElements[playerCounter];
+            uiElement.gameObject.SetActive(playerCounter < amountOfPlayers);
+
+            if (playerCounter < amountOfPlayers)
             {
                 var playerLobbyUiElement = uiElement.GetComponent<PlayerLobbyUIElement>();
-                var clientBehaviour = LobbyBehaviour.clients[i];
-                playerLobbyUiElement.playerNameObject.text = clientBehaviour.displayName;
+                var clientBehaviour = LobbyBehaviour.clients[clientCounter];
 
+                playerLobbyUiElement.playerNameObject.text = clientBehaviour.displayName;
+                if (!nextRoutineWillBeSecondPlayer && clientBehaviour.isRepresentingTwoPlayers)
+                {
+                    playerLobbyUiElement.playerNameObject.text += " (1)";
+                    nextRoutineWillBeSecondPlayer = true;
+                    clientCounter--;
+                }
+                else if (nextRoutineWillBeSecondPlayer)
+                {
+                    playerLobbyUiElement.playerNameObject.text += " (2)";
+                    nextRoutineWillBeSecondPlayer = false;
+                }
+                
                 var readyText = "<color=red>N</color>";
                 if (clientBehaviour.isReady)
                 {
                     readyText = "<color=green>Y</color>";
                 }
                 playerLobbyUiElement.isReadyObject.text = readyText;
+
+                clientCounter++;
             }
         }
     }

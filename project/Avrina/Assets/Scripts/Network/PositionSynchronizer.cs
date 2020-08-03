@@ -16,6 +16,10 @@ public class PositionSynchronizer : NetworkBehaviour
     /// </summary>
     [SerializeField] private float maxPositionDifferenzBeforeTeleport = 10;
     /// <summary>
+    ///  Important if the object can only be updated from the server
+    /// </summary>
+    [SerializeField] private bool isObjectServerSite = false;
+    /// <summary>
     ///  When was the last time the position was synced with the network
     /// </summary>
     private float lastSyncTimeStemp = 0;
@@ -52,11 +56,23 @@ public class PositionSynchronizer : NetworkBehaviour
     /// </summary>
     private void Update()
     {
-        if (!this.hasAuthority)
+        if (this.isObjectServerSite)
         {
-            return;
+            this.UpdateOnServer();
         }
+        else if (this.hasAuthority)
+        {
+            this.UpdateOnClient();
+        }
+    }
 
+    /// <summary>
+    ///  Will be called on the server.
+    ///  Cannot be executed from the clients
+    /// </summary>
+    [Server]
+    private void UpdateOnServer()
+    {
         var passedTime = Time.time - this.lastSyncTimeStemp;
         if (passedTime < networkSyncInterval)
         {
@@ -65,10 +81,26 @@ public class PositionSynchronizer : NetworkBehaviour
 
         this.lastSyncTimeStemp = Time.time - (passedTime - networkSyncInterval);
 
-        if (this.nextPos == null)
+        this.lastPos = this.currentPos;
+        this.currentPos = this.transform.position;
+
+        this.nextPos = this.currentPos;
+    }
+
+    /// <summary>
+    ///  WIll be called on the client.
+    ///  Cannot be executed from the server
+    /// </summary>
+    [Client]
+    private void UpdateOnClient()
+    {
+        var passedTime = Time.time - this.lastSyncTimeStemp;
+        if (passedTime < networkSyncInterval)
         {
-            this.nextPos = this.transform.position;
+            return;
         }
+
+        this.lastSyncTimeStemp = Time.time - (passedTime - networkSyncInterval);
 
         this.lastPos = this.currentPos;
         this.currentPos = this.transform.position;
@@ -81,12 +113,14 @@ public class PositionSynchronizer : NetworkBehaviour
     /// </summary>
     private void FixedUpdate()
     {
-        if (this.hasAuthority || this.lerpDistance == null)
+        if (this.hasAuthority || this.lerpDistance == null || (!this.isClientOnly && this.isObjectServerSite))
         {
             return;
         }
-
-        var distance = Vector2.Lerp(Vector2.zero, this.lerpDistance, Time.deltaTime * this.invertedNetworkSyncInterval);
+        
+        var position = this.transform.position;
+        var lerpDistance = this.nextPos - new Vector2(position.x, position.y);
+        var distance = Vector2.Lerp(Vector2.zero, lerpDistance, Time.deltaTime * this.invertedNetworkSyncInterval);
         this.transform.position += new Vector3(distance.x, distance.y, 0);
     }
 
@@ -107,18 +141,14 @@ public class PositionSynchronizer : NetworkBehaviour
     /// <param name="nextPosition"></param>
     private void HandlePositionWasSynced(Vector2 lastPosition, Vector2 nextPosition)
     {
-        if (this.hasAuthority)
+        if (this.hasAuthority || !this.isClientOnly)
         {
             return;
         }
         
-        this.nextPos = nextPosition;
-        if (Vector2.Distance(this.transform.position, this.nextPos) >= this.maxPositionDifferenzBeforeTeleport)
+        if (Vector2.Distance(this.transform.position, nextPosition) >= this.maxPositionDifferenzBeforeTeleport)
         {
-            this.transform.position = this.nextPos;
+            this.transform.position = nextPosition;
         }
-
-        var position = this.transform.position;
-        this.lerpDistance = this.nextPos - new Vector2(position.x, position.y);
     }
 }

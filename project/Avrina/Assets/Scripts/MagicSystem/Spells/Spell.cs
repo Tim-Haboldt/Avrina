@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
+using Mirror;
 
-public abstract class Spell : MonoBehaviour
+public abstract class Spell : NetworkBehaviour
 {
     /// <summary>
-    ///  Stores the start position of the spell
+    ///  Stores the player position at the creation time of the spell
     /// </summary>
-    protected Vector2 startPosition;
+    protected Vector2 playerPosition;
     /// <summary>
     ///  Stores the inital cast direction of the spell
     /// </summary>
@@ -19,14 +20,22 @@ public abstract class Spell : MonoBehaviour
     /// <param name="castDirection">Cast direction</param>
     public void CastSpell(Vector2 playerPosition, Vector2 castDirection)
     {
-        this.startPosition = playerPosition;
+        this.playerPosition = playerPosition;
         this.castDirection = castDirection;
 
-        this.Init();
+        this.ServerInit();
+        this.RpcInit(playerPosition, castDirection);
     }
 
     /// <summary>
-    ///  Will be called at the start of the lifetime of the spell
+    ///  Will be called at the start of the lifetime of the spell on the client
+    /// <param name="playerPosition">Position of the player at the time of the spell cast</param>
+    /// <param name="castDirection">Cast direction</param>
     /// </summary>
-    protected abstract void Init();
+    protected abstract void RpcInit(Vector2 playerPosition, Vector2 castDirection);
+
+    /// <summary>
+    ///  Will be called at the start of the lifetime of the spell on the server.
+    /// </summary>
+    protected abstract void ServerInit();
 }

@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 635187082934474875}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &635187081897874953
 SpriteRenderer:
@@ -95,105 +95,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceToPlayer: 1.3
---- !u!1 &635187082205696640
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 635187082205696641}
-  - component: {fileID: 635187082205696655}
-  - component: {fileID: 635187082205696654}
-  m_Layer: 9
-  m_Name: Spirit White
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &635187082205696641
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 635187082205696640}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.1, y: 6.22, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 635187082934474875}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &635187082205696655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 635187082205696640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fc0f667aafb00f4eae5954134a3c33c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  noElementSprite: {fileID: 21300000, guid: f9859f3970841c846803858c0e07785c, type: 3}
-  fireSprite: {fileID: 21300000, guid: 25a8f4fc7feecb24b95f7dfe7b6611cb, type: 3}
-  waterSprite: {fileID: 21300000, guid: 7c31386a13bec51449bad1d0d89b8d4e, type: 3}
-  airSprite: {fileID: 21300000, guid: 58d65bf8139644f47bc3d6bca5db0552, type: 3}
-  earthSprite: {fileID: 21300000, guid: c7c2eb3eefab7bc4f95e2ba45d70253b, type: 3}
---- !u!212 &635187082205696654
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 635187082205696640}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1584655265
-  m_SortingLayer: 2
-  m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: f9859f3970841c846803858c0e07785c, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 8, y: 8}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &635187082366602217
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,7 +319,6 @@ GameObject:
   - component: {fileID: 635187082934474875}
   - component: {fileID: 635187082934474874}
   - component: {fileID: 635187082934474872}
-  - component: {fileID: 635187082934474876}
   - component: {fileID: 635187082934474879}
   - component: {fileID: 635187082934474820}
   - component: {fileID: 635187082934474822}
@@ -448,8 +348,6 @@ Transform:
   - {fileID: 635187082746087928}
   - {fileID: 635187082366602230}
   - {fileID: 635187082687971516}
-  - {fileID: 635187082205696641}
-  - {fileID: 635187083380296110}
   - {fileID: 635187081897874952}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -525,38 +423,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &635187082934474876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 635187082934474878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 858ac3a0f615ef34c9c42ad82d1782a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wallSlideColliderLeft: {fileID: 635187082366602228}
-  wallSlideColliderRight: {fileID: 635187082687971514}
-  onGroundCollider: {fileID: 635187082746087878}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 256
-  hasAuthority: 0
-  keyMapping:
-    horizontalMovement: JoyStickMoveHorizontal
-    verticalMovement: JoyStickMoveVertical
-    horizontalAim: JoyStickAimHorizontal
-    verticalAim: JoyStickAimVertical
-    settings: 356
-    cast: 352
-    cancel: 351
-    jump: 350
-    fireElement: 354
-    waterElement: 355
-    airElement: JoyStickLeftBack
-    earthElement: JoyStickRightBack
 --- !u!114 &635187082934474879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,6 +437,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  joyStickInputControllerPrefab: {fileID: 8596744424898022297, guid: 1747f0bfc7ade24409cd991782b0c767,
+    type: 3}
+  keyboardInputControllerPrefab: {fileID: 4809238353113808147, guid: 118bff2748f588c43a19ad8baaddea83,
+    type: 3}
+  mouseInputControllerPrefab: {fileID: 7403920953067721804, guid: 03a7f63438de3534a82f6499692fca27,
+    type: 3}
+  networkInputControllerPrefab: {fileID: 627607138313758584, guid: 894d3ad89f79b7f438ef7fa12ad383a3,
+    type: 3}
+  wallSlideColliderLeft: {fileID: 635187082366602228}
+  wallSlideColliderRight: {fileID: 635187082687971514}
+  onGroundCollider: {fileID: 635187082746087878}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 256
   playerConfig:
     gravity: 2
     gravityDuringJump: 0.3
@@ -610,8 +490,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 376522c177a340f4d932a07ad313b18d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstSpirit: {fileID: 635187082205696655}
-  secondSpirit: {fileID: 635187083380296111}
+  firstSpirit: {fileID: 0}
+  secondSpirit: {fileID: 0}
   castIndicator: {fileID: 635187081897874966}
 --- !u!70 &635187082934474877
 CapsuleCollider2D:
@@ -660,7 +540,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c017884a2b3d14aa12c7125e13f56b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireFireSpell: {fileID: 0}
+  fireFireSpell: {fileID: 2755559702678125021, guid: 1a8f43b4e3e28fc47a415b577bd280e9,
+    type: 3}
   fireWaterSpell: {fileID: 0}
   fireEarthSpell: {fileID: 0}
   fireAirSpell: {fileID: 0}
@@ -708,102 +589,3 @@ MonoBehaviour:
   syncInterval: 0.1
   networkSyncInterval: 0.1
   maxPositionDifferenzBeforeTeleport: 10
---- !u!1 &635187083380296097
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 635187083380296110}
-  - component: {fileID: 635187083380296108}
-  - component: {fileID: 635187083380296111}
-  m_Layer: 9
-  m_Name: Spirit Black
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &635187083380296110
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 635187083380296097}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.8, y: 5.9, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 635187082934474875}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &635187083380296108
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 635187083380296097}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1584655265
-  m_SortingLayer: 2
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f9859f3970841c846803858c0e07785c, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 8, y: 8}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!114 &635187083380296111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 635187083380296097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fc0f667aafb00f4eae5954134a3c33c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  noElementSprite: {fileID: 21300000, guid: f9859f3970841c846803858c0e07785c, type: 3}
-  fireSprite: {fileID: 21300000, guid: 25a8f4fc7feecb24b95f7dfe7b6611cb, type: 3}
-  waterSprite: {fileID: 21300000, guid: 7c31386a13bec51449bad1d0d89b8d4e, type: 3}
-  airSprite: {fileID: 21300000, guid: 58d65bf8139644f47bc3d6bca5db0552, type: 3}
-  earthSprite: {fileID: 21300000, guid: c7c2eb3eefab7bc4f95e2ba45d70253b, type: 3}

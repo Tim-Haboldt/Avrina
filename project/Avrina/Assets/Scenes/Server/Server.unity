@@ -314,4 +314,12 @@ MonoBehaviour:
     type: 3}
   playerBehaviourPrefab: {fileID: 635187082934474879, guid: ab6ac1607b621b648af8832ee0918bc2,
     type: 3}
+  whiteSpirit: {fileID: 3834384445004735177, guid: 975977b4e7177f64d8e3ddcfd18d7da4,
+    type: 3}
+  blackSpirit: {fileID: 6153364046643352172, guid: 4fb8fbe31e333eb4eacd338b131455de,
+    type: 3}
+  whiteSpiritSecondPlayer: {fileID: 1093765684663201682, guid: 10f29bf4fd905d544af111f82140a267,
+    type: 3}
+  blackSpiritSecondPlayer: {fileID: 5055057889583597786, guid: c7183acc972c1b746b4bfd39f7f98f10,
+    type: 3}
   gameScene: Assets/Scenes/Client/OnlineMultiplayer.unity

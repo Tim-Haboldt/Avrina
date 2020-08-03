@@ -3,10 +3,41 @@ using UnityEngine;
 using Mirror;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(PlayerAnimation))]
-[RequireComponent(typeof(InputController))]
+[RequireComponent(typeof(MagicSystemController))]
 public class PlayerStateManager : NetworkBehaviour
 {
+    [Header("Input Prefabs")]
+    [SerializeField] private InputController joyStickInputControllerPrefab = null;
+    [SerializeField] private InputController keyboardInputControllerPrefab = null;
+    [SerializeField] private InputController mouseInputControllerPrefab = null;
+    [SerializeField] private InputController networkInputControllerPrefab = null;
+
+    [Header("Input Controller")]
+    /// <summary>
+    ///  Left wall trigger. Stores the information about all close wall to the left of the player
+    /// </summary>
+    [SerializeField] private PlayerCollider wallSlideColliderLeft = null;
+    /// <summary>
+    ///  Right wall trigger. Stores the information about all close wall to the right of the player
+    /// </summary>
+    [SerializeField] private PlayerCollider wallSlideColliderRight = null;
+    /// <summary>
+    ///  Ground trigger. Stores the information about all ground colliders the player is staying on
+    /// </summary>
+    [SerializeField] private PlayerCollider onGroundCollider = null;
+    /// <summary>
+    ///  What is the mask of the ground or wall objects
+    /// </summary>
+    [SerializeField] private LayerMask groundMask = 0;
+
+    /// <summary>
+    ///  Player Material defines all movement related player constants
+    /// </summary>
+    [SerializeField]
+    private PlayerConfig playerConfig;
+
     /// <summary>
     ///  Handels the animations of the player
     /// </summary>
@@ -15,11 +46,6 @@ public class PlayerStateManager : NetworkBehaviour
     ///  Stores a reference to the rigidbody of the player
     /// </summary>
     private Rigidbody2D rb;
-    /// <summary>
-    ///  Player Material defines all movement related player constants
-    /// </summary>
-    [SerializeField]
-    private PlayerConfig playerConfig;
     /// <summary>
     ///  Defines all states the player can possible have
     /// </summary>
@@ -52,15 +78,84 @@ public class PlayerStateManager : NetworkBehaviour
         this.rb = GetComponent<Rigidbody2D>();
         this.playerAnimation = GetComponent<PlayerAnimation>();
 
-        var inputController = GetComponent<InputController>();
-        inputController.hasAuthority = this.hasAuthority;
+        var inputController = this.CreateInputController();
+        this.playerAnimation.inputController = inputController;
 
         foreach (State state in this.states.Values)
         {
             state.Init(inputController, this.rb);
         }
 
+        var magicSystemController = this.GetComponent<MagicSystemController>();
+        magicSystemController.inputController = inputController;
+
+        if (this.hasAuthority)
+        {
+            this.CmdSpawnSpirits(!this.isLocalPlayer);
+        }
+
         this.ApplyConfig();
+    }
+
+    /// <summary>
+    ///  Spawns the spirits for the player
+    /// </summary>
+    [Command]
+    private void CmdSpawnSpirits(bool isSecondPlayer)
+    {
+        (NetworkManager.singleton as Server).SpawnSpirits(this.connectionToClient, isSecondPlayer);
+    }
+
+    /// <summary>
+    ///  Creates an input controller
+    /// </summary>
+    private InputController CreateInputController()
+    {
+        InputController inputController = null;
+        if (this.hasAuthority)
+        {
+            if (this.isLocalPlayer)
+            {
+                inputController = this.GetInputControllerOfMappingType(PlayerInformation.playerOneMapping);
+            }
+            else
+            {
+                inputController = this.GetInputControllerOfMappingType(PlayerInformation.playerTwoMapping);
+            }
+        }
+        else
+        {
+            inputController = Instantiate(this.networkInputControllerPrefab);
+        }
+
+        inputController.Init(
+            this.GetComponent<CapsuleCollider2D>(),
+            this.wallSlideColliderLeft,
+            this.wallSlideColliderRight,
+            this.onGroundCollider,
+            this.groundMask
+        );
+
+        return inputController;
+    }
+
+    /// <summary>
+    ///  Returns an instance of the input controller corresponding to the given mapping type
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    private InputController GetInputControllerOfMappingType(MappingType type)
+    {
+        switch (type)
+        {
+            case MappingType.KeyBoard:
+                return Instantiate(this.keyboardInputControllerPrefab);
+            case MappingType.Mouse:
+                return Instantiate(this.mouseInputControllerPrefab);
+            case MappingType.JoyStick:
+            default:
+                return Instantiate(this.joyStickInputControllerPrefab);
+        }
     }
 
     /**

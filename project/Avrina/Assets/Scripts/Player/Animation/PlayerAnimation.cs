@@ -3,7 +3,6 @@
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(InputController))]
 [RequireComponent(typeof(PlayerStateManager))]
 public class PlayerAnimation : MonoBehaviour
 {
@@ -22,7 +21,7 @@ public class PlayerAnimation : MonoBehaviour
     /// <summary>
     ///  Used to get all inputs and collisions
     /// </summary>
-    private InputController inputController;
+    [HideInInspector] public InputController inputController;
     /// <summary>
     ///  Used to get the current state of the player
     /// </summary>
@@ -41,7 +40,6 @@ public class PlayerAnimation : MonoBehaviour
         this.animator = GetComponent<Animator>();
         this.rb = GetComponent<Rigidbody2D>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
-        this.inputController = GetComponent<InputController>();
         this.stateManager = GetComponent<PlayerStateManager>();
 
         this.animator.SetFloat("X", 0);
