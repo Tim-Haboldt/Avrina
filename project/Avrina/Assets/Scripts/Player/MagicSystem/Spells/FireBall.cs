@@ -23,38 +23,13 @@ public class FireBall : Spell
 
 
     /// <summary>
-    ///  Will be called at the start of the lifetime of the spell
-    /// <param name="playerPosition">Position of the player at the time of the spell cast</param>
-    /// <param name="castDirection">Cast direction</param>
-    /// </summary>
-    [ClientRpc]
-    protected override void RpcInit(Vector2 playerPosition, Vector2 castDirection)
-    {
-        if (!this.isClientOnly)
-        {
-            return;
-        }
-
-        this.playerPosition = playerPosition;
-        this.castDirection = castDirection;
-
-        this.SetupFireBall();
-    }
-
-    /// <summary>
-    ///  Will be called at the start of the lifetime of the spell
-    /// </summary>
-    [Server]
-    protected override void ServerInit()
-    {
-        this.SetupFireBall();
-    }
-
-    /// <summary>
     ///  Will set the start rotation and the start position of the spell
     /// </summary>
-    private void SetupFireBall()
+    protected override void InitSpell()
     {
+        Debug.LogError(this.playerPosition);
+        Debug.LogError(this.castDirection);
+
         // Set position
         this.transform.position = this.playerPosition + this.castDirection * this.initalCastDistance;
         // Set rotation

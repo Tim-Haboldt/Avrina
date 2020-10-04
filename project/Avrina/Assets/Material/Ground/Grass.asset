@@ -19,4 +19,4 @@ MonoBehaviour:
   frictionWhileTurning: 0.4
   smallestMovementBeforeStop: 0.04
   canBeJumpedFrom: 1
-  jumpVelocity: 20
+  jumpVelocity: 24

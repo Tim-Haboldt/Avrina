@@ -10,6 +10,10 @@ public class Gravity : Action
     ///  What is the gravity velocity
     /// </summary>
     private float maxGravityVelocitry = 5f;
+    /// <summary>
+    ///  How much gravity will be added while the player is floating
+    /// </summary>
+    private float maxGravityVelocitryWhileFloating = 5f;
 
 
     /**
@@ -25,6 +29,10 @@ public class Gravity : Action
         {
             velocity.y = this.maxGravityVelocitry * -1;
         }
+        if (inputController.jumpInput && velocity.y < this.maxGravityVelocitryWhileFloating * -1)
+        {
+            velocity.y = this.maxGravityVelocitryWhileFloating * -1;
+        }
     }
 
     /**
@@ -36,6 +44,7 @@ public class Gravity : Action
     {
         this.gravity = config.gravity;
         this.maxGravityVelocitry = config.maxGravityVelocity;
+        this.maxGravityVelocitryWhileFloating = config.maxGravityWhileFloating;
     }
 
     /**

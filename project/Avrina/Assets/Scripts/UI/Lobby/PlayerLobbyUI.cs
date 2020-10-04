@@ -21,7 +21,7 @@ public class PlayerLobbyUI : MonoBehaviour
     /// <summary>
     ///  Will be called at the start of the game and stores all references to the playerUIElements
     /// </summary>
-    private void Start()
+    private void Awake()
     {
         this.playerUIElements.Add(this.playerUIElementOne);
         this.playerUIElements.Add(this.playerUIElementTwo);

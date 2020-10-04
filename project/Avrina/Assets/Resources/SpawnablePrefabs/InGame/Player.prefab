@@ -453,6 +453,7 @@ MonoBehaviour:
     m_Bits: 256
   playerConfig:
     gravity: 2
+    maxGravityWhileFloating: 12
     gravityDuringJump: 0.3
     maxGravityVelocity: 30
     maxJumpDuration: 0.2
@@ -462,8 +463,8 @@ MonoBehaviour:
     horizontalAccelerationInAir: 2
     airFrictionWhileNoInputGiven: 0.03
     airFrictionWhileMoving: 0.04
-    airFrictionWhileTurning: 0.2
-    airJumpStartVelocity: 16
+    airFrictionWhileTurning: 0.5
+    airJumpStartVelocity: 24
   currentState: 3
 --- !u!114 &635187082934474820
 MonoBehaviour:
@@ -477,6 +478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab3c69f50d1ea64db39e9feb8d527e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputController: {fileID: 0}
   runningVelocity: 4
 --- !u!114 &635187082934474822
 MonoBehaviour:
@@ -490,6 +492,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 376522c177a340f4d932a07ad313b18d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   firstSpirit: {fileID: 0}
   secondSpirit: {fileID: 0}
   castIndicator: {fileID: 635187081897874966}
@@ -587,5 +591,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  networkSyncInterval: 0.1
+  networkSyncInterval: 0.05
   maxPositionDifferenzBeforeTeleport: 10
+  isObjectServerSite: 0

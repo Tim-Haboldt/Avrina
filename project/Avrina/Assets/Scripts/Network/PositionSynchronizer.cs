@@ -9,7 +9,7 @@ public class PositionSynchronizer : NetworkBehaviour
     ///  How often will the values be synced via the network
     /// </summary>
     [Header("Sync Options")]
-    [SerializeField] private float networkSyncInterval = 0.1f;
+    [SerializeField] private float networkSyncInterval = 0.05f;
     private float invertedNetworkSyncInterval;
     /// <summary>
     ///  What is the max lerp distance before the player is just teleported. Should only happen if the local game is out of sync
@@ -29,10 +29,6 @@ public class PositionSynchronizer : NetworkBehaviour
     /// </summary>
     private Vector2 lerpDistance;
     /// <summary>
-    ///  What was the last position of the player. Used only for the authorized object to store the last position
-    /// </summary>
-    private Vector2 lastPos;
-    /// <summary>
     ///  What is the current position of the player at the time of the sync. Will only the used by the authorized object
     /// </summary>
     private Vector2 currentPos;
@@ -46,7 +42,7 @@ public class PositionSynchronizer : NetworkBehaviour
     /// <summary>
     ///  Used to calcualte the inverted netowork sync interval. Will grately decrease the calculation efford of the programm in each update loop
     /// </summary>
-    public override void OnStartClient()
+    public void Awake()
     {
         this.invertedNetworkSyncInterval = 1 / this.networkSyncInterval;
     }
@@ -64,6 +60,13 @@ public class PositionSynchronizer : NetworkBehaviour
         {
             this.UpdateOnClient();
         }
+
+        if (this.hasAuthority || this.isServer || this.nextPos == null)
+        {
+            return;
+        }
+
+        this.SmoothPlayerMovement();
     }
 
     /// <summary>
@@ -81,7 +84,6 @@ public class PositionSynchronizer : NetworkBehaviour
 
         this.lastSyncTimeStemp = Time.time - (passedTime - networkSyncInterval);
 
-        this.lastPos = this.currentPos;
         this.currentPos = this.transform.position;
 
         this.nextPos = this.currentPos;
@@ -101,8 +103,7 @@ public class PositionSynchronizer : NetworkBehaviour
         }
 
         this.lastSyncTimeStemp = Time.time - (passedTime - networkSyncInterval);
-
-        this.lastPos = this.currentPos;
+        
         this.currentPos = this.transform.position;
 
         this.CmdSendNextPosition(this.currentPos);
@@ -111,13 +112,8 @@ public class PositionSynchronizer : NetworkBehaviour
     /// <summary>
     ///  Used to smoothly update the position of the player
     /// </summary>
-    private void FixedUpdate()
-    {
-        if (this.hasAuthority || this.lerpDistance == null || (!this.isClientOnly && this.isObjectServerSite))
-        {
-            return;
-        }
-        
+    private void SmoothPlayerMovement()
+    {        
         var position = this.transform.position;
         var lerpDistance = this.nextPos - new Vector2(position.x, position.y);
         var distance = Vector2.Lerp(Vector2.zero, lerpDistance, Time.deltaTime * this.invertedNetworkSyncInterval);
@@ -141,7 +137,7 @@ public class PositionSynchronizer : NetworkBehaviour
     /// <param name="nextPosition"></param>
     private void HandlePositionWasSynced(Vector2 lastPosition, Vector2 nextPosition)
     {
-        if (this.hasAuthority || !this.isClientOnly)
+        if (this.hasAuthority || (this.isObjectServerSite && this.isServer))
         {
             return;
         }

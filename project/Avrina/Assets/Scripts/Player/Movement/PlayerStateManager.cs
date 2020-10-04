@@ -241,6 +241,11 @@ public class PlayerStateManager : NetworkBehaviour
      */
     private void FixedUpdate()
     {
+        if (!this.hasAuthority)
+        {
+            return;
+        }
+
         var playerVelocity = this.rb.velocity;
         this.states[this.currentState].PerformActions(ref playerVelocity);
         this.rb.velocity = playerVelocity;

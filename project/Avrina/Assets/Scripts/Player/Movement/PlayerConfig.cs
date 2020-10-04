@@ -8,6 +8,10 @@ public struct PlayerConfig
     /// </summary>
     public float gravity;
     /// <summary>
+    ///  How much fast can the player fall during the float animation
+    /// </summary>
+    public float maxGravityWhileFloating;
+    /// <summary>
     ///  Lowers the gravity during the jump
     /// </summary>
     public float gravityDuringJump;
