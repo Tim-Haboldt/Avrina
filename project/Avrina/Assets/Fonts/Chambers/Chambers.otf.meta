@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 3b13fbfb2487a0948ab193c0b9bd9cdd
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Chambers
+  fontNames:
+  - Chambers
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 582f05eae5c2ae943b48d8a001bf5e6c, type: 3}
+  - {fileID: 12800000, guid: f9a890ae6713a354aa92faa8d51e4b5e, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
