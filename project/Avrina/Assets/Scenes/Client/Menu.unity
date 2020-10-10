@@ -502,7 +502,7 @@ RectTransform:
   - {fileID: 458674937}
   - {fileID: 915919151}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -610,11 +610,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 256488334}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.2433453, y: 0.3075351, z: 167.661}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 801471100}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!199 &256488336
 ParticleSystemRenderer:
@@ -5628,7 +5628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 1906512109}
+  m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &420378358
@@ -5643,7 +5643,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &458674936
 GameObject:
@@ -5679,7 +5679,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -48, y: 125.4}
+  m_AnchoredPosition: {x: -42, y: 153}
   m_SizeDelta: {x: 603.2094, y: 150.80235}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &458674938
@@ -5701,10 +5701,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Devil in You
+  m_text: Lost soul
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cab0483339ce30540a442b2fe3490ace, type: 2}
-  m_sharedMaterial: {fileID: 6606877464526919538, guid: cab0483339ce30540a442b2fe3490ace,
+  m_fontAsset: {fileID: 11400000, guid: 5aa325959461ea34d829d34fc1affd6b, type: 2}
+  m_sharedMaterial: {fileID: -5637653189086237239, guid: 5aa325959461ea34d829d34fc1affd6b,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -5730,16 +5730,16 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 110.39
-  m_fontSizeBase: 110.39
+  m_fontSize: 165.74
+  m_fontSizeBase: 165.74
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_textAlignment: 514
-  m_characterSpacing: 0.58
-  m_wordSpacing: 0
+  m_characterSpacing: -1.2
+  m_wordSpacing: 4.33
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
@@ -5768,13 +5768,13 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -98.29966, w: 0}
+  m_margin: {x: -55.535114, y: 0, z: -139.95107, w: 0}
   m_textInfo:
     textComponent: {fileID: 458674938}
-    characterCount: 12
+    characterCount: 9
     spriteCount: 0
-    spaceCount: 2
-    wordCount: 3
+    spaceCount: 1
+    wordCount: 2
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -6173,8 +6173,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -170.1}
-  m_SizeDelta: {x: 232, y: 43.5}
+  m_AnchoredPosition: {x: 8, y: -156}
+  m_SizeDelta: {x: 179.15295, y: 33.59117}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &694521903
 MonoBehaviour:
@@ -6440,8 +6440,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -110.100006}
-  m_SizeDelta: {x: 232, y: 43.5}
+  m_AnchoredPosition: {x: 8.000021, y: -109.59999}
+  m_SizeDelta: {x: 179.15295, y: 33.59117}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &789322140
 MonoBehaviour:
@@ -6648,8 +6648,9 @@ Transform:
   m_Children:
   - {fileID: 2051934047}
   - {fileID: 649689423}
+  - {fileID: 256488335}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &812874668
 GameObject:
@@ -6939,7 +6940,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 10}
+  m_AnchoredPosition: {x: -8.3, y: 24.9}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &923023115
@@ -7072,7 +7073,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 58092f60647516446a59035ffb4df029, type: 3}
-    m_FontSize: 22
+    m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -7150,7 +7151,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 58092f60647516446a59035ffb4df029, type: 3}
-    m_FontSize: 22
+    m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -7380,7 +7381,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 58092f60647516446a59035ffb4df029, type: 3}
-    m_FontSize: 22
+    m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -8518,8 +8519,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 9.9}
-  m_SizeDelta: {x: 232, y: 43.5}
+  m_AnchoredPosition: {x: 8.000021, y: -16.999994}
+  m_SizeDelta: {x: 179.15295, y: 33.59117}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1906512111
 MonoBehaviour:
@@ -8662,8 +8663,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -50.100002}
-  m_SizeDelta: {x: 232, y: 43.5}
+  m_AnchoredPosition: {x: 8.000021, y: -63.299995}
+  m_SizeDelta: {x: 179.15295, y: 33.59117}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1907791459
 MonoBehaviour:
@@ -8827,7 +8828,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 58092f60647516446a59035ffb4df029, type: 3}
-    m_FontSize: 22
+    m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0

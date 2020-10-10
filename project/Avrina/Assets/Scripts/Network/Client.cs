@@ -7,9 +7,8 @@ public class Client : NetworkManager
     /// <summary>
     ///  Those events will be called at the named events only if the current instance is the one of the client
     /// </summary>
-    [Header("Events")]
-    [SerializeField] private UnityEvent onClientConnected;
-    [SerializeField] private UnityEvent onClientDisconnected;
+    [HideInInspector] public UnityEvent onClientConnect;
+    [HideInInspector] public UnityEvent onClientDisconnect;
 
     /// <summary>
     ///  Will be called at the start of the client and loads all client related resources
@@ -32,7 +31,7 @@ public class Client : NetworkManager
     {
         base.OnClientConnect(conn);
 
-        this.onClientConnected?.Invoke();
+        this.onClientConnect?.Invoke();
     }
 
     /// <summary>
@@ -43,6 +42,6 @@ public class Client : NetworkManager
     {
         base.OnClientDisconnect(conn);
 
-        this.onClientDisconnected?.Invoke();
+        this.onClientDisconnect?.Invoke();
     }
 }

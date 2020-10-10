@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
+using UnityEngine.Events;
 
 public class ConnectionSetup : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class ConnectionSetup : MonoBehaviour
     /// <summary>
     ///  Handles all network related traffic of the client
     /// </summary>
-    [SerializeField] private Client networkManager;
+    [SerializeField] private Client networkManagerPrefab;
 
     /// <summary>
     ///  Used to change to the host scene once the user hosts a server
@@ -43,6 +44,11 @@ public class ConnectionSetup : MonoBehaviour
     ///  Used to change the scene once an disconnect occoured
     /// </summary>
     [Scene] [SerializeField] private string serverListScene;
+    /// <summary>
+    ///  Stores the current client instance. Used to connect to a game.
+    ///  Will be destoryed after leaving the scene or if the connection was not successful
+    /// </summary>
+    private Client currentClientInstance;
 
 
     /// <summary>
@@ -73,9 +79,18 @@ public class ConnectionSetup : MonoBehaviour
         this.inputCanvas.enabled = false;
         this.connectingCanvas.enabled = true;
 
-        this.networkManager.networkAddress = serverAdress;
+        // Create network instance
+        this.currentClientInstance = Instantiate(this.networkManagerPrefab);
+        // Register events
+        this.currentClientInstance.onClientConnect = new UnityEvent();
+        this.currentClientInstance.onClientConnect.AddListener(this.OnConnectionSuccess);
+        this.currentClientInstance.onClientDisconnect = new UnityEvent();
+        this.currentClientInstance.onClientDisconnect.AddListener(this.OnConnectionFailed);
+        // Set variables like player name and server address
         PlayerInformation.playerName = playerName;
-        this.networkManager.StartClient();
+        this.currentClientInstance.networkAddress = serverAdress;
+        // Start client connection
+        this.currentClientInstance.StartClient();
     }
 
     /// <summary>
@@ -94,7 +109,12 @@ public class ConnectionSetup : MonoBehaviour
         this.connectingCanvas.enabled = true;
 
         PlayerInformation.playerName = playerName;
-        Destroy(this.networkManager.gameObject);
+        if (this.currentClientInstance != null)
+        {
+            Destroy(this.currentClientInstance.gameObject);
+            this.currentClientInstance = null;
+        }
+
         SceneManager.LoadScene(this.serverHostScene, LoadSceneMode.Single);
     }
 
@@ -111,7 +131,11 @@ public class ConnectionSetup : MonoBehaviour
     /// </summary>
     public void OnConnectionFailed()
     {
-        Destroy(this.networkManager.gameObject);
+        if (this.currentClientInstance != null)
+        {
+            Destroy(this.currentClientInstance.gameObject);
+            this.currentClientInstance = null;
+        }
 
         SceneManager.LoadSceneAsync(this.serverListScene, LoadSceneMode.Single);
     }

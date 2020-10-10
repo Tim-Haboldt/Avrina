@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4085907918108085351
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4085907918108085349}
+  - component: {fileID: 4085907918108085348}
+  - component: {fileID: 4085907918108085346}
+  m_Layer: 0
+  m_Name: NetworkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4085907918108085349
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4085907918108085351}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 641.6626, y: 257.9461, z: -4.803475}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4085907918108085348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4085907918108085351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7424c1070fad4ba2a7a96b02fbeb4bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnClientConnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientDataReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientError:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientDisconnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerConnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerDataReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerError:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerDisconnected:
+    m_PersistentCalls:
+      m_Calls: []
+  port: 7777
+  NoDelay: 1
+  serverMaxMessageSize: 16384
+  serverMaxReceivesPerTick: 10000
+  clientMaxMessageSize: 16384
+  clientMaxReceivesPerTick: 1000
+--- !u!114 &4085907918108085346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4085907918108085351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22e0894c5e6a1ee48a6d61e21c22fa2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 1
+  runInBackground: 1
+  startOnHeadless: 1
+  showDebugMessages: 0
+  serverTickRate: 30
+  offlineScene: 
+  onlineScene: 
+  transport: {fileID: 4085907918108085348}
+  networkAddress: localhost
+  maxConnections: 4
+  disconnectInactiveConnections: 0
+  disconnectInactiveTimeout: 60
+  authenticator: {fileID: 0}
+  playerPrefab: {fileID: 0}
+  autoCreatePlayer: 0
+  playerSpawnMethod: 0
+  spawnPrefabs: []
+  onClientConnected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnConnectionSuccess
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onClientDisconnected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnConnectionFailed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
