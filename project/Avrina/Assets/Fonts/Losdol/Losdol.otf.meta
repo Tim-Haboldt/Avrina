@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 3e033a99b1e33e44c974a68531022a13
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Losdol
+  fontNames:
+  - Losdol
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 545618053a9ccf44b8b7043f580158ab, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

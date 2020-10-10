@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 7a639645a24e3b5449a2faba499a55bb
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Astania
+  fontNames:
+  - Astania
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 72322aded04b11c4b8bbcfcbc502a873, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
