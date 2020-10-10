@@ -322,4 +322,4 @@ MonoBehaviour:
     type: 3}
   blackSpiritSecondPlayer: {fileID: 5055057889583597786, guid: c7183acc972c1b746b4bfd39f7f98f10,
     type: 3}
-  gameScene: Assets/Scenes/Client/OnlineMultiplayer.unity
+  gameScene: Assets/Scenes/OnlineMultiplayer.unity

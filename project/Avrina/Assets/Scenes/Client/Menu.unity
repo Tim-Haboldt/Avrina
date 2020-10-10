@@ -8625,7 +8625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f667b80c67070fe41809da21937832d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Assets/Scenes/Client/TestMovement.unity
+  sceneName: Assets/Scenes/Client/HowToPlay.unity
 --- !u!1 &1907791457
 GameObject:
   m_ObjectHideFlags: 0
