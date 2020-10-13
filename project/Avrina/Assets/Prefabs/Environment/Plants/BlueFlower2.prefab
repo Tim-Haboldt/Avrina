@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 8735732730962396069}
   - component: {fileID: 1909638279283164049}
   m_Layer: 0
-  m_Name: BluePlant2
+  m_Name: BlueFlower2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -165,7 +165,7 @@ Animator:
   m_GameObject: {fileID: 3480619832680949229}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5bf41e5e7f01bcc408966d336159be8b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 53509696624c8ba4cab35c71f0b42c68, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
