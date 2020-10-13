@@ -41,14 +41,20 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Ground
+  - name: Background
     uniqueID: 787041237
     locked: 0
   - name: Player
     uniqueID: 2710312031
     locked: 0
+  - name: Ground
+    uniqueID: 1870239705
+    locked: 0
   - name: Spells
     uniqueID: 3154682275
+    locked: 0
+  - name: Forground
+    uniqueID: 1488540985
     locked: 0
   - name: MagicSystem
     uniqueID: 220128877
