@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 635187081897874955}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9, y: 0.061, z: 0}
+  m_LocalPosition: {x: 11, y: 0.061, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 635187082934474875}
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16b5d2feca32667478326ba57040566a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToPlayer: 9
+  distanceToPlayer: 11
 --- !u!1 &635187082366602217
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,7 +140,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.12858772, y: 0.0063290596}
+  m_Offset: {x: -1.5503081, y: -0.33583283}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 1}
@@ -151,7 +151,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.07806015, y: 0.7856245}
+  m_Size: {x: 3.3310487, y: 5.7073417}
   m_EdgeRadius: 0
 --- !u!114 &635187082366602228
 MonoBehaviour:
@@ -211,7 +211,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.18264389, y: 0.0055327415}
+  m_Offset: {x: 2.1621966, y: -0.29584646}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 1}
@@ -222,7 +222,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.06440735, y: 0.77219486}
+  m_Size: {x: 3.1910288, y: 5.5813284}
   m_EdgeRadius: 0
 --- !u!114 &635187082687971514
 MonoBehaviour:
@@ -282,7 +282,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.06261253, y: -0.51645136}
+  m_Offset: {x: 0.40600455, y: -8.068775}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 1}
@@ -293,7 +293,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3065071, y: 0.0817976}
+  m_Size: {x: 3.3099086, y: 2.5339766}
   m_EdgeRadius: 0
 --- !u!114 &635187082746087878
 MonoBehaviour:
@@ -342,8 +342,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 635187082934474878}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 41.08, y: 5.77, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 256.04953, y: 130.18143, z: 0}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1}
   m_Children:
   - {fileID: 635187082746087928}
   - {fileID: 635187082366602230}
@@ -452,19 +452,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   playerConfig:
-    gravity: 2
-    maxGravityWhileFloating: 12
+    gravity: 8
+    maxGravityWhileFloating: 90
     gravityDuringJump: 0.3
-    maxGravityVelocity: 30
+    maxGravityVelocity: 320
     maxJumpDuration: 0.2
     groundMask:
       serializedVersion: 2
       m_Bits: 256
-    horizontalAccelerationInAir: 2
+    horizontalAccelerationInAir: 9
     airFrictionWhileNoInputGiven: 0.03
     airFrictionWhileMoving: 0.04
-    airFrictionWhileTurning: 0.5
-    airJumpStartVelocity: 24
+    airFrictionWhileTurning: 1
+    airJumpStartVelocity: 90
+    maxGroundDistanceForSlopes: 35
   currentState: 3
 --- !u!114 &635187082934474820
 MonoBehaviour:
@@ -510,8 +511,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.028589249, y: -0.02491951}
-  m_Size: {x: 0.29808426, y: 0.9845505}
+  m_Offset: {x: 0.14958468, y: -0.13040976}
+  m_Size: {x: 5.746751, y: 14.563371}
   m_Direction: 0
 --- !u!95 &635187082934474873
 Animator:

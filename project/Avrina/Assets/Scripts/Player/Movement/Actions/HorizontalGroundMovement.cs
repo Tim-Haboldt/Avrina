@@ -6,6 +6,10 @@ public class HorizontalGroundMovement : Action
     ///  What is the mask of the ground objects
     /// </summary>
     private LayerMask groundMask;
+    /// <summary>
+    ///  Defines how fast a slope can fall down for the player to still act as if on ground
+    /// </summary>
+    private float maxGroundDistanceForSlopes;
 
 
     /**
@@ -55,7 +59,7 @@ public class HorizontalGroundMovement : Action
         {
             // Do not change from ground to air state if the last ground position height was close to the same as the next one even if the player is in the air.
             var playerBottom = this.GetCenterOfPlayer(inputController, Vector2.down, 0.5f);
-            RaycastHit2D ground = Physics2D.Raycast(playerBottom, Vector2.down, 5, this.groundMask);
+            RaycastHit2D ground = Physics2D.Raycast(playerBottom, Vector2.down, this.maxGroundDistanceForSlopes, this.groundMask);
             var slopeAngle = 0f;
             if (ground.collider != null)
             {
@@ -70,7 +74,7 @@ public class HorizontalGroundMovement : Action
                 // The player is moving up a slope
                 var movementDirection = new Vector2(Mathf.Sign(nextMovementSpeed), 0);
                 var corner = this.GetCenterOfPlayer(inputController, movementDirection, 0.5f);
-                RaycastHit2D nextGround = Physics2D.Raycast(corner, Vector2.down, 5, this.groundMask);
+                RaycastHit2D nextGround = Physics2D.Raycast(corner, Vector2.down, this.maxGroundDistanceForSlopes, this.groundMask);
                 if (nextGround.collider != null)
                 {
                     if (Vector2.SignedAngle(nextGround.normal, Vector2.up) == 0)
@@ -110,6 +114,7 @@ public class HorizontalGroundMovement : Action
     public void Setup(PlayerConfig config)
     {
         this.groundMask = config.groundMask;
+        this.maxGroundDistanceForSlopes = config.maxGroundDistanceForSlopes;
     }
 
     /**

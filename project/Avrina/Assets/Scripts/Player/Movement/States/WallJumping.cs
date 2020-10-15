@@ -37,7 +37,7 @@ public class WallJumping : StateInheritingAction
 
         if ((!this.inputController.jumpInput) || passedTime >= this.wallJumpMaxDuration)
         {
-            return PlayerState.Immobile;
+            return PlayerState.InAir;
         }
 
         return this.name;

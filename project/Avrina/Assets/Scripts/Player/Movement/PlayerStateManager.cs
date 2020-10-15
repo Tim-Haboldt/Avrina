@@ -114,6 +114,8 @@ public class PlayerStateManager : NetworkBehaviour
         InputController inputController = null;
         if (this.hasAuthority)
         {
+            Camera.main.GetComponent<CameraFollowObjects>().AddObjectToFollow(this.transform);
+
             if (this.isLocalPlayer)
             {
                 inputController = this.GetInputControllerOfMappingType(PlayerInformation.playerOneMapping);

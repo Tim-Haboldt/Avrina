@@ -47,4 +47,8 @@ public struct PlayerConfig
     ///  Velocity on the start of the air jump
     /// </summary>
     public float airJumpStartVelocity;
+    /// <summary>
+    ///  How far can the slope go down per player movement to still act as if the player is on ground
+    /// </summary>
+    public float maxGroundDistanceForSlopes;
 }

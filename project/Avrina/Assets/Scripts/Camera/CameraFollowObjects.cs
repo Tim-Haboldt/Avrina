@@ -46,6 +46,15 @@ public class CameraFollowObjects : MonoBehaviour
     }
 
     /// <summary>
+    ///  Will add an object to follow to the main camera
+    /// </summary>
+    /// <param name="objectToFollow">Will be added to the object which will be followed</param>
+    public void AddObjectToFollow(Transform objectToFollow)
+    {
+        this.objectsToFollow.Add(objectToFollow);
+    }
+
+    /// <summary>
     ///  Updates the camera position in order to get all the objects inside the view
     /// </summary>
     private void LateUpdate()
