@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Grass
   m_EditorClassIdentifier: 
   priority: 1
-  acceleration: 20
+  acceleration: 4
   frictionWhileNoInputGiven: 0.3
   frictionWhileMoving: 0.17
   frictionWhileTurning: 0.4
   smallestMovementBeforeStop: 0.04
   canBeJumpedFrom: 1
-  jumpVelocity: 110
+  jumpVelocity: 25

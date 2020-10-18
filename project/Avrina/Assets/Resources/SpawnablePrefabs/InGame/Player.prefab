@@ -342,8 +342,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 635187082934474878}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 256.04953, y: 130.18143, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1}
+  m_LocalPosition: {x: 50, y: 20, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_Children:
   - {fileID: 635187082746087928}
   - {fileID: 635187082366602230}
@@ -452,20 +452,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   playerConfig:
-    gravity: 8
-    maxGravityWhileFloating: 90
+    gravity: 4
+    maxGravityWhileFloating: 20
     gravityDuringJump: 0.3
-    maxGravityVelocity: 320
+    maxGravityVelocity: 50
     maxJumpDuration: 0.2
     groundMask:
       serializedVersion: 2
       m_Bits: 256
-    horizontalAccelerationInAir: 9
+    horizontalAccelerationInAir: 2
     airFrictionWhileNoInputGiven: 0.03
     airFrictionWhileMoving: 0.04
     airFrictionWhileTurning: 1
-    airJumpStartVelocity: 90
-    maxGroundDistanceForSlopes: 35
+    airJumpStartVelocity: 40
+    maxGroundDistanceForSlopes: 10
   currentState: 3
 --- !u!114 &635187082934474820
 MonoBehaviour:

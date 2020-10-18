@@ -15,9 +15,9 @@ MonoBehaviour:
   priority: 0
   friction: 0.3
   canBeJumpedFrom: 1
-  startJumpVelocityX: 60
-  startJumpVelocityY: 80
+  startJumpVelocityX: 40
+  startJumpVelocityY: 30
   canBeClimedOn: 1
-  acceleration: 25
+  acceleration: 10
   frictionWhileMovingUp: 0.6
   frictionWhileMovingDown: 0.3
