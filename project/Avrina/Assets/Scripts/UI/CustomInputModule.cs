@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -60,6 +61,18 @@ public class CustomInputModule : PointerInputModule
     /// </summary>
     [SerializeField] private KeyCode joyStickBack;
     /// <summary>
+    ///  Stores the hover sound effect
+    /// </summary>
+    [SerializeField] private AudioClip hoverSoundClip = null;
+    /// <summary>
+    ///  Stores the click sound effect
+    /// </summary>
+    [SerializeField] private DestroyAfterPlaying clickSound = null;
+    /// <summary>
+    ///  Position to play the hover audio sound from
+    /// </summary>
+    [SerializeField] private Vector3 audioPosition = Vector3.zero;
+    /// <summary>
     ///  Stores the current input method
     /// </summary>
     private InputMode currentInputMethod = InputMode.Buttons;
@@ -100,8 +113,10 @@ public class CustomInputModule : PointerInputModule
                 break;
         }
         
-        if (Input.GetKey(this.joyStickBack) || Input.GetKey(this.keyBoardBack))
+        if (Input.GetKeyDown(this.joyStickBack) || Input.GetKeyDown(this.keyBoardBack))
         {
+            Instantiate(this.clickSound).Play();
+
             this.backEvent.Invoke();
         }
 
@@ -146,7 +161,12 @@ public class CustomInputModule : PointerInputModule
         {
             var data = GetBaseEventData();
             var selectedObject = this.eventSystem.currentSelectedGameObject;
-            this.SetSelectedGameObject();
+            if (selectedObject == null)
+            {
+                return;
+            }
+
+            Instantiate(this.clickSound).Play();
             ExecuteEvents.Execute(selectedObject, data, ExecuteEvents.submitHandler);
         }
     }
@@ -159,14 +179,7 @@ public class CustomInputModule : PointerInputModule
     {
         if (this.eventSystem.currentSelectedGameObject == null)
         {
-            if (this.lastSelected != null)
-            {
-                this.eventSystem.SetSelectedGameObject(this.lastSelected);
-            }
-            else
-            {
-                this.eventSystem.SetSelectedGameObject(this.firstObjectToBeSelected);
-            }
+            this.eventSystem.SetSelectedGameObject(this.firstObjectToBeSelected);
 
             return true;
         }
@@ -186,8 +199,10 @@ public class CustomInputModule : PointerInputModule
         }
 
         var data = GetBaseEventData();
-        if (Input.GetKey(this.keyBoardAccept) || Input.GetKey(this.joyStickAccept))
+        if (Input.GetKeyDown(this.keyBoardAccept) || Input.GetKeyDown(this.joyStickAccept))
         {
+            Instantiate(this.clickSound).Play();
+
             var selectedObject = this.eventSystem.currentSelectedGameObject;
             ExecuteEvents.Execute(selectedObject, data, ExecuteEvents.submitHandler);
         }
@@ -261,6 +276,23 @@ public class CustomInputModule : PointerInputModule
             || Input.GetKey(this.keyBoardBack)
         ) {
             this.currentInputMethod = InputMode.Buttons;
+        }
+    }
+
+    /// <summary>
+    ///  Checks if the current selected gameobject changed
+    /// </summary>
+    public void Update()
+    {
+        if (this.lastSelected == null)
+        {
+            this.lastSelected = this.eventSystem.currentSelectedGameObject;
+        }
+
+        if (this.lastSelected != this.eventSystem.currentSelectedGameObject)
+        {
+            this.lastSelected = this.eventSystem.currentSelectedGameObject;
+            AudioSource.PlayClipAtPoint(this.hoverSoundClip, this.audioPosition, 1f);
         }
     }
 
