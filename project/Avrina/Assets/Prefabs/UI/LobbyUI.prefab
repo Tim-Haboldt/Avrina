@@ -2168,6 +2168,10 @@ MonoBehaviour:
   joyStickAccept: 350
   keyBoardBack: 27
   joyStickBack: 351
+  hoverSoundClip: {fileID: 8300000, guid: fc3e57f0eb56a914eb9cb6e2b7b58453, type: 3}
+  clickSound: {fileID: 5553568383012639675, guid: 4251af8277d661b43a257e214238323b,
+    type: 3}
+  audioPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &941240892485899672
 MonoBehaviour:
   m_ObjectHideFlags: 0
