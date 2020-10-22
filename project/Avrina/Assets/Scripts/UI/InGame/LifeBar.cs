@@ -27,7 +27,6 @@ public class LifeBar : MonoBehaviour
     public void Start()
     {
         this.UpdateLifeBar(1f);
-        this.gameObject.SetActive(false);
     }
 
     /// <summary>

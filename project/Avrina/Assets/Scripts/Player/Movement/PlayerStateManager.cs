@@ -6,6 +6,7 @@ using Mirror;
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(PlayerAnimation))]
 [RequireComponent(typeof(MagicSystemController))]
+[RequireComponent(typeof(PlayerStatus))]
 public class PlayerStateManager : NetworkBehaviour
 {
     [Header("Input Prefabs")]
@@ -32,12 +33,16 @@ public class PlayerStateManager : NetworkBehaviour
     /// </summary>
     [SerializeField] private LayerMask groundMask = 0;
 
+    [Header("Configuration")]
     /// <summary>
     ///  Player Material defines all movement related player constants
     /// </summary>
-    [SerializeField]
-    private PlayerConfig playerConfig;
+    [SerializeField] private PlayerConfig playerConfig;
 
+    /// <summary>
+    ///  Current status of the player object like health or current applied status effect
+    /// </summary>
+    private PlayerStatus playerStatus;
     /// <summary>
     ///  Handels the animations of the player
     /// </summary>
@@ -88,6 +93,14 @@ public class PlayerStateManager : NetworkBehaviour
 
         var magicSystemController = this.GetComponent<MagicSystemController>();
         magicSystemController.inputController = inputController;
+
+        this.playerStatus = this.GetComponent<PlayerStatus>();
+        this.playerStatus.inputController = inputController;
+        this.playerStatus.Init(
+            this.isLocalPlayer ? PlayerStatus.InitStatus.PLAYER_ONE 
+            : this.hasAuthority ? PlayerStatus.InitStatus.PLAYER_TWO 
+            : PlayerStatus.InitStatus.UNKNOWN
+        );
 
         if (this.hasAuthority)
         {

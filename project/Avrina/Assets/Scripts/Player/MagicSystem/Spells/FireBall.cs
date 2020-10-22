@@ -27,9 +27,6 @@ public class FireBall : Spell
     /// </summary>
     protected override void InitSpell()
     {
-        Debug.LogError(this.playerPosition);
-        Debug.LogError(this.castDirection);
-
         // Set position
         this.transform.position = this.playerPosition + this.castDirection * this.initalCastDistance;
         // Set rotation

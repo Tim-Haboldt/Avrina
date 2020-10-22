@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 635187081897874955}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11, y: 0.061, z: 0}
+  m_LocalPosition: {x: 9, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 635187082934474875}
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16b5d2feca32667478326ba57040566a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToPlayer: 11
+  distanceToPlayer: 1.556
 --- !u!1 &635187082366602217
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,6 +327,7 @@ GameObject:
   - component: {fileID: 635187082934474823}
   - component: {fileID: 1230979819959207452}
   - component: {fileID: 845028111420348079}
+  - component: {fileID: 868333019}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -595,3 +596,24 @@ MonoBehaviour:
   networkSyncInterval: 0.05
   maxPositionDifferenzBeforeTeleport: 10
   isObjectServerSite: 0
+--- !u!114 &868333019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635187082934474878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797128d2c93899248b229722581c5d13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  statusEffect: 0
+  lifePoints: 1
+  lifeBarP1: {fileID: 4962307316861780346, guid: d1aad7f965e774d48956255548b94484,
+    type: 3}
+  lifeBarP2: {fileID: 6077750591943577400, guid: 8fa4e0b21ae364b458f5d8196de6e65d,
+    type: 3}
+  inputController: {fileID: 0}

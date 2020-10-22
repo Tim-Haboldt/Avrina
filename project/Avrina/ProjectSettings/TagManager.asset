@@ -56,6 +56,9 @@ TagManager:
   - name: Forground
     uniqueID: 1488540985
     locked: 0
+  - name: Spirit
+    uniqueID: 3463389181
+    locked: 0
   - name: MagicSystem
     uniqueID: 220128877
     locked: 0

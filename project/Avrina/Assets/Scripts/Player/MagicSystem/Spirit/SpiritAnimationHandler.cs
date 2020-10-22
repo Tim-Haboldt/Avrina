@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 using Mirror;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -26,6 +27,32 @@ public class SpiritAnimationHandler : NetworkBehaviour
     /// </summary>
     [SerializeField] private Sprite earthSprite;
 
+    [Header("Lighting")]
+    /// <summary>
+    ///  Used to update the light color of the light
+    /// </summary>
+    [SerializeField] private Light2D light2D = null;
+    /// <summary>
+    ///  Light color of the sprite if it represents no specific element
+    /// </summary>
+    [SerializeField] private Color noElement;
+    /// <summary>
+    ///  Light color of the fire element
+    /// </summary>
+    [SerializeField] private Color fire;
+    /// <summary>
+    ///  Light color of the water element
+    /// </summary>
+    [SerializeField] private Color water;
+    /// <summary>
+    ///  Light color of the air element
+    /// </summary>
+    [SerializeField] private Color air;
+    /// <summary>
+    ///  Light color of the earth element
+    /// </summary>
+    [SerializeField] private Color earth;
+
     /// <summary>
     ///  Used to update the sprite of the spirit corresponding to its state
     /// </summary>
@@ -49,18 +76,23 @@ public class SpiritAnimationHandler : NetworkBehaviour
         {
             case SpiritState.None:
                 this.spriteRenderer.sprite = this.noElementSprite;
+                this.light2D.color = this.noElement;
                 break;
             case SpiritState.Air:
                 this.spriteRenderer.sprite = this.airSprite;
+                this.light2D.color = this.air;
                 break;
             case SpiritState.Fire:
                 this.spriteRenderer.sprite = this.fireSprite;
+                this.light2D.color = this.fire;
                 break;
             case SpiritState.Water:
                 this.spriteRenderer.sprite = this.waterSprite;
+                this.light2D.color = this.water;
                 break;
             case SpiritState.Earth:
                 this.spriteRenderer.sprite = this.earthSprite;
+                this.light2D.color = this.earth;
                 break;
         }
     }
