@@ -23,6 +23,7 @@ public class DestroyAfterPlaying : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         this.audioSource = GetComponent<AudioSource>();
+        this.audioSource.volume *= AudioStorage.soundEffectVolume;
         this.audioSource.Play();
 
         this.startTime = Time.time;

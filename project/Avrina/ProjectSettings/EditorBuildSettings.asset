@@ -9,6 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Client/Menu.unity
     guid: d878a3266aa15684eb722899fe677635
   - enabled: 1
+    path: Assets/Scenes/Client/HowToPlay.unity
+    guid: 6b160c561e479d649b596c80041057e8
+  - enabled: 1
+    path: Assets/Scenes/Client/Tutorial.unity
+    guid: a28869da03845354ca1ef9671d63ed97
+  - enabled: 1
+    path: Assets/Scenes/Client/Options.unity
+    guid: ddb26481012d0d04086a343c2c1a57f1
+  - enabled: 1
     path: Assets/Scenes/Client/ServerList.unity
     guid: e4aec624c2a136d4ea59ac04907abf16
   - enabled: 1
@@ -19,8 +28,5 @@ EditorBuildSettings:
     guid: 217f39d6dd844d84dbb3730c337aef7e
   - enabled: 1
     path: Assets/Scenes/OnlineMultiplayer.unity
-    guid: 19acf73c87d4c484d8bb27fd04a7bad0
-  - enabled: 1
-    path: Assets/Scenes/Client/HowToPlay.unity
-    guid: 6b160c561e479d649b596c80041057e8
+    guid: 70a06b3f304494a4985eb712185773f5
   m_configObjects: {}

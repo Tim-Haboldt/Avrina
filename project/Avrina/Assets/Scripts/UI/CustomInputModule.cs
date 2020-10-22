@@ -115,7 +115,10 @@ public class CustomInputModule : PointerInputModule
         
         if (Input.GetKeyDown(this.joyStickBack) || Input.GetKeyDown(this.keyBoardBack))
         {
-            Instantiate(this.clickSound).Play();
+            if (!AudioStorage.areSoundEffectsMuted)
+            {
+                Instantiate(this.clickSound).Play();
+            }
 
             this.backEvent.Invoke();
         }
@@ -166,7 +169,11 @@ public class CustomInputModule : PointerInputModule
                 return;
             }
 
-            Instantiate(this.clickSound).Play();
+            if (!AudioStorage.areSoundEffectsMuted)
+            {
+                Instantiate(this.clickSound).Play();
+            }
+
             ExecuteEvents.Execute(selectedObject, data, ExecuteEvents.submitHandler);
         }
     }
@@ -201,7 +208,10 @@ public class CustomInputModule : PointerInputModule
         var data = GetBaseEventData();
         if (Input.GetKeyDown(this.keyBoardAccept) || Input.GetKeyDown(this.joyStickAccept))
         {
-            Instantiate(this.clickSound).Play();
+            if (!AudioStorage.areSoundEffectsMuted)
+            {
+                Instantiate(this.clickSound).Play();
+            }
 
             var selectedObject = this.eventSystem.currentSelectedGameObject;
             ExecuteEvents.Execute(selectedObject, data, ExecuteEvents.submitHandler);
@@ -292,7 +302,11 @@ public class CustomInputModule : PointerInputModule
         if (this.lastSelected != this.eventSystem.currentSelectedGameObject)
         {
             this.lastSelected = this.eventSystem.currentSelectedGameObject;
-            AudioSource.PlayClipAtPoint(this.hoverSoundClip, this.audioPosition, 1f);
+
+            if (!AudioStorage.areSoundEffectsMuted)
+            {
+                AudioSource.PlayClipAtPoint(this.hoverSoundClip, this.audioPosition, AudioStorage.soundEffectVolume);
+            }
         }
     }
 

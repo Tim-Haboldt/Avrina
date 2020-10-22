@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -6433,7 +6433,7 @@ GameObject:
   - component: {fileID: 789322141}
   - component: {fileID: 789322140}
   m_Layer: 5
-  m_Name: Controls
+  m_Name: Options
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6471,7 +6471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f667b80c67070fe41809da21937832d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: 
+  sceneName: Assets/Scenes/Client/Options.unity
 --- !u!114 &789322141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7420,7 +7420,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Controls
+  m_Text: Options
 --- !u!222 &1335381920
 CanvasRenderer:
   m_ObjectHideFlags: 0
