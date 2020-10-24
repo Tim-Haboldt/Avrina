@@ -27,14 +27,14 @@ public class WaspParticleEffect : BaseParticleEffect
     {
         this.isExitAnimationRunning = false;
         this.currentTime = 0f;
-        lightSource.intensity = 0f;
+        this.lightSource.intensity = 0f;
     }
 
     /// <summary>
     ///  Handles the particle update
     /// </summary>
     /// <param name="particle">Current assigned particle</param>
-    protected override void HandleParticleUpdate(ParticleSystem.Particle particle)
+    protected override void HandleParticleUpdate(ParticleSystem.Particle particle, ParticleSystem particleSystem)
     {
         this.UpdateParticleEffectState(particle);
 

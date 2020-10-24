@@ -20,6 +20,10 @@ public class FireBall : Spell
     ///  Used to move the spell
     /// </summary>
     [SerializeField] private Rigidbody2D rb;
+    /// <summary>
+    ///  Will be created at the point where the fireball hit something
+    /// </summary>
+    [SerializeField] private Explosion explosionPrefab;
 
 
     /// <summary>
@@ -45,6 +49,10 @@ public class FireBall : Spell
     {
         if ((this.collisionMasks & (1 << collision.gameObject.layer)) != 0)
         {
+            var explosion = Instantiate(this.explosionPrefab);
+            explosion.startPosition = this.transform.position;
+            NetworkServer.Spawn(explosion.gameObject);
+
             NetworkServer.Destroy(this.gameObject);
         }
     }

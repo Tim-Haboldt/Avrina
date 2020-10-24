@@ -1,18 +1,101 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Mirror;
 
-public class Explosion : MonoBehaviour
+[RequireComponent(typeof(Animation))]
+public class Explosion : NetworkBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    ///  How big is the explosion
+    /// </summary>
+    [SerializeField] private float explosionRadius = 1f;
+    /// <summary>
+    ///  What layers will be effected by the explosion
+    /// </summary>
+    [SerializeField] private LayerMask collisionMask;
+    /// <summary>
+    ///  How much damage does the explosion deal to the player
+    /// </summary>
+    [SerializeField] private float damage;
+    /// <summary>
+    ///  Length of the animation. The Explosion object will be destroyed afterwards
+    /// </summary>
+    [SerializeField] private float animationLength;
+
+    /// <summary>
+    ///  Will be used to start the animation
+    /// </summary>
+    private Animation animationHandler;
+    /// <summary>
+    ///  Will define when the explosion started
+    /// </summary>
+    private float startTime;
+    /// <summary>
+    ///  Will be set to true after the explosion startet
+    /// </summary>
+    private bool hasExplosionStarted = false;
+    /// <summary>
+    ///  Sets the position of the explosion after beeing spawned
+    /// </summary>
+    [SyncVar]
+    [HideInInspector] public Vector2 startPosition;
+
+
+    /// <summary>
+    ///  Will get the animation element
+    /// </summary>
+    private void Start()
     {
-        
+        this.animationHandler = GetComponent<Animation>();
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    ///  Will be called when the object is created on the client
+    /// </summary>
+    public override void OnStartClient()
     {
-        
+        this.transform.position = this.startPosition;
+        this.animationHandler.Play();
+
+        this.Explode();
+    }
+
+    /// <summary>
+    ///  Will be called when the object is created on the server
+    /// </summary>
+    public override void OnStartServer()
+    {
+        this.Explode();
+
+        var colliders = Physics2D.OverlapCircleAll(this.startPosition, this.explosionRadius);
+        foreach (var collider in colliders)
+        {
+            var playerStatus = collider.gameObject.GetComponent<PlayerStatus>();
+            if (playerStatus != null)
+            {
+                playerStatus.CmdHandleHit(this.damage, StatusEffect.ON_FIRE);
+            }
+        }
+    }
+
+    private void Explode()
+    {
+        if (this.hasExplosionStarted)
+        {
+            return;
+        }
+
+        this.hasExplosionStarted = true;
+        this.startTime = Time.time;
+    }
+
+    /// <summary>
+    ///  Will destroy the element after the explosion finished
+    /// </summary>
+    private void Update()
+    {
+        if (this.hasExplosionStarted && this.startTime + this.animationLength > Time.time)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

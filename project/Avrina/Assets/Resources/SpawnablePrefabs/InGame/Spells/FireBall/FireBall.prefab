@@ -78,6 +78,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1792
   rb: {fileID: 2097775016299791988}
+  explosionPrefab: {fileID: 6090032674630823887, guid: d3a808f9fa6534f45856b141f01293aa,
+    type: 3}
 --- !u!212 &2097775016299791978
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -115,7 +117,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1140285021
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9aab7d377a623a8468bd53587b137fec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

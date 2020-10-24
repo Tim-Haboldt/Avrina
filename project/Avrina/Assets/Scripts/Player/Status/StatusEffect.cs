@@ -1,6 +1,6 @@
 ﻿public enum StatusEffect
 {
-    DEFAULT,
+    NONE,
     WET,
     FROZEN,
     ON_FIRE,

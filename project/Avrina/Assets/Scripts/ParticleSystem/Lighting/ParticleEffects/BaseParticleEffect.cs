@@ -35,7 +35,7 @@ public abstract class BaseParticleEffect : MonoBehaviour
     /// </summary>
     /// <param name="currentParticleId">Current particle id</param>
     /// <param name="particle">The currently assigned particle</param>
-    public void UpdateParticle(int currentParticleId, ParticleSystem.Particle particle)
+    public void UpdateParticle(int currentParticleId, ParticleSystem.Particle particle, ParticleSystem particleSystem)
     {
         if (this.lastParticleId != currentParticleId)
         {
@@ -44,7 +44,7 @@ public abstract class BaseParticleEffect : MonoBehaviour
             this.lastParticleId = currentParticleId;
         }
 
-        this.HandleParticleUpdate(particle);
+        this.HandleParticleUpdate(particle, particleSystem);
 
         this.didAsignedParticleChangeLastUpdate = false;
     }
@@ -57,5 +57,5 @@ public abstract class BaseParticleEffect : MonoBehaviour
     ///  Will be called every update tick of unity
     /// </summary>
     /// <param name="particle">The currently assigned particle</param>
-    protected abstract void HandleParticleUpdate(ParticleSystem.Particle particle);
+    protected abstract void HandleParticleUpdate(ParticleSystem.Particle particle, ParticleSystem particleSystem);
 }

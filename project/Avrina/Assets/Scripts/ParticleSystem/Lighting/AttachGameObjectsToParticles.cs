@@ -10,14 +10,18 @@ public class AttachGameObjectsToParticles : MonoBehaviour
     private List<BaseParticleEffect> m_Instances = new List<BaseParticleEffect>();
     private ParticleSystem.Particle[] m_Particles;
 
-    // Start is called before the first frame update
+    /// <summary>
+    ///  Will get the particle system and sets all particles
+    /// </summary>
     void Start()
     {
         m_ParticleSystem = GetComponent<ParticleSystem>();
         m_Particles = new ParticleSystem.Particle[m_ParticleSystem.main.maxParticles];
     }
 
-    // Update is called once per frame
+    /// <summary>
+    ///  Will set and unset the particle lights
+    /// </summary>
     void LateUpdate()
     {
         int count = m_ParticleSystem.GetParticles(m_Particles);
@@ -31,21 +35,15 @@ public class AttachGameObjectsToParticles : MonoBehaviour
             var currentParticle = this.m_Particles[i];
             var currentLightInstance = this.m_Instances[i].GetComponent<BaseParticleEffect>();
 
-            if (currentParticle.remainingLifetime < 0.05f)
-            {
-                currentLightInstance.gameObject.SetActive(false);
-                continue;
-            }
-
             if (i < count)
             {
+                currentLightInstance.gameObject.SetActive(true);
+                currentLightInstance.UpdateParticle(i, currentParticle, this.m_ParticleSystem);
+
                 if (worldSpace)
                     currentLightInstance.transform.position = currentParticle.position;
                 else
                     currentLightInstance.transform.localPosition = currentParticle.position;
-
-                currentLightInstance.gameObject.SetActive(true);
-                currentLightInstance.UpdateParticle(i, currentParticle);
             }
             else
             {
