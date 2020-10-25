@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7553340986301200687}
   - component: {fileID: 1402185059020986297}
   - component: {fileID: 6659850838499854864}
+  - component: {fileID: 6945321473569627038}
   m_Layer: 10
   m_Name: FireBall
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 2097775016299791976}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10000, y: 0, z: 10000}
-  m_LocalScale: {x: 3.5754976, y: 3.5754976, z: 3.5754976}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 8593863170352818136}
   m_Father: {fileID: 0}
@@ -119,7 +120,8 @@ SpriteRenderer:
   m_SortingLayerID: -1140285021
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9aab7d377a623a8468bd53587b137fec, type: 3}
+  m_Sprite: {fileID: 3837125033516367541, guid: 517b5ce10e0e3da43b1549b6f1267c0c,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -159,18 +161,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.07767158, y: -0.0039831996}
+  m_Offset: {x: 0.7319946, y: -0.1064682}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.405, y: 0.41}
+    oldSize: {x: 3.75, y: 2.2}
     newSize: {x: 0.405, y: 0.41}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.17796005, y: 0.12586844}
+  m_Size: {x: 1.2973938, y: 1.0876465}
   m_EdgeRadius: 0
 --- !u!114 &6659850838499854864
 MonoBehaviour:
@@ -189,6 +191,25 @@ MonoBehaviour:
   networkSyncInterval: 0.05
   maxPositionDifferenzBeforeTeleport: 10
   isObjectServerSite: 1
+--- !u!95 &6945321473569627038
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097775016299791976}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6238e407ed063124093d8ac458b048ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8919282231202359314
 GameObject:
   m_ObjectHideFlags: 0

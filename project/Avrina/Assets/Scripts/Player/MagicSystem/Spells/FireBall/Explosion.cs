@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Mirror;
 
-[RequireComponent(typeof(Animation))]
+[RequireComponent(typeof(Animator))]
 public class Explosion : NetworkBehaviour
 {
     /// <summary>
@@ -24,7 +24,7 @@ public class Explosion : NetworkBehaviour
     /// <summary>
     ///  Will be used to start the animation
     /// </summary>
-    private Animation animationHandler;
+    private Animator animator;
     /// <summary>
     ///  Will define when the explosion started
     /// </summary>
@@ -45,7 +45,7 @@ public class Explosion : NetworkBehaviour
     /// </summary>
     private void Start()
     {
-        this.animationHandler = GetComponent<Animation>();
+        this.animator = GetComponent<Animator>();
     }
 
     /// <summary>
@@ -53,8 +53,11 @@ public class Explosion : NetworkBehaviour
     /// </summary>
     public override void OnStartClient()
     {
-        this.transform.position = this.startPosition;
-        this.animationHandler.Play();
+        var spriteRenderer = GetComponent<SpriteRenderer>();
+        var bounds = spriteRenderer.sprite.bounds;
+        Vector2 halfBounds = new Vector2(bounds.size.x * 0.5f, -bounds.size.y * 0.5f);
+        this.transform.position = this.startPosition - halfBounds;
+        this.animator.enabled = true;
 
         this.Explode();
     }
@@ -77,6 +80,9 @@ public class Explosion : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    ///  Will start the explosion
+    /// </summary>
     private void Explode()
     {
         if (this.hasExplosionStarted)
@@ -93,7 +99,7 @@ public class Explosion : NetworkBehaviour
     /// </summary>
     private void Update()
     {
-        if (this.hasExplosionStarted && this.startTime + this.animationLength > Time.time)
+        if (this.hasExplosionStarted && Time.time > this.startTime + this.animationLength)
         {
             Destroy(this.gameObject);
         }
