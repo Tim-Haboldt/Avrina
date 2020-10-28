@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using Mirror;
+using UnityEngine.Experimental.Rendering.Universal;
 
 [RequireComponent(typeof(Animator))]
-public class Explosion : NetworkBehaviour
+public class Explosion : Spell
 {
+    [Header("Explosion Settings")]
     /// <summary>
     ///  How big is the explosion
     /// </summary>
@@ -15,11 +17,43 @@ public class Explosion : NetworkBehaviour
     /// <summary>
     ///  How much damage does the explosion deal to the player
     /// </summary>
-    [SerializeField] private float damage;
+    [SerializeField] private float damage = 0f;
+
+    [Header("General Settings")]
     /// <summary>
     ///  Length of the animation. The Explosion object will be destroyed afterwards
     /// </summary>
-    [SerializeField] private float animationLength;
+    [SerializeField] private float animationLength = 0f;
+    /// <summary>
+    ///  Bounds of the sprites
+    /// </summary>
+    [SerializeField] private Vector2 spriteSize = Vector2.zero;
+
+    [Header("Light Settings")]
+    /// <summary>
+    ///  Used to make the lights brighter and less bright
+    /// </summary>
+    [SerializeField] private Light2D explosionLight = null;
+    /// <summary>
+    ///  What is the maximal intensity of the light
+    /// </summary>
+    [SerializeField] private float maxIntesity = 0f;
+    /// <summary>
+    ///  What is the maximal outer line
+    /// </summary>
+    [SerializeField] private float maxOuterLine = 0f;
+    /// <summary>
+    ///  How long does it take until the explosion light is the strongest
+    /// </summary>
+    [SerializeField] private float timeTillExplosionStrongest = 0f;
+    /// <summary>
+    ///  How long does it take until the explosion light falls off again
+    /// </summary>
+    [SerializeField] private float timeTillLightFallsOff = 0f;
+    /// <summary>
+    ///  When is the explosion finished
+    /// </summary>
+    [SerializeField] private float timeTillExplosionFinished = 0f;
 
     /// <summary>
     ///  Will be used to start the animation
@@ -33,30 +67,14 @@ public class Explosion : NetworkBehaviour
     ///  Will be set to true after the explosion startet
     /// </summary>
     private bool hasExplosionStarted = false;
-    /// <summary>
-    ///  Sets the position of the explosion after beeing spawned
-    /// </summary>
-    [SyncVar]
-    [HideInInspector] public Vector2 startPosition;
 
-
-    /// <summary>
-    ///  Will get the animation element
-    /// </summary>
-    private void Start()
-    {
-        this.animator = GetComponent<Animator>();
-    }
 
     /// <summary>
     ///  Will be called when the object is created on the client
     /// </summary>
-    public override void OnStartClient()
+    protected override void HandleClientStart()
     {
-        var spriteRenderer = GetComponent<SpriteRenderer>();
-        var bounds = spriteRenderer.sprite.bounds;
-        Vector2 halfBounds = new Vector2(bounds.size.x * 0.5f, -bounds.size.y * 0.5f);
-        this.transform.position = this.startPosition - halfBounds;
+        this.animator = GetComponent<Animator>();
         this.animator.enabled = true;
 
         this.Explode();
@@ -65,15 +83,16 @@ public class Explosion : NetworkBehaviour
     /// <summary>
     ///  Will be called when the object is created on the server
     /// </summary>
-    public override void OnStartServer()
+    protected override void HandleServerStart()
     {
         this.Explode();
 
-        var colliders = Physics2D.OverlapCircleAll(this.startPosition, this.explosionRadius);
+        var position = new Vector3(this.spriteSize.x * 0.5f, -this.spriteSize.y * 0.5f);
+        var colliders = Physics2D.OverlapCircleAll(this.transform.position + position, this.explosionRadius);
         foreach (var collider in colliders)
         {
             var playerStatus = collider.gameObject.GetComponent<PlayerStatus>();
-            if (playerStatus != null)
+            if (playerStatus != null && this.caster != playerStatus.GetComponent<NetworkIdentity>().netId)
             {
                 playerStatus.CmdHandleHit(this.damage, StatusEffect.ON_FIRE);
             }
@@ -103,5 +122,40 @@ public class Explosion : NetworkBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        if (Time.time < this.startTime + this.timeTillExplosionStrongest)
+        {
+            this.explosionLight.intensity = (Time.time - this.startTime) / this.timeTillExplosionStrongest * this.maxIntesity;
+            this.explosionLight.pointLightOuterRadius = (Time.time - this.startTime) / this.timeTillExplosionStrongest * this.maxOuterLine;
+        }
+        else if (Time.time < this.startTime + this.timeTillLightFallsOff)
+        {
+            this.explosionLight.intensity = this.maxIntesity;
+            this.explosionLight.pointLightOuterRadius = this.maxOuterLine;
+        }
+        else if (Time.time < this.startTime + this.timeTillExplosionFinished)
+        {
+            this.explosionLight.intensity = (1 - ((Time.time - this.startTime - this.timeTillLightFallsOff) / this.timeTillExplosionFinished)) * this.maxIntesity;
+            this.explosionLight.pointLightOuterRadius = (1 - ((Time.time - this.startTime - this.timeTillLightFallsOff) / this.timeTillExplosionFinished)) * this.maxOuterLine;
+        } 
+        else
+        {
+            this.explosionLight.intensity = 0;
+        }
+    }
+
+    /// <summary>
+    ///  Returns the current player position
+    /// </summary>
+    /// <param name="playerPosition"></param>
+    /// <param name="castDirection"></param>
+    /// <returns></returns>
+    protected override Vector2 CalculateStartPosition(Vector2 playerPosition, Vector2 castDirection)
+    {
+        var sprite = GetComponent<SpriteRenderer>();
+        var bounds = sprite.bounds;
+        var halfBounds = new Vector2(this.spriteSize.x * 0.5f, -this.spriteSize.y * 0.5f);
+
+        return playerPosition - halfBounds;
     }
 }

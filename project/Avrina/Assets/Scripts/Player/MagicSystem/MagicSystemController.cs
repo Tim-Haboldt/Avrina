@@ -147,8 +147,10 @@ public class MagicSystemController : NetworkBehaviour
     private void CmdCreateSpell(SpiritState firstElement, SpiritState secondElement, Vector2 position, Vector2 orientation)
     {
         var spell = this.spells.GetCopyOfSpell(firstElement, secondElement);
+        spell.playerPosition = position;
+        spell.castDirection = orientation;
+        spell.caster = this.GetComponent<NetworkIdentity>().netId;
         NetworkServer.Spawn(spell.gameObject);
-        spell.GetComponent<Spell>().CastSpell(position, orientation);
     }
 
     /// <summary>

@@ -5,74 +5,55 @@ using Mirror;
 public abstract class Spell : NetworkBehaviour
 {
     /// <summary>
-    ///  Stores the player position at the creation time of the spell
-    /// </summary>
-    protected Vector2 playerPosition;
-    /// <summary>
     ///  Stores the inital cast direction of the spell
     /// </summary>
-    protected Vector2 castDirection;
+    [SyncVar]
+    [HideInInspector] public Vector2 castDirection;
     /// <summary>
-    ///  Synchronizes the position of the spell to the clients
+    ///  Stores the player position at the creation time of the spell
     /// </summary>
-    private PositionSynchronizer posSynchronizer;
+    [SyncVar]
+    [HideInInspector] public Vector2 playerPosition;
+    /// <summary>
+    ///  Stores the network id of the caster (player object)
+    /// </summary>
+    [SyncVar]
+    [HideInInspector] public uint caster;
 
 
     /// <summary>
-    ///  Will be called once the spell script is first initialized
+    ///  Will be called when the object is created on the client
     /// </summary>
-    public void Awake()
+    public override void OnStartClient()
     {
-        this.posSynchronizer = GetComponent<PositionSynchronizer>();
+        this.transform.position = this.CalculateStartPosition(this.playerPosition, this.castDirection);
+
+        this.HandleClientStart();
     }
 
     /// <summary>
-    ///  Will be called when the spell is cast
+    ///  Will be called when the object is created on the server
     /// </summary>
-    /// <param name="playerPosition">Position of the player at the time of the spell cast</param>
-    /// <param name="castDirection">Cast direction</param>
-    public void CastSpell(Vector2 playerPosition, Vector2 castDirection)
+    public override void OnStartServer()
     {
-        // Server initialization
-        this.playerPosition = playerPosition;
-        this.castDirection = castDirection;
-        this.InitSpell();
-        // Activate Synchronization
-        this.posSynchronizer.enabled = true;
-        // Client initialization
-        this.RpcInitializeVariables(playerPosition, castDirection);
-        this.RpcInitSpell();
+        this.transform.position = this.CalculateStartPosition(this.playerPosition, this.castDirection);
+
+        this.HandleServerStart();
     }
 
     /// <summary>
-    ///  Used to initialized all variables on all the clients too.
+    ///  Will be called to set the start position of the spell
     /// </summary>
-    /// <param name="playerPosition"></param>
-    /// <param name="castDirection"></param>
-    [ClientRpc]
-    private void RpcInitializeVariables(Vector2 playerPosition, Vector2 castDirection)
-    {
-        this.playerPosition = playerPosition;
-        this.castDirection = castDirection;
-    }
+    /// <returns></returns>
+    protected abstract Vector2 CalculateStartPosition(Vector2 playerPosition, Vector2 castDirection);
 
     /// <summary>
-    ///  Will be used to initialize the spell on all the clients.
+    ///  Will be called after the spell is created on the server
     /// </summary>
-    [ClientRpc]
-    private void RpcInitSpell()
-    {
-        if (!this.isClientOnly)
-        {
-            return;
-        }
-
-        this.InitSpell();
-        this.posSynchronizer.enabled = true;
-    }
+    protected abstract void HandleServerStart();
 
     /// <summary>
-    ///  Will be called after the spell was cast
+    ///  Will be called after the spell is created on the client
     /// </summary>
-    protected abstract void InitSpell();
+    protected abstract void HandleClientStart();
 }

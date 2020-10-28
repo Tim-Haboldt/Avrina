@@ -5319,7 +5319,8 @@ MonoBehaviour:
     type: 3}
   fireWaterSpell: {fileID: 0}
   fireEarthSpell: {fileID: 0}
-  fireAirSpell: {fileID: 0}
+  fireAirSpell: {fileID: 6090032674630823887, guid: 34b8cbdd56b1b7c46a3b595a9e0e8b7a,
+    type: 3}
   waterFireSpell: {fileID: 0}
   waterWaterSpell: {fileID: 0}
   waterEarthSpell: {fileID: 0}

@@ -27,16 +27,23 @@ public class FireBall : Spell
 
 
     /// <summary>
-    ///  Will set the start rotation and the start position of the spell
+    ///  Starts the movement of the fireball and sets ht
     /// </summary>
-    protected override void InitSpell()
+    protected override void HandleClientStart()
     {
-        // Set position
-        this.transform.position = this.playerPosition + this.castDirection * this.initalCastDistance;
-        // Set rotation
+        // Sets the rotation of the fireball
         var angle = Vector2.SignedAngle(Vector2.right, this.castDirection);
         this.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        // Set velocity of the object
+        // SEts the movement direction of the fireball
+        this.rb.velocity = this.castDirection * this.movementSpeed;
+    }
+
+    /// <summary>
+    ///  Starts the movement of the fireball
+    /// </summary>
+    protected override void HandleServerStart()
+    {
+        // Sets the movement direction of the fireball
         this.rb.velocity = this.castDirection * this.movementSpeed;
     }
 
@@ -50,10 +57,23 @@ public class FireBall : Spell
         if ((this.collisionMasks & (1 << collision.gameObject.layer)) != 0)
         {
             var explosion = Instantiate(this.explosionPrefab);
-            explosion.startPosition = this.transform.position;
+            explosion.castDirection = Vector2.zero;
+            explosion.playerPosition = this.transform.position;
+            explosion.caster = 9999999;
             NetworkServer.Spawn(explosion.gameObject);
 
             NetworkServer.Destroy(this.gameObject);
         }
+    }
+
+    /// <summary>
+    ///  Calculates the start position of the spell
+    /// </summary>
+    /// <param name="playerPosition"></param>
+    /// <param name="castDirection"></param>
+    /// <returns></returns>
+    protected override Vector2 CalculateStartPosition(Vector2 playerPosition, Vector2 castDirection)
+    {
+        return playerPosition + castDirection * this.initalCastDistance;
     }
 }

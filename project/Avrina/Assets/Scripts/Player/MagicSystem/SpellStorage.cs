@@ -66,10 +66,10 @@ public class SpellStorage : MonoBehaviour
     /// </summary>
     /// <param name="elementOne"></param>
     /// <param name="elementTwo"></param>
-    public GameObject GetCopyOfSpell(SpiritState elementOne, SpiritState elementTwo)
+    public Spell GetCopyOfSpell(SpiritState elementOne, SpiritState elementTwo)
     {
-        var nextSpell = Instantiate(this.spells[elementOne][elementTwo].gameObject);
-        nextSpell.SetActive(true);
+        var nextSpell = Instantiate(this.spells[elementOne][elementTwo]);
+        nextSpell.gameObject.SetActive(true);
 
         return nextSpell;
     }
