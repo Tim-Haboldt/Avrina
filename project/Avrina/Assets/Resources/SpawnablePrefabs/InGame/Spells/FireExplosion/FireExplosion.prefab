@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 4183910987615885039}
   - component: {fileID: 6090032674630823888}
   m_Layer: 0
-  m_Name: Explosion
+  m_Name: FireExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,8 +121,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  castSound: {fileID: 8300000, guid: 6a76fabdbd9f55d4399063651bf75cbd, type: 3}
+  castSoundVolume: 1
   castDirection: {x: 0, y: 0}
   playerPosition: {x: 0, y: 0}
+  caster: 0
   explosionRadius: 2.8
   collisionMask:
     serializedVersion: 2
@@ -130,12 +133,13 @@ MonoBehaviour:
   damage: 0.05
   animationLength: 1
   spriteSize: {x: 7, y: 7}
+  knockBack: 0
   explosionLight: {fileID: 2095458118619329204}
-  maxIntesity: 5.5
+  maxIntesity: 5
   maxOuterLine: 10
   timeTillExplosionStrongest: 0.2
-  timeTillLightFallsOff: 0.4
-  timeTillExplosionFinished: 0.5
+  timeTillLightFallsOff: 0.2
+  timeTillExplosionFinished: 0.7
 --- !u!212 &180413145
 SpriteRenderer:
   m_ObjectHideFlags: 0

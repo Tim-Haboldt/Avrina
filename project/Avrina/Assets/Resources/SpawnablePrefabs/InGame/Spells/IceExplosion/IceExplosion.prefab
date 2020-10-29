@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4926135461069976033}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.86, y: -2, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6090032674630823890}
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.878
-  m_Color: {r: 1, g: 0.8251295, b: 0, a: 1}
+  m_Color: {r: 0.192743, g: 0.13333333, b: 1, a: 1}
   m_Intensity: 0
   m_LightVolumeOpacity: 0.047
   m_ApplyToSortingLayers: 3955b958a3a108bcd997796f5f148ca1d54be92e
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 4183910987615885039}
   - component: {fileID: 6090032674630823888}
   m_Layer: 0
-  m_Name: FireBallExplosion
+  m_Name: IceExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,7 +101,7 @@ Transform:
   m_GameObject: {fileID: 6090032674630823886}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children:
   - {fileID: 3958584886965833208}
   m_Father: {fileID: 0}
@@ -126,20 +126,20 @@ MonoBehaviour:
   castDirection: {x: 0, y: 0}
   playerPosition: {x: 0, y: 0}
   caster: 0
-  explosionRadius: 1.4
+  explosionRadius: 2.8
   collisionMask:
     serializedVersion: 2
     m_Bits: 512
   damage: 0.05
-  animationLength: 1
-  spriteSize: {x: 3.5, y: 3.5}
+  animationLength: 0.6
+  spriteSize: {x: 0, y: 0}
   knockBack: 0
   explosionLight: {fileID: 2095458118619329204}
-  maxIntesity: 2.75
-  maxOuterLine: 5
+  maxIntesity: 5.5
+  maxOuterLine: 10
   timeTillExplosionStrongest: 0.2
-  timeTillLightFallsOff: 0.4
-  timeTillExplosionFinished: 0.7
+  timeTillLightFallsOff: 0.35
+  timeTillExplosionFinished: 0.6
 --- !u!212 &180413145
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -184,7 +184,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.5, y: 3.5}
+  m_Size: {x: 2.3, y: 2.3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -200,7 +200,7 @@ Animator:
   m_GameObject: {fileID: 6090032674630823886}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 033f592349324b245be7e2c3b697409e, type: 2}
+  m_Controller: {fileID: 9100000, guid: a70d4d822f74d3048a1a9d830e6d35e8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

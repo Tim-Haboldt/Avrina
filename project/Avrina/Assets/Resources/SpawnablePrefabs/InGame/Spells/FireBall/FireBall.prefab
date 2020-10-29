@@ -73,6 +73,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  castSound: {fileID: 8300000, guid: 0e4973637bf8d6045bce8f0b84b1f6bc, type: 3}
+  castSoundVolume: 1
+  castDirection: {x: 0, y: 0}
+  playerPosition: {x: 0, y: 0}
+  caster: 0
   movementSpeed: 15
   initalCastDistance: 2
   collisionMasks:

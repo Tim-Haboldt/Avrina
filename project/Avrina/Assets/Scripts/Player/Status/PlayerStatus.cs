@@ -49,11 +49,19 @@ public class PlayerStatus : NetworkBehaviour
     /// </summary>
     [SerializeField] private float howLongIsThePlayerBurning;
 
-    [Header("Status Effect Animations")]
+    [Header("Status Effects")]
     /// <summary>
     ///  This particle system animation will be played every time the player burns
     /// </summary>
     [SerializeField] private ParticleSystem burnAnimation;
+    /// <summary>
+    ///  Will be played everytime the player takes burn damage
+    /// </summary>
+    [SerializeField] private AudioClip burnSound;
+    /// <summary>
+    ///  How load is the burn sound by default
+    /// </summary>
+    [SerializeField] private float burnSoundVolume;
 
     [Header("Life Settings")]
     /// <summary>
@@ -253,8 +261,12 @@ public class PlayerStatus : NetworkBehaviour
                 if (Time.time >= this.timeSinceLastFireTick + this.fireTickRate)
                 {
                     this.ApplyDamage(this.fireDamage);
-                    Debug.Log("On Fire");
                     this.timeSinceLastFireTick += this.fireTickRate;
+
+                    if (!AudioStorage.areSoundEffectsMuted)
+                    {
+                        AudioSource.PlayClipAtPoint(this.burnSound, this.transform.position, AudioStorage.soundEffectVolume * this.burnSoundVolume);
+                    }
                 }
                 if (Time.time >= this.hasNewStatusEffectSince + this.howLongIsThePlayerBurning)
                 {

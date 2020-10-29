@@ -23,7 +23,7 @@ public class FireBall : Spell
     /// <summary>
     ///  Will be created at the point where the fireball hit something
     /// </summary>
-    [SerializeField] private Explosion explosionPrefab;
+    [SerializeField] private FireExplosion explosionPrefab;
 
 
     /// <summary>

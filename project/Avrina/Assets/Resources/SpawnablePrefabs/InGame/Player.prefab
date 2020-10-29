@@ -5322,9 +5322,11 @@ MonoBehaviour:
   fireAirSpell: {fileID: 6090032674630823887, guid: 34b8cbdd56b1b7c46a3b595a9e0e8b7a,
     type: 3}
   waterFireSpell: {fileID: 0}
-  waterWaterSpell: {fileID: 0}
+  waterWaterSpell: {fileID: 6090032674630823887, guid: ba6d30037faca9249a3a5324e8d7ba43,
+    type: 3}
   waterEarthSpell: {fileID: 0}
-  waterAirSpell: {fileID: 0}
+  waterAirSpell: {fileID: 6090032674630823887, guid: df0644395b07e234bb9c5d19deda0f2a,
+    type: 3}
   earthFireSpell: {fileID: 0}
   earthWaterSpell: {fileID: 0}
   earthEarthSpell: {fileID: 0}
@@ -5390,6 +5392,8 @@ MonoBehaviour:
   fireTickRate: 0.5
   howLongIsThePlayerBurning: 2.5
   burnAnimation: {fileID: 1378893739}
+  burnSound: {fileID: 8300000, guid: a07cfd36b9616b5409b14c4a049831e5, type: 3}
+  burnSoundVolume: 0.7
   lifePoints: 1
   lifeBarP1: {fileID: 4962307316861780346, guid: d1aad7f965e774d48956255548b94484,
     type: 3}

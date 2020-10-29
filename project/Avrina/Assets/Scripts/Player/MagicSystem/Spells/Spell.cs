@@ -5,6 +5,15 @@ using Mirror;
 public abstract class Spell : NetworkBehaviour
 {
     /// <summary>
+    ///  Will be played on the client when the spell is spawned
+    /// </summary>
+    [SerializeField] private AudioClip castSound;
+    /// <summary>
+    ///  How load is the spell
+    /// </summary>
+    [SerializeField] private float castSoundVolume;
+
+    /// <summary>
     ///  Stores the inital cast direction of the spell
     /// </summary>
     [SyncVar]
@@ -27,6 +36,11 @@ public abstract class Spell : NetworkBehaviour
     public override void OnStartClient()
     {
         this.transform.position = this.CalculateStartPosition(this.playerPosition, this.castDirection);
+
+        if (!AudioStorage.areSoundEffectsMuted)
+        {
+            AudioSource.PlayClipAtPoint(this.castSound, this.transform.position, AudioStorage.soundEffectVolume * this.castSoundVolume);
+        }
 
         this.HandleClientStart();
     }

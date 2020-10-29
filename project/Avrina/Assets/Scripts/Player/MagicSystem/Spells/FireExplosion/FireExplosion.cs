@@ -3,7 +3,7 @@ using Mirror;
 using UnityEngine.Experimental.Rendering.Universal;
 
 [RequireComponent(typeof(Animator))]
-public class Explosion : Spell
+public class FireExplosion : Spell
 {
     [Header("Explosion Settings")]
     /// <summary>
@@ -28,6 +28,10 @@ public class Explosion : Spell
     ///  Bounds of the sprites
     /// </summary>
     [SerializeField] private Vector2 spriteSize = Vector2.zero;
+    /// <summary>
+    ///  How far strong is the knock back for the player
+    /// </summary>
+    [SerializeField] private float knockBack = 1f;
 
     [Header("Light Settings")]
     /// <summary>
@@ -87,14 +91,29 @@ public class Explosion : Spell
     {
         this.Explode();
 
-        var position = new Vector3(this.spriteSize.x * 0.5f, -this.spriteSize.y * 0.5f);
-        var colliders = Physics2D.OverlapCircleAll(this.transform.position + position, this.explosionRadius);
+        var spriteOffset = new Vector3(this.spriteSize.x * 0.5f, -this.spriteSize.y * 0.5f);
+        var spellPos = this.transform.position + spriteOffset;
+        var colliders = Physics2D.OverlapCircleAll(spellPos, this.explosionRadius);
         foreach (var collider in colliders)
         {
             var playerStatus = collider.gameObject.GetComponent<PlayerStatus>();
-            if (playerStatus != null && this.caster != playerStatus.GetComponent<NetworkIdentity>().netId)
+            if (playerStatus != null)
             {
-                playerStatus.CmdHandleHit(this.damage, StatusEffect.ON_FIRE);
+                if (this.caster != playerStatus.GetComponent<NetworkIdentity>().netId)
+                {
+                    playerStatus.CmdHandleHit(this.damage, StatusEffect.ON_FIRE);
+
+                    /*var playerRb = playerStatus.GetComponent<Rigidbody2D>();
+                    var playerPos = playerStatus.transform.position;
+                    var distance = Vector2.Distance(playerPos, spellPos);
+                    var knockBackDirection = (playerPos - spellPos).normalized;
+
+                    playerRb.AddForce(knockBackDirection * (this.explosionRadius - distance) * this.knockBack);*/
+                }
+                else
+                {
+                    playerStatus.CmdHandleHit(0, StatusEffect.ON_FIRE);
+                }
             }
         }
     }
@@ -152,8 +171,6 @@ public class Explosion : Spell
     /// <returns></returns>
     protected override Vector2 CalculateStartPosition(Vector2 playerPosition, Vector2 castDirection)
     {
-        var sprite = GetComponent<SpriteRenderer>();
-        var bounds = sprite.bounds;
         var halfBounds = new Vector2(this.spriteSize.x * 0.5f, -this.spriteSize.y * 0.5f);
 
         return playerPosition - halfBounds;
