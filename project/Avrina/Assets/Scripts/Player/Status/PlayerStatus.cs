@@ -207,6 +207,7 @@ public class PlayerStatus : NetworkBehaviour
                 case StatusEffect.FROZEN:
                     this.statusEffect = StatusEffect.WET;
                     break;
+                case StatusEffect.COLD:
                 case StatusEffect.WET:
                     this.statusEffect = StatusEffect.NONE;
                     break;
@@ -226,6 +227,7 @@ public class PlayerStatus : NetworkBehaviour
                 case StatusEffect.ON_FIRE:
                     this.statusEffect = StatusEffect.NONE;
                     break;
+                case StatusEffect.COLD:
                 case StatusEffect.NONE:
                     this.statusEffect = StatusEffect.WET;
                     break;
@@ -238,6 +240,9 @@ public class PlayerStatus : NetworkBehaviour
                 case StatusEffect.WET:
                     this.statusEffect = StatusEffect.FROZEN;
                     this.ApplyDamage(this.frozenDamage);
+                    break;
+                case StatusEffect.NONE:
+                    this.statusEffect = StatusEffect.COLD;
                     break;
             }
         }

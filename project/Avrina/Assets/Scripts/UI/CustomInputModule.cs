@@ -73,6 +73,15 @@ public class CustomInputModule : PointerInputModule
     /// </summary>
     [SerializeField] private Vector3 audioPosition = Vector3.zero;
     /// <summary>
+    ///  Used to calculate the mouse position relativ to the ui
+    /// </summary>
+    [SerializeField] private Canvas mouseTranslationCanvas = null;
+    /// <summary>
+    ///  How big steps will be made each update tick for the slider
+    /// </summary>
+    [SerializeField] private float stepSizeSlider = 0.01f;
+
+    /// <summary>
     ///  Stores the current input method
     /// </summary>
     private InputMode currentInputMethod = InputMode.Buttons;
@@ -89,6 +98,14 @@ public class CustomInputModule : PointerInputModule
     /// </summary>
     private GameObject lastSelected;
     /// <summary>
+    ///  Stores the last selected gameobject
+    /// </summary>
+    private bool isSliderSelected;
+    /// <summary>
+    ///  Stores the last selected gameobject
+    /// </summary>
+    private Slider selectedSlider;
+    /// <summary>
     ///  When was the last movement input handled
     /// </summary>
     private float lastMoveInput = 0f;
@@ -99,6 +116,11 @@ public class CustomInputModule : PointerInputModule
     /// </summary>
     public override void Process()
     {
+        if (this.isSliderSelected && (Input.GetKey(this.keyBoardAccept) || Input.GetKey(this.joyStickAccept) || Input.GetMouseButton(0)))
+        {
+            return;
+        }
+
         bool isWritingToObject = this.SendUpdateEventToSelectedObject();
 
         this.ListenForInputTypeChange();
@@ -174,7 +196,11 @@ public class CustomInputModule : PointerInputModule
                 Instantiate(this.clickSound).Play();
             }
 
-            ExecuteEvents.Execute(selectedObject, data, ExecuteEvents.submitHandler);
+            if (!ExecuteEvents.Execute(selectedObject, data, ExecuteEvents.submitHandler))
+            {
+                this.selectedSlider = selectedObject.GetComponent<Slider>();
+                this.isSliderSelected = true;
+            }
         }
     }
 
@@ -214,7 +240,11 @@ public class CustomInputModule : PointerInputModule
             }
 
             var selectedObject = this.eventSystem.currentSelectedGameObject;
-            ExecuteEvents.Execute(selectedObject, data, ExecuteEvents.submitHandler);
+            if (!ExecuteEvents.Execute(selectedObject, data, ExecuteEvents.submitHandler))
+            {
+                this.selectedSlider = selectedObject.GetComponent<Slider>();
+                this.isSliderSelected = true;
+            }
         }
         else
         {
@@ -294,6 +324,72 @@ public class CustomInputModule : PointerInputModule
     /// </summary>
     public void Update()
     {
+        if (this.isSliderSelected && (Input.GetKey(this.keyBoardAccept) || Input.GetKey(this.joyStickAccept) || Input.GetMouseButton(0)))
+        {
+            switch (this.currentInputMethod)
+            {
+                case InputMode.Buttons:
+                    var direction = Input.GetAxisRaw(this.horizontalJoyStickInput);
+                    if (Time.time < this.lastMoveInput)
+                    {
+                        if (Mathf.Abs(direction) < 0.2)
+                        {
+                            this.lastMoveInput = Time.time;
+                        }
+
+                        return;
+                    }
+
+                    if (direction > 0.4f)
+                    {
+                        var currentSliderValue = this.selectedSlider.value + this.stepSizeSlider;
+                        if (currentSliderValue > 1)
+                        {
+                            this.selectedSlider.value = 1;
+                        }
+                        else
+                        {
+                            this.selectedSlider.value = currentSliderValue;
+                        }
+
+                        this.lastMoveInput = Time.time + this.timeTillNextInput;
+                    }
+                    else if (direction < -0.4f)
+                    {
+                        var currentSliderValue = this.selectedSlider.value - this.stepSizeSlider;
+                        if (currentSliderValue < 0)
+                        {
+                            this.selectedSlider.value = 0;
+                        }
+                        else
+                        {
+                            this.selectedSlider.value = currentSliderValue;
+                        }
+
+                        this.lastMoveInput = Time.time + this.timeTillNextInput;
+                    }
+
+                    break;
+                case InputMode.Mouse:
+                    Vector2 movePos;
+
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                        this.mouseTranslationCanvas.transform as RectTransform,
+                        Input.mousePosition,
+                        this.mouseTranslationCanvas.worldCamera,
+                        out movePos
+                    );
+
+                    var mousePosInUi = this.mouseTranslationCanvas.transform.TransformPoint(movePos);
+                    var sliderSizeX = (this.selectedSlider.transform as RectTransform).sizeDelta.x;
+                    this.selectedSlider.value = Mathf.Clamp((mousePosInUi.x - this.selectedSlider.transform.position.x + sliderSizeX * 0.5f) / sliderSizeX, 0, 1);
+                    break;
+            }
+
+            return;
+        }
+        this.isSliderSelected = false;
+
         if (this.lastSelected == null)
         {
             this.lastSelected = this.eventSystem.currentSelectedGameObject;
