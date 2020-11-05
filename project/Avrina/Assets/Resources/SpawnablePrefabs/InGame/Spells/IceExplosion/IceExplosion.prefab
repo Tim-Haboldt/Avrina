@@ -81,10 +81,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6090032674630823890}
-  - component: {fileID: 6090032674630823887}
   - component: {fileID: 180413145}
   - component: {fileID: 4183910987615885039}
   - component: {fileID: 6090032674630823888}
+  - component: {fileID: 3144664314967101282}
+  - component: {fileID: -7375898323784234120}
   m_Layer: 0
   m_Name: IceExplosion
   m_TagString: Untagged
@@ -107,39 +108,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6090032674630823887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6090032674630823886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06fb6c32321c98849a82c469f668e4ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  castSound: {fileID: 8300000, guid: 6a76fabdbd9f55d4399063651bf75cbd, type: 3}
-  castSoundVolume: 1
-  castDirection: {x: 0, y: 0}
-  playerPosition: {x: 0, y: 0}
-  caster: 0
-  explosionRadius: 2.8
-  collisionMask:
-    serializedVersion: 2
-    m_Bits: 512
-  damage: 0.05
-  animationLength: 0.6
-  spriteSize: {x: 0, y: 0}
-  knockBack: 0
-  explosionLight: {fileID: 2095458118619329204}
-  maxIntesity: 5.5
-  maxOuterLine: 10
-  timeTillExplosionStrongest: 0.2
-  timeTillLightFallsOff: 0.35
-  timeTillExplosionFinished: 0.6
 --- !u!212 &180413145
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -225,3 +193,53 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
+--- !u!114 &3144664314967101282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6090032674630823886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 329bf1e014132af469fddd0c5168eb2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  networkSyncInterval: 100
+  maxPositionDifferenzBeforeTeleport: 10
+  isObjectServerSite: 0
+--- !u!114 &-7375898323784234120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6090032674630823886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01a21ba81b6a46f4ca335d5757672402, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  castSound: {fileID: 0}
+  castSoundVolume: 0
+  castDirection: {x: 0, y: 0}
+  playerPosition: {x: 0, y: 0}
+  caster: 0
+  explosionRadius: 1
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 1536
+  damage: 0
+  animationLength: 0.6
+  spriteSize: {x: 0, y: 0}
+  knockBack: 0
+  explosionLight: {fileID: 2095458118619329204}
+  maxIntesity: 5.5
+  maxOuterLine: 10
+  timeTillExplosionStrongest: 0.2
+  timeTillLightFallsOff: 0.35
+  timeTillExplosionFinished: 0.6

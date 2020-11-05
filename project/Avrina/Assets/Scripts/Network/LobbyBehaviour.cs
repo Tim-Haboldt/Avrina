@@ -44,11 +44,11 @@ public class LobbyBehaviour : NetworkBehaviour
     /// <summary>
     ///  Stores the controlls of the first player
     /// </summary>
-    private Dropdown firstPlayerControlls = null;
+    private LabeledDropdown firstPlayerControlls = null;
     /// <summary>
     ///  Stores the controlls of the second player
     /// </summary>
-    private Dropdown secondPlayerControlls = null;
+    private LabeledDropdown secondPlayerControlls = null;
     /// <summary>
     ///  Stores the instance of the lobby UI
     /// </summary>
@@ -104,25 +104,37 @@ public class LobbyBehaviour : NetworkBehaviour
         this.lobbyUI = Instantiate(this.lobbyUIPrefab);
 
         this.readyButton = this.lobbyUI.transform.Find("Ready").GetComponent<Button>();
+        var readyButtonNavigation = this.readyButton.navigation;
+        readyButtonNavigation.selectOnDown = this.readyButton;
+        readyButtonNavigation.selectOnUp = this.readyButton;
+        this.readyButton.navigation = readyButtonNavigation;
         this.readyButton.interactable = true;
         this.readyButton.onClick.AddListener(this.OnReadyClick);
 
+        this.firstPlayerControlls = this.lobbyUI.transform.Find("Controlls Player One").GetComponent<LabeledDropdown>();
+        var firstPlayerControllsNavigation = this.firstPlayerControlls.dropdown.navigation;
+        firstPlayerControllsNavigation.selectOnDown = this.firstPlayerControlls.dropdown;
+        firstPlayerControllsNavigation.selectOnUp = this.firstPlayerControlls.dropdown;
+        this.firstPlayerControlls.dropdown.navigation = firstPlayerControllsNavigation;
+        this.firstPlayerControlls.dropdown.interactable = true;
+        this.firstPlayerControlls.dropdown.onValueChanged.AddListener(this.OnPlayerOneControllsChanged);
+
+        this.secondPlayerControlls = this.lobbyUI.transform.Find("Controlls Player Two").GetComponent<LabeledDropdown>();
+        this.secondPlayerControlls.SetActive(false);
+        this.secondPlayerControlls.dropdown.interactable = true;
+        this.secondPlayerControlls.dropdown.onValueChanged.AddListener(this.OnPlayerTwoControllsChanged);
+
         this.startGameButton = this.lobbyUI.transform.Find("StartGame").GetComponent<Button>();
         this.startGameButton.interactable = false;
+        var startGameButtonNavigation = this.startGameButton.navigation;
+        startGameButtonNavigation.selectOnRight = this.firstPlayerControlls.dropdown;
+        this.startGameButton.navigation = startGameButtonNavigation;
+        this.readyButton.interactable = true;
         this.startGameButton.onClick.AddListener(this.CmdStartGame);
 
         this.secondPlayerToggle = this.lobbyUI.transform.Find("SecondPlayerToggle").GetComponent<Toggle>();
         this.secondPlayerToggle.interactable = true;
         this.secondPlayerToggle.onValueChanged.AddListener(this.OnSecondPlayerToggle);
-
-        this.firstPlayerControlls = this.lobbyUI.transform.Find("FirstPlayerControlls").GetComponent<Dropdown>();
-        this.firstPlayerControlls.interactable = true;
-        this.firstPlayerControlls.onValueChanged.AddListener(this.OnPlayerOneControllsChanged);
-
-        this.secondPlayerControlls = this.lobbyUI.transform.Find("SecondPlayerControlls").GetComponent<Dropdown>();
-        this.secondPlayerControlls.gameObject.SetActive(false);
-        this.secondPlayerControlls.interactable = true;
-        this.secondPlayerControlls.onValueChanged.AddListener(this.OnPlayerTwoControllsChanged);
 
         this.CmdSetDisplayName(PlayerInformation.playerName);
 
@@ -141,10 +153,18 @@ public class LobbyBehaviour : NetworkBehaviour
         if (nextState)
         {
             this.readyButton.GetComponentInChildren<Text>().text = "<color=green>Ready</color>";
+            var readyButtonNavigation = this.readyButton.navigation;
+            readyButtonNavigation.selectOnDown = this.startGameButton;
+            readyButtonNavigation.selectOnUp = this.startGameButton;
+            this.readyButton.navigation = readyButtonNavigation;
         }
         else
         {
             this.readyButton.GetComponentInChildren<Text>().text = "<color=red>Not Ready</color>";
+            var readyButtonNavigation = this.readyButton.navigation;
+            readyButtonNavigation.selectOnDown = this.readyButton;
+            readyButtonNavigation.selectOnUp = this.readyButton;
+            this.readyButton.navigation = readyButtonNavigation;
         }
     }
 
@@ -156,10 +176,30 @@ public class LobbyBehaviour : NetworkBehaviour
     {
         this.CmdSetIsRepresentingTwoPlayers(isRepresentingTwoPlayers);
 
-        this.secondPlayerControlls.gameObject.SetActive(isRepresentingTwoPlayers);
+        this.secondPlayerControlls.SetActive(isRepresentingTwoPlayers);
         if (isRepresentingTwoPlayers)
         {
-            this.OnPlayerTwoControllsChanged(this.secondPlayerControlls.value);
+            this.OnPlayerTwoControllsChanged(this.secondPlayerControlls.dropdown.value);
+
+            var firstPlayerControllsNavigation = this.firstPlayerControlls.dropdown.navigation;
+            firstPlayerControllsNavigation.selectOnDown = this.secondPlayerControlls.dropdown;
+            firstPlayerControllsNavigation.selectOnUp = this.secondPlayerControlls.dropdown;
+            this.firstPlayerControlls.dropdown.navigation = firstPlayerControllsNavigation;
+
+            var startGameButtonNavigation = this.startGameButton.navigation;
+            startGameButtonNavigation.selectOnRight = this.secondPlayerControlls.dropdown;
+            this.startGameButton.navigation = startGameButtonNavigation;
+        }
+        else
+        {
+            var firstPlayerControllsNavigation = this.firstPlayerControlls.dropdown.navigation;
+            firstPlayerControllsNavigation.selectOnDown = this.firstPlayerControlls.dropdown;
+            firstPlayerControllsNavigation.selectOnUp = this.firstPlayerControlls.dropdown;
+            this.firstPlayerControlls.dropdown.navigation = firstPlayerControllsNavigation;
+
+            var startGameButtonNavigation = this.startGameButton.navigation;
+            startGameButtonNavigation.selectOnRight = this.firstPlayerControlls.dropdown;
+            this.startGameButton.navigation = startGameButtonNavigation;
         }
     }
 
@@ -169,9 +209,9 @@ public class LobbyBehaviour : NetworkBehaviour
     /// <param name="isRepresentingTwoPlayers"></param>
     private void OnPlayerOneControllsChanged(int controllScheme)
     {
-        if (this.isRepresentingTwoPlayers && this.secondPlayerControlls.value == controllScheme)
+        if (this.isRepresentingTwoPlayers && this.secondPlayerControlls.dropdown.value == controllScheme)
         {
-            this.secondPlayerControlls.value = (int) PlayerInformation.playerOneMapping;
+            this.secondPlayerControlls.dropdown.value = (int) PlayerInformation.playerOneMapping;
             PlayerInformation.playerTwoMapping = PlayerInformation.playerOneMapping;
         }
 
@@ -184,7 +224,7 @@ public class LobbyBehaviour : NetworkBehaviour
     /// <param name="isRepresentingTwoPlayers"></param>
     private void OnPlayerTwoControllsChanged(int controllScheme)
     {
-        if (this.firstPlayerControlls.value == controllScheme)
+        if (this.firstPlayerControlls.dropdown.value == controllScheme)
         {
             var oldPlayerTwoMapping = (int)PlayerInformation.playerTwoMapping;
 
@@ -192,18 +232,18 @@ public class LobbyBehaviour : NetworkBehaviour
             {
                 if (oldPlayerTwoMapping == 0)
                 {
-                    this.firstPlayerControlls.value = 1;
+                    this.firstPlayerControlls.dropdown.value = 1;
                 }
                 else
                 {
-                    this.firstPlayerControlls.value = 0;
+                    this.firstPlayerControlls.dropdown.value = 0;
                 }
 
-                PlayerInformation.playerOneMapping = (MappingType) this.firstPlayerControlls.value;
+                PlayerInformation.playerOneMapping = (MappingType) this.firstPlayerControlls.dropdown.value;
             }
             else
             {
-                this.firstPlayerControlls.value = oldPlayerTwoMapping;
+                this.firstPlayerControlls.dropdown.value = oldPlayerTwoMapping;
                 PlayerInformation.playerOneMapping = PlayerInformation.playerTwoMapping;
             }
         }

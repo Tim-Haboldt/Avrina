@@ -1,0 +1,428 @@
+fileFormatVersion: 2
+guid: ec6821611ce93c5469869d9f08dd6cb2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8828474035835925134
+    second: StandingMine_0
+  - first:
+      213: 7056148758362365986
+    second: StandingMine_1
+  - first:
+      213: 3018240842806697750
+    second: StandingMine_2
+  - first:
+      213: -9038891629535665214
+    second: StandingMine_3
+  - first:
+      213: 2660062695040497236
+    second: StandingMine_4
+  - first:
+      213: 5519003506276138473
+    second: StandingMine_5
+  - first:
+      213: -9092865411483694346
+    second: StandingMine_6
+  - first:
+      213: -1404863508565982250
+    second: StandingMine_7
+  - first:
+      213: 1505220969307424533
+    second: StandingMine_8
+  - first:
+      213: -2033599478991674054
+    second: StandingMine_9
+  - first:
+      213: -1528063244359747818
+    second: StandingMine_10
+  - first:
+      213: 7453627216489419364
+    second: StandingMine_11
+  - first:
+      213: 8717726204766502815
+    second: StandingMine_12
+  - first:
+      213: 4453708678707942756
+    second: StandingMine_13
+  - first:
+      213: -895554463877252367
+    second: StandingMine_14
+  - first:
+      213: -2521453363494920678
+    second: StandingMine_15
+  - first:
+      213: 2298045043738485833
+    second: StandingMine_16
+  - first:
+      213: -6665649267768311591
+    second: StandingMine_17
+  - first:
+      213: 8987353012192260849
+    second: StandingMine_18
+  - first:
+      213: 4980469603609750934
+    second: StandingMine_19
+  - first:
+      213: -8627631048614106650
+    second: StandingMine_20
+  - first:
+      213: -3493615787368737107
+    second: StandingMine_21
+  - first:
+      213: 7913148058072878513
+    second: StandingMine_22
+  - first:
+      213: -524806952506336647
+    second: StandingMine_23
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: StandingMine_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 780
+        width: 250
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27d8d31c3a5fa7580800000000000000
+      internalID: -8828474035835925134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StandingMine_1
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 780
+        width: 250
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 220a08029e97ce160800000000000000
+      internalID: 7056148758362365986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StandingMine_2
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 780
+        width: 250
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61f91122e02f2e920800000000000000
+      internalID: 3018240842806697750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StandingMine_3
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 780
+        width: 250
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c3664af3f76f8280800000000000000
+      internalID: -9038891629535665214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StandingMine_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 460
+        width: 250
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45638227de07ae420800000000000000
+      internalID: 2660062695040497236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StandingMine_5
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 460
+        width: 250
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ed79b1b270779c40800000000000000
+      internalID: 5519003506276138473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StandingMine_6
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 460
+        width: 250
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fa04169517afc180800000000000000
+      internalID: -9092865411483694346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StandingMine_7
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 460
+        width: 250
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d3040e051ce08ce0800000000000000
+      internalID: -1404863508565982250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StandingMine_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 140
+        width: 250
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 517c9002f7e93e410800000000000000
+      internalID: 1505220969307424533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StandingMine_9
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 140
+        width: 250
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a35284f5c0437c3e0800000000000000
+      internalID: -2033599478991674054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StandingMine_10
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 140
+        width: 250
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6173b95439a3bcae0800000000000000
+      internalID: -1528063244359747818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StandingMine_11
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 140
+        width: 250
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 462190f567a907760800000000000000
+      internalID: 7453627216489419364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
