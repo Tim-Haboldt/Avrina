@@ -1,0 +1,347 @@
+fileFormatVersion: 2
+guid: 434a506a5016fc54c8087fbb3c072bbd
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5692329307756149488
+    second: waterball_0
+  - first:
+      213: 7595785370177108909
+    second: waterball_1
+  - first:
+      213: 2843626831125738498
+    second: waterball_2
+  - first:
+      213: -7954198763439619123
+    second: waterball_3
+  - first:
+      213: 978847650329154695
+    second: waterball_4
+  - first:
+      213: -4394964519156117047
+    second: waterball_5
+  - first:
+      213: -1964478200020998971
+    second: waterball_6
+  - first:
+      213: -6386155795439125632
+    second: waterball_7
+  - first:
+      213: 6628535196505537463
+    second: waterball_8
+  - first:
+      213: 3319402698106631969
+    second: waterball_0
+  - first:
+      213: 5674461702934349405
+    second: waterball_1
+  - first:
+      213: -8503968103429502678
+    second: waterball_2
+  - first:
+      213: -2864827198714722382
+    second: waterball_3
+  - first:
+      213: -8940267697570543625
+    second: waterball_4
+  - first:
+      213: 196463039084634675
+    second: waterball_5
+  - first:
+      213: 4779745592636526947
+    second: waterball_6
+  - first:
+      213: -3399739542423600013
+    second: waterball_7
+  - first:
+      213: -4381539196095276778
+    second: waterball_8
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: waterball_0
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 784
+        width: 410
+        height: 245
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1277e1fba23e01e20800000000000000
+      internalID: 3319402698106631969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: waterball_1
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 784
+        width: 410
+        height: 245
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d56c5feaadcbfbe40800000000000000
+      internalID: 5674461702934349405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: waterball_2
+      rect:
+        serializedVersion: 2
+        x: 970
+        y: 784
+        width: 410
+        height: 245
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2905ddd016dbf980800000000000000
+      internalID: -8503968103429502678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: waterball_3
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 539
+        width: 410
+        height: 245
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b74bbd57d61e38d0800000000000000
+      internalID: -2864827198714722382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: waterball_4
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 539
+        width: 410
+        height: 245
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f7886985e9cde380800000000000000
+      internalID: -8940267697570543625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: waterball_5
+      rect:
+        serializedVersion: 2
+        x: 970
+        y: 539
+        width: 410
+        height: 245
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3322228d71af9b200800000000000000
+      internalID: 196463039084634675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: waterball_6
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 294
+        width: 410
+        height: 245
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 361d6d5da41155240800000000000000
+      internalID: 4779745592636526947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: waterball_7
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 294
+        width: 410
+        height: 245
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3740ef416e2b1d0d0800000000000000
+      internalID: -3399739542423600013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: waterball_8
+      rect:
+        serializedVersion: 2
+        x: 970
+        y: 294
+        width: 410
+        height: 245
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6195a47c055a133c0800000000000000
+      internalID: -4381539196095276778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
