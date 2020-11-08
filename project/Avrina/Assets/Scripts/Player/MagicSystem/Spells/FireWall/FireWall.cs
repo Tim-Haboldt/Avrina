@@ -62,6 +62,7 @@ public class FireWall : Spell
         if (Time.time > this.startTime + this.lifeTime)
         {
             Destroy(this.gameObject);
+
             return;
         }
         foreach (var collider in this.colliders.Keys.ToArray())
