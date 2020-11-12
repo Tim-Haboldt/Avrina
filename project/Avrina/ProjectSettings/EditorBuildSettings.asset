@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/OnlineMultiplayer.unity
     guid: 70a06b3f304494a4985eb712185773f5
+  - enabled: 1
+    path: Assets/Scenes/PauseOverlay.unity
+    guid: a12620f931c77610a80ebcebd06d23b6
   m_configObjects: {}

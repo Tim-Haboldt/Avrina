@@ -29,6 +29,42 @@ TextureImporter:
   - first:
       213: -3729797093067755320
     second: FogAnimation_8
+  - first:
+      213: 5438038552581194067
+    second: FogAnimation_0
+  - first:
+      213: 4417520449975793482
+    second: FogAnimation_1
+  - first:
+      213: 3640664106665588304
+    second: FogAnimation_2
+  - first:
+      213: 8845837063691390305
+    second: FogAnimation_3
+  - first:
+      213: 6040566719395934477
+    second: FogAnimation_4
+  - first:
+      213: -6566102695367831979
+    second: FogAnimation_5
+  - first:
+      213: -9124460146896443450
+    second: FogAnimation_6
+  - first:
+      213: -1834245258735905289
+    second: FogAnimation_7
+  - first:
+      213: -1010357386023390411
+    second: FogAnimation_8
+  - first:
+      213: -7191517063718330591
+    second: FogAnimation_9
+  - first:
+      213: -810210034600721549
+    second: FogAnimation_10
+  - first:
+      213: 4727465469097104960
+    second: FogAnimation_11
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -117,10 +153,10 @@ TextureImporter:
       name: FogAnimation_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1066.6667
-        width: 500
-        height: 533.3333
+        x: 75
+        y: 1125
+        width: 460
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +164,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 60315091c9f1aef30800000000000000
-      internalID: 4605528324234875654
+      spriteID: 3514b79604bc77b40800000000000000
+      internalID: 5438038552581194067
       vertices: []
       indices: 
       edges: []
@@ -138,10 +174,10 @@ TextureImporter:
       name: FogAnimation_1
       rect:
         serializedVersion: 2
-        x: 500
-        y: 1066.6667
-        width: 500
-        height: 533.3333
+        x: 535
+        y: 1125
+        width: 460
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,8 +185,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a0fe6c2511d712a00800000000000000
-      internalID: 730002127967416074
+      spriteID: a47b4d8b17f2e4d30800000000000000
+      internalID: 4417520449975793482
       vertices: []
       indices: 
       edges: []
@@ -159,10 +195,10 @@ TextureImporter:
       name: FogAnimation_2
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 1066.6667
-        width: 500
-        height: 533.3333
+        x: 995
+        y: 1125
+        width: 460
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -170,8 +206,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 80e84206011caeda0800000000000000
-      internalID: -5914702884521079288
+      spriteID: 056315847bc368230800000000000000
+      internalID: 3640664106665588304
       vertices: []
       indices: 
       edges: []
@@ -180,10 +216,10 @@ TextureImporter:
       name: FogAnimation_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 533.6667
-        width: 500
-        height: 533.3333
+        x: 75
+        y: 675
+        width: 460
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,8 +227,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a137ec50bddfa7e50800000000000000
-      internalID: 6808032903861007130
+      spriteID: 16d4f4231f9b2ca70800000000000000
+      internalID: 8845837063691390305
       vertices: []
       indices: 
       edges: []
@@ -201,10 +237,10 @@ TextureImporter:
       name: FogAnimation_4
       rect:
         serializedVersion: 2
-        x: 500
-        y: 533.6667
-        width: 500
-        height: 533.3333
+        x: 535
+        y: 675
+        width: 460
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -212,8 +248,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a1864dfbc3cf8630800000000000000
-      internalID: 3931576280612766117
+      spriteID: d0134af4d6764d350800000000000000
+      internalID: 6040566719395934477
       vertices: []
       indices: 
       edges: []
@@ -222,10 +258,10 @@ TextureImporter:
       name: FogAnimation_5
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 533.6667
-        width: 500
-        height: 533.3333
+        x: 995
+        y: 675
+        width: 460
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -233,8 +269,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e8e3b61e9b8c317e0800000000000000
-      internalID: -1795871125714289010
+      spriteID: 55e8dd3236480e4a0800000000000000
+      internalID: -6566102695367831979
       vertices: []
       indices: 
       edges: []
@@ -243,10 +279,10 @@ TextureImporter:
       name: FogAnimation_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0.666687
-        width: 500
-        height: 533.3333
+        x: 75
+        y: 225
+        width: 460
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -254,8 +290,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8175c0b11081d22a0800000000000000
-      internalID: -6760721072585418984
+      spriteID: 6c7670107d76f5180800000000000000
+      internalID: -9124460146896443450
       vertices: []
       indices: 
       edges: []
@@ -264,10 +300,10 @@ TextureImporter:
       name: FogAnimation_7
       rect:
         serializedVersion: 2
-        x: 500
-        y: 0.666687
-        width: 500
-        height: 533.3333
+        x: 535
+        y: 225
+        width: 460
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -275,8 +311,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9ff031a7c0e02ac0800000000000000
-      internalID: -3881855730785910883
+      spriteID: 7f51a1ac7a37b86e0800000000000000
+      internalID: -1834245258735905289
       vertices: []
       indices: 
       edges: []
@@ -285,10 +321,10 @@ TextureImporter:
       name: FogAnimation_8
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 0.666687
-        width: 500
-        height: 533.3333
+        x: 995
+        y: 225
+        width: 460
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -296,8 +332,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8c0796f1e491d3cc0800000000000000
-      internalID: -3729797093067755320
+      spriteID: 53332ed7f4d7af1f0800000000000000
+      internalID: -1010357386023390411
       vertices: []
       indices: 
       edges: []
