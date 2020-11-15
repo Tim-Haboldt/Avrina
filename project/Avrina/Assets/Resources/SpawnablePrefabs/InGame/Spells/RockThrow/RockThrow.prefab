@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6606145064396505867}
-  - component: {fileID: 6606145064396505866}
+  - component: {fileID: -539132806371086086}
+  - component: {fileID: -2065457454853954158}
+  - component: {fileID: 4882465848085745388}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: RockThrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +33,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6606145064396505866
+--- !u!114 &-539132806371086086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6606145064396505865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
+--- !u!114 &-2065457454853954158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6606145064396505865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 329bf1e014132af469fddd0c5168eb2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  networkSyncInterval: 0.05
+  maxPositionDifferenzBeforeTeleport: 10
+  isObjectServerSite: 0
+--- !u!114 &4882465848085745388
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,3 +78,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3c6cc8edc3ddf92b82a8078440289d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  castSound: {fileID: 8300000, guid: a07cfd36b9616b5409b14c4a049831e5, type: 3}
+  castSoundVolume: 0
+  castDirection: {x: 0, y: 0}
+  playerPosition: {x: 0, y: 0}
+  caster: 0
+  singleRock: {fileID: -6774556989190233363, guid: 9971ba244b5c731438361d336a0d5b65,
+    type: 3}
+  spellOffset: 2.3
+  rockAmount: 5
+  maxDirectionSpread: 20
+  maxPositionSpread: 0.5

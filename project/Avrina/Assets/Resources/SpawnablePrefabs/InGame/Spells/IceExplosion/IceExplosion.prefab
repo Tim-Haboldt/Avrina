@@ -224,7 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  castSound: {fileID: 0}
+  castSound: {fileID: 8300000, guid: a07cfd36b9616b5409b14c4a049831e5, type: 3}
   castSoundVolume: 0
   castDirection: {x: 0, y: 0}
   playerPosition: {x: 0, y: 0}

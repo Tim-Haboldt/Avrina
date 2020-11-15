@@ -252,6 +252,8 @@ public class PlayerStatus : NetworkBehaviour
             this.hasNewStatusEffectSince = Time.time;
             this.UpdateParticleAnimations();
         }
+
+        Debug.Log(this.statusEffect);
     }
 
     /// <summary>

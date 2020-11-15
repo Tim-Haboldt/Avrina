@@ -2,22 +2,17 @@
 using Mirror;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class WaterBall : Spell
+public class Rock : Spell
 {
-    /// <summary>
-    ///  How far from the player will be water ball spawn
-    /// </summary>
-    [SerializeField] private float initalCastDistance = 1f;
-
     [Header("Hit Settings")]
     /// <summary>
     ///  The audio will be played on hitting something
     /// </summary>
     [SerializeField] private AudioClip hitSound;
     /// <summary>
-    ///  How hight is the damage on hit
+    ///  How much damage will each rock deal
     /// </summary>
-    [SerializeField] private float damage = 0.07f;
+    [SerializeField] private float damage;
     /// <summary>
     ///  What are the layer masks of the objects the waterball can hit
     /// </summary>
@@ -52,6 +47,43 @@ public class WaterBall : Spell
 
 
     /// <summary>
+    ///  The position is already calculated in rock throw thus here the spawn position is given instead of the player position
+    /// </summary>
+    /// <param name="spawnPosition"></param>
+    /// <param name="castDirection"></param>
+    /// <returns></returns>
+    protected override Vector2 CalculateStartPosition(Vector2 spawnPosition, Vector2 castDirection)
+    {
+        return spawnPosition;
+    }
+
+    /// <summary>
+    ///  Will be called after the rock was spawned on the client
+    /// </summary>
+    protected override void HandleClientStart()
+    {
+        this.InitRock();
+    }
+
+    /// <summary>
+    ///  Will be called after the rock was spawned on the server
+    /// </summary>
+    protected override void HandleServerStart()
+    {
+        this.InitRock();
+    }
+    
+    /// <summary>
+    ///  Will be called to initialize the rock
+    /// </summary>
+    private void InitRock()
+    {
+        // Sets the start movement speed
+        this.rb = GetComponent<Rigidbody2D>();
+        this.rb.velocity = this.verticalMovementSpeed * this.castDirection;
+    }
+
+    /// <summary>
     ///  Will be called every time the physics of unity are updated
     /// </summary>
     private void FixedUpdate()
@@ -65,57 +97,6 @@ public class WaterBall : Spell
         }
 
         this.rb.velocity = velocity;
-
-        this.UpdateRotation(velocity);
-    }
-
-    /// <summary>
-    ///  Updates the rotation of the waterball. (Should always face in the direction moving)
-    /// </summary>
-    private void UpdateRotation(Vector2 velocity)
-    {
-        var angle = Vector2.SignedAngle(Vector2.left, velocity);
-        this.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-    }
-
-    /// <summary>
-    ///  Where will the water ball be spawned
-    /// </summary>
-    /// <param name="playerPosition"></param>
-    /// <param name="castDirection"></param>
-    /// <returns></returns>
-    protected override Vector2 CalculateStartPosition(Vector2 playerPosition, Vector2 castDirection)
-    {
-        return playerPosition + castDirection * this.initalCastDistance;
-    }
-
-    /// <summary>
-    ///  Will be called when the water ball is initialized on the client
-    /// </summary>
-    protected override void HandleClientStart()
-    {
-        this.InitWaterBall();
-    }
-
-    /// <summary>
-    ///  Will be called when the water ball is initialized on the server
-    /// </summary>
-    protected override void HandleServerStart()
-    {
-        this.InitWaterBall();
-    }
-
-    /// <summary>
-    ///  Will be called to initialize the water ball
-    /// </summary>
-    private void InitWaterBall()
-    {
-        // Sets the start movement speed
-        this.rb = GetComponent<Rigidbody2D>();
-        this.rb.velocity = this.verticalMovementSpeed * this.castDirection;
-        // Sets the start angle
-        var angle = Vector2.SignedAngle(Vector2.left, this.rb.velocity);
-        this.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
     /// <summary>
@@ -137,7 +118,7 @@ public class WaterBall : Spell
             if ((this.playerMask & (1 << collision.gameObject.layer)) != 0)
             {
                 var playerStatus = collision.gameObject.GetComponent<PlayerStatus>();
-                playerStatus.CmdHandleHit(this.damage, StatusEffect.WET);
+                playerStatus.CmdHandleHit(this.damage, StatusEffect.NONE);
             }
         }
     }
