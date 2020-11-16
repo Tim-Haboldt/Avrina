@@ -59,6 +59,9 @@ TagManager:
   - name: Spirit
     uniqueID: 3463389181
     locked: 0
+  - name: ForeGroundSpell
+    uniqueID: 702225323
+    locked: 0
   - name: MagicSystem
     uniqueID: 220128877
     locked: 0
