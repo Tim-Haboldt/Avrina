@@ -122,12 +122,15 @@ public class PlayerStatus : NetworkBehaviour
         switch (initStatus)
         {
             case InitStatus.PLAYER_ONE:
-                return Instantiate(this.lifeBarP1).gameObject.GetComponentInChildren<LifeBar>();
+                var lifeBar = Instantiate(this.lifeBarP1).gameObject.GetComponentInChildren<LifeBar>();
+                lifeBar.SetPlayerName(PlayerInformation.playerName);
+                return lifeBar;
             case InitStatus.PLAYER_TWO:
-                return Instantiate(this.lifeBarP2).gameObject.GetComponentInChildren<LifeBar>();
+                var lifeBar2 = Instantiate(this.lifeBarP2).gameObject.GetComponentInChildren<LifeBar>();
+                lifeBar2.SetPlayerName(PlayerInformation.playerName + "Player Two");
+                return lifeBar2;
         }
 
-        Debug.LogError("Invalid InitState for PlayerStatus! InitStatus: " + initStatus);
         return null;
     }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class LifeBar : MonoBehaviour
@@ -19,6 +20,10 @@ public class LifeBar : MonoBehaviour
     ///  Marks the point in the ui were the player has full life left
     /// </summary>
     [SerializeField] private float fullLifePosX = 0f;
+    /// <summary>
+    ///  Used to set the player name
+    /// </summary>
+    [SerializeField] private TextMeshProUGUI nameElement;
 
 
     /// <summary>
@@ -27,6 +32,15 @@ public class LifeBar : MonoBehaviour
     public void Start()
     {
         this.UpdateLifeBar(1f);
+    }
+
+    /// <summary>
+    ///  Sets the player name for the lifebar
+    /// </summary>
+    /// <param name="playerName"></param>
+    public void SetPlayerName(string playerName)
+    {
+        this.nameElement.text = playerName;
     }
 
     /// <summary>

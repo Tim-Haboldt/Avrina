@@ -11,6 +11,11 @@ public class JoyStickInputController : InputController
     /// </summary>
     [SerializeField] private JoyStickMapping keyMapping;
     /// <summary>
+    ///  Will map the rectangle aim to circle aim
+    /// </summary>
+    [SerializeField] public bool isPsController = false;
+
+    /// <summary>
     ///  Because element inputs should only last for one frame the input needs to be saved
     /// </summary>
     private bool earthInputWasPressedLastUpdate = false;

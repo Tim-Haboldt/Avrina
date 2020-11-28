@@ -5338,7 +5338,8 @@ MonoBehaviour:
   airFireSpell: {fileID: 0}
   airWaterSpell: {fileID: 0}
   airEarthSpell: {fileID: 0}
-  airAirSpell: {fileID: 0}
+  airAirSpell: {fileID: 3193421558056108847, guid: d7853aaa25fb6214cb7d8336dcad675d,
+    type: 3}
 --- !u!114 &1230979819959207452
 MonoBehaviour:
   m_ObjectHideFlags: 0

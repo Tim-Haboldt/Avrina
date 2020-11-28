@@ -21,6 +21,11 @@ public class CameraFollowObjects : MonoBehaviour
     /// </summary>
     [SerializeField] public Rect cameraBounds;
     /// <summary>
+    ///  Used to smoothly zoom out on two players
+    /// </summary>
+    [SerializeField] public float smoothLerp;
+
+    /// <summary>
     ///  Main Camera object
     /// </summary>
     private Camera mainCamera;
@@ -28,6 +33,20 @@ public class CameraFollowObjects : MonoBehaviour
     ///  Will the height width ratio of the screen
     /// </summary>
     private float screenRation;
+
+    /// <summary>
+    ///  Will be used to make the transition smoother
+    ///  Stores the oldOrthographicSize since the camera startet going bigger / smaller
+    /// </summary>
+    private float oldOrthographicSize;
+    /// <summary>
+    ///  Stres the nextOrthographic size the camera tries to ajust to
+    /// </summary>
+    private float nextOrthographicSize;
+    /// <summary>
+    ///  When did the scaling start
+    /// </summary>
+    private float startTime;
 
 
     /// <summary>

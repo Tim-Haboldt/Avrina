@@ -97,7 +97,7 @@ public abstract class InputController : MonoBehaviour
      *  Sets the masks of the colliders.
      * </summary>
      */
-    public void Init(CapsuleCollider2D playerCollider, PlayerCollider wallLeft, PlayerCollider wallRight, PlayerCollider ground, LayerMask groundMask)
+    public virtual void Init(CapsuleCollider2D playerCollider, PlayerCollider wallLeft, PlayerCollider wallRight, PlayerCollider ground, LayerMask groundMask)
     {
         this.playerCollider = playerCollider;
         this.onGroundCollider = ground;

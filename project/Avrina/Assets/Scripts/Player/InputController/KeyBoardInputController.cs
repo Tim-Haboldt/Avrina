@@ -29,5 +29,8 @@ public class KeyBoardInputController : InputController
         this.fireElementInput = Input.GetKeyDown(this.keyMapping.fireElement);
         this.earthElementInput = Input.GetKeyDown(this.keyMapping.earthElement);
         this.airElementInput = Input.GetKeyDown(this.keyMapping.airElement);
+        // Spell direction input
+        var nextAimInput = (new Vector2(Input.GetAxisRaw(this.keyMapping.horizontalAim), Input.GetAxisRaw(this.keyMapping.verticalAim))).normalized;
+        this.aimDirecton = nextAimInput == Vector2.zero ? this.aimDirecton : nextAimInput;
     }
 }

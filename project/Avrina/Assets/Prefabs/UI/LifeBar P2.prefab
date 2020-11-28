@@ -205,6 +205,7 @@ MonoBehaviour:
   lifeBarBody: {fileID: 2922222125659379094}
   noLifePosX: -95.52
   fullLifePosX: -356.87
+  nameElement: {fileID: 2180428535139453288}
 --- !u!1 &2456309858164087102
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,7 +293,7 @@ GameObject:
   - component: {fileID: 8049591503995082616}
   - component: {fileID: 1650131021617590976}
   m_Layer: 5
-  m_Name: Canvas (1)
+  m_Name: LifeBar P2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

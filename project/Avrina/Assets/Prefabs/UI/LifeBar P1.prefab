@@ -535,6 +535,7 @@ MonoBehaviour:
   lifeBarBody: {fileID: 4962307316525857546}
   noLifePosX: -365.82
   fullLifePosX: -104.63
+  nameElement: {fileID: 4962307317663103172}
 --- !u!1 &4962307318585923326
 GameObject:
   m_ObjectHideFlags: 0

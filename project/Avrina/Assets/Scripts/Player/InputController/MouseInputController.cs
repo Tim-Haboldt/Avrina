@@ -9,8 +9,28 @@ public class MouseInputController : InputController
     /// <summary>
     ///  Stores all keymappings of the player controller
     /// </summary>
-    [SerializeField] private MouseMapping keyMapping;
+    [SerializeField] private MouseMapping keyMapping = null;
 
+    /// <summary>
+    ///  Stores the position of the player. Used to get the direction of the mouse relative to the player
+    /// </summary>
+    private Transform playerTransform = null;
+
+
+    /// <summary>
+    ///  Used to extract the player transform from the collider
+    /// </summary>
+    /// <param name="playerCollider"></param>
+    /// <param name="wallLeft"></param>
+    /// <param name="wallRight"></param>
+    /// <param name="ground"></param>
+    /// <param name="groundMask"></param>
+    public override void Init(CapsuleCollider2D playerCollider, PlayerCollider wallLeft, PlayerCollider wallRight, PlayerCollider ground, LayerMask groundMask)
+    {
+        base.Init(playerCollider, wallLeft, wallRight, ground, groundMask);
+
+        this.playerTransform = playerCollider.transform;
+    }
 
     /// <summary>
     ///  Checks for all inputs and sets the public variables corresponding
@@ -29,5 +49,10 @@ public class MouseInputController : InputController
         this.fireElementInput = Input.GetKeyDown(this.keyMapping.fireElement);
         this.earthElementInput = Input.GetKeyDown(this.keyMapping.earthElement);
         this.airElementInput = Input.GetKeyDown(this.keyMapping.airElement);
+        // Spell direction input
+        var cameraPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var aimDirection = cameraPos - this.playerTransform.position;
+        var nextAimInput = new Vector2(aimDirection.x, aimDirection.y).normalized;
+        this.aimDirecton = nextAimInput == Vector2.zero ? this.aimDirecton : nextAimInput;
     }
 }

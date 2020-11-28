@@ -50,10 +50,10 @@ MonoBehaviour:
     lookUp: 119
     duck: 115
     settings: 9
-    cast: 113
-    cancel: 101
+    cast: 323
+    cancel: 324
     jump: 32
-    fireElement: 106
-    waterElement: 108
-    airElement: 105
-    earthElement: 107
+    fireElement: 113
+    waterElement: 101
+    airElement: 304
+    earthElement: 102
