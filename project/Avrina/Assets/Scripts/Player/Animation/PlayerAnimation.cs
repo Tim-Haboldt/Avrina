@@ -7,6 +7,15 @@
 public class PlayerAnimation : MonoBehaviour
 {
     /// <summary>
+    ///  States what amount of velocity is necessary to switch to running
+    /// </summary>
+    [SerializeField] private float runningVelocity;
+    /// <summary>
+    ///  How fast will the climbing animation change into its next state
+    /// </summary>
+    [SerializeField] private float climbingAnimationChangeSpeed;
+
+    /// <summary>
     ///  Used to controll the player animation
     /// </summary>
     private Animator animator;
@@ -27,9 +36,13 @@ public class PlayerAnimation : MonoBehaviour
     /// </summary>
     private PlayerStateManager stateManager;
     /// <summary>
-    ///  States what amount of velocity is necessary to switch to running
+    ///  Stores the current climbing state
     /// </summary>
-    public float runningVelocity;
+    private float climbingState = 0f;
+    /// <summary>
+    ///  Last y position of the player
+    /// </summary>
+    private float lastClimbingPos = 0f;
 
 
     /// <summary>
@@ -45,13 +58,14 @@ public class PlayerAnimation : MonoBehaviour
         this.animator.SetFloat("X", 0);
         this.animator.SetBool("isRunning", false);
         this.animator.SetBool("isFalling", false);
+        this.animator.SetFloat("Climbing", 0);
     }
     
     /// <summary>
     ///  Updates the animation inputs
     /// </summary>
     void Update()
-    { 
+    {
         if (!this.stateManager.hasAuthority)
         {
             return;
@@ -71,7 +85,24 @@ public class PlayerAnimation : MonoBehaviour
         this.animator.SetBool("isFalling", isFalling);
 
         // Set the isClimbing attribute
-        this.animator.SetBool("isClimbing", currentState == PlayerState.WallSliding);
+        var isClimbing = currentState == PlayerState.WallSliding;
+        this.animator.SetBool("isClimbing", isClimbing);
+
+        if (isClimbing)
+        {
+            this.climbingState += (this.transform.position.y - this.lastClimbingPos) * this.climbingAnimationChangeSpeed;
+            if (this.climbingState > 1)
+            {
+                this.climbingState -= 1;
+            }
+            else if (this.climbingState < 0)
+            {
+                this.climbingState += 1;
+            }
+
+            this.animator.SetFloat("Climbing", this.climbingState);
+            this.lastClimbingPos = this.transform.position.y;
+        }
 
         // Set the direction the sprite is facing
         if (movementAbs > 0)

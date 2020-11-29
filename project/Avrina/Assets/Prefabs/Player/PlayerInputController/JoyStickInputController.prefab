@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8596744424898022296}
   - component: {fileID: 8596744424898022297}
+  - component: {fileID: -5294205840558668603}
   m_Layer: 0
   m_Name: JoyStickInputController
   m_TagString: Untagged
@@ -43,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 858ac3a0f615ef34c9c42ad82d1782a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptMenuButton: 330
   keyMapping:
     horizontalMovement: JoyStickMoveHorizontal
     verticalMovement: JoyStickMoveVertical
@@ -56,3 +58,17 @@ MonoBehaviour:
     waterElement: 355
     airElement: JoyStickLeftBack
     earthElement: JoyStickRightBack
+  isPsController: 0
+--- !u!114 &-5294205840558668603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8596744424898022298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f667b80c67070fe41809da21937832d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: Assets/Scenes/PauseOverlay.unity

@@ -54,5 +54,7 @@ public class MouseInputController : InputController
         var aimDirection = cameraPos - this.playerTransform.position;
         var nextAimInput = new Vector2(aimDirection.x, aimDirection.y).normalized;
         this.aimDirecton = nextAimInput == Vector2.zero ? this.aimDirecton : nextAimInput;
+        // Reads and stores the setting input
+        this.settingsInput = Input.GetKey(this.keyMapping.settings);
     }
 }

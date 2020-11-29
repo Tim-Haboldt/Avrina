@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Mirror;
 
+[RequireComponent(typeof(SceneLoader))]
 public abstract class InputController : MonoBehaviour
 {
     /// <summary>
@@ -43,6 +46,10 @@ public abstract class InputController : MonoBehaviour
     ///  Is the look up input pressed
     /// </summary>
     public bool lookUpInput { get; protected set; }
+    /// <summary>
+    ///  Will be set to true if the settings menu should be opened
+    /// </summary>
+    public bool settingsInput { get; protected set; }
     /// <summary>
     ///  Is the cast input pressed
     /// </summary>
@@ -90,6 +97,20 @@ public abstract class InputController : MonoBehaviour
     /// </summary>
     public WallMaterial wallMaterial { get; protected set; }
 
+    /// <summary>
+    ///  Will be used to make sure the player does not jump after closing the pause menu
+    /// </summary>
+    [SerializeField] private KeyCode acceptMenuButton;
+
+    /// <summary>
+    ///  Will be set to true if the menu is enabled
+    /// </summary>
+    private bool isMenuEnabled = false;
+    /// <summary>
+    ///  Will open the pause scene
+    /// </summary>
+    private SceneLoader pauseScene = null;
+
 
     /**
      * <summary>
@@ -119,6 +140,9 @@ public abstract class InputController : MonoBehaviour
         this.fireElementInput = false;
         this.airElementInput = false;
         this.earthElementInput = false;
+        this.settingsInput = false;
+
+        this.pauseScene = this.GetComponent<SceneLoader>();
     }
 
     /// <summary>
@@ -126,8 +150,28 @@ public abstract class InputController : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        this.HandleKeyInputs();
-        this.ColliderUpdate();
+        if (!this.isMenuEnabled)
+        {
+            if (this.settingsInput)
+            {
+                this.isMenuEnabled = true;
+                this.settingsInput = false;
+
+                this.pauseScene.LoadScene(true);
+            }
+            else
+            {
+                this.HandleKeyInputs();
+                this.ColliderUpdate();
+            }
+        }
+        else
+        {
+            if (!Input.GetKey(this.acceptMenuButton))
+            {
+                this.isMenuEnabled = SceneManager.sceneCount > 1;
+            }
+        }
     }
 
     /// <summary>

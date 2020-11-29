@@ -32,5 +32,7 @@ public class KeyBoardInputController : InputController
         // Spell direction input
         var nextAimInput = (new Vector2(Input.GetAxisRaw(this.keyMapping.horizontalAim), Input.GetAxisRaw(this.keyMapping.verticalAim))).normalized;
         this.aimDirecton = nextAimInput == Vector2.zero ? this.aimDirecton : nextAimInput;
+        // Reads and stores the setting input
+        this.settingsInput = Input.GetKey(this.keyMapping.settings);
     }
 }

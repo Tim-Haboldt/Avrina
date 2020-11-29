@@ -10,10 +10,6 @@ public class JoyStickInputController : InputController
     ///  Stores all keymappings of the player controller
     /// </summary>
     [SerializeField] private JoyStickMapping keyMapping;
-    /// <summary>
-    ///  Will map the rectangle aim to circle aim
-    /// </summary>
-    [SerializeField] public bool isPsController = false;
 
     /// <summary>
     ///  Because element inputs should only last for one frame the input needs to be saved
@@ -60,6 +56,8 @@ public class JoyStickInputController : InputController
         var airInput = Input.GetAxisRaw(this.keyMapping.airElement) > 0.1;
         this.airElementInput = airInput && !this.airInputWasPressedLastUpdate;
         this.airInputWasPressedLastUpdate = airInput;
+        // Reads and stores the setting input
+        this.settingsInput = Input.GetKey(this.keyMapping.settings);
 
         // Reads the aim direction and stores it as an vector2 angle
         var verticalAim = Input.GetAxisRaw(this.keyMapping.verticalAim);
