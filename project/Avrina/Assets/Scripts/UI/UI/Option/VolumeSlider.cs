@@ -22,6 +22,7 @@ public class VolumeSlider : MonoBehaviour
         {
             case SliderType.MUSIC:
                 AudioStorage.musicVolume = newValue;
+                MusicPlayer.musicPlayerInstance.UpdateAudio();
                 break;
             case SliderType.SOUND_EFFECT:
                 AudioStorage.soundEffectVolume = newValue;

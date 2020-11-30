@@ -76,6 +76,7 @@ public class VolumeButtonLogic : MonoBehaviour
             if (this.buttonType == ButtonType.MUSIC)
             {
                 AudioStorage.isMusicMuted = true;
+                MusicPlayer.musicPlayerInstance.UpdateAudio();
             }
             else
             {
@@ -92,6 +93,7 @@ public class VolumeButtonLogic : MonoBehaviour
             if (this.buttonType == ButtonType.MUSIC)
             {
                 AudioStorage.isMusicMuted = false;
+                MusicPlayer.musicPlayerInstance.UpdateAudio();
             }
             else
             {

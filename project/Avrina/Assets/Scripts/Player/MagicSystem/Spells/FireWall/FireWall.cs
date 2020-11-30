@@ -15,6 +15,10 @@ public class FireWall : Spell
     /// </summary>
     [SerializeField] private Vector2 textureOffset = Vector2.zero;
     /// <summary>
+    ///  How much damage will the firewall deal per damage tick
+    /// </summary>
+    [SerializeField] private float damage = 0.01f;
+    /// <summary>
     ///  How long will the fire wall exist
     /// </summary>
     [SerializeField] private float lifeTime = 1f;
@@ -70,7 +74,7 @@ public class FireWall : Spell
             if (Time.time > this.colliders[collider] + this.timeTillNextFireTick)
             {
                 var playerStatus = collider.GetComponent<PlayerStatus>();
-                playerStatus.CmdHandleHit(0, StatusEffect.ON_FIRE);
+                playerStatus.CmdHandleHit(this.damage, StatusEffect.ON_FIRE);
                 
                 if (this.colliders.ContainsKey(collider))
                 {

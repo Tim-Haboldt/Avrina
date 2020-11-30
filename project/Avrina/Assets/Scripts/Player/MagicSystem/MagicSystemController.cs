@@ -87,8 +87,13 @@ public class MagicSystemController : NetworkBehaviour
         }
 
         // Cast Spell if both spirits have en element selected
-        if (this.inputController.castInput && this.firstSpirit.state != SpiritState.None && this.secondSpirit.state != SpiritState.None)
+        if (this.firstSpirit.state != SpiritState.None && this.secondSpirit.state != SpiritState.None)
         {
+            if (!this.inputController.castInput && this.inputController.type != MappingType.JoyStick)
+            {
+                return;
+            }
+
             this.state = MagicSystemState.SelectSpellcastDirection;
             this.castIndicator.gameObject.SetActive(true);
         }
@@ -104,7 +109,7 @@ public class MagicSystemController : NetworkBehaviour
         switch (this.inputController.type)
         {
             case MappingType.JoyStick:
-                if (this.inputController.fireElementInput || this.inputController.castInput || this.inputController.waterElementInput)
+                if (this.inputController.fireElementInput || this.inputController.castInput || this.inputController.waterElementInput || this.inputController.castInput)
                 {
                     this.state = MagicSystemState.SpellCasting;
                     this.castIndicator.gameObject.SetActive(false);
