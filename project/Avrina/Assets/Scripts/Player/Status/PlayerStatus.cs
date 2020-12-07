@@ -340,10 +340,8 @@ public class PlayerStatus : NetworkBehaviour
         if (oldStatusEffect != this.statusEffect)
         {
             this.hasNewStatusEffectSince = Time.time;
-            this.RpcUpdateParticleAnimations();
+            this.RpcUpdateAnimations();
         }
-
-        Debug.Log(this.statusEffect);
     }
 
     /// <summary>
@@ -365,7 +363,7 @@ public class PlayerStatus : NetworkBehaviour
                 if (Time.time >= this.hasNewStatusEffectSince + this.howLongIsThePlayerBurning)
                 {
                     this.statusEffect = StatusEffect.NONE;
-                    this.RpcUpdateParticleAnimations();
+                    this.RpcUpdateAnimations();
                     this.hasNewStatusEffectSince = this.hasNewStatusEffectSince + this.howLongIsThePlayerBurning;
                 }
                 break;
@@ -375,9 +373,8 @@ public class PlayerStatus : NetworkBehaviour
                     this.statusEffect = StatusEffect.WET;
                     this.hasNewStatusEffectSince = this.hasNewStatusEffectSince + this.howLongIsThePlayerFrozen;
 
-                    this.RpcUpdateParticleAnimations();
-                    this.effectAnimator.SetBool("IsBreaking", true);
-                    this.effectAnimator.transform.localPosition = this.meltTextureOffset;
+                    this.RpcFrozenEndedNaturally();
+                    this.RpcUpdateAnimations();
                     this.RpcPlaySound(SoundType.MELTING);
                 }
                 break;
@@ -385,7 +382,7 @@ public class PlayerStatus : NetworkBehaviour
                 if (Time.time >= hasNewStatusEffectSince + this.howLongIsThePlayerWet)
                 {
                     this.statusEffect = StatusEffect.NONE;
-                    this.RpcUpdateParticleAnimations();
+                    this.RpcUpdateAnimations();
                     this.hasNewStatusEffectSince = this.hasNewStatusEffectSince + this.howLongIsThePlayerWet;
                 }
                 break;
@@ -393,16 +390,24 @@ public class PlayerStatus : NetworkBehaviour
     }
 
     /// <summary>
+    ///  Will be called when the ice breaks naturally (not with fire etc)
+    /// </summary>
+    [ClientRpc]
+    private void RpcFrozenEndedNaturally()
+    {
+        this.effectAnimator.SetTrigger("IsBreaking");
+        this.effectAnimator.transform.localPosition = this.meltTextureOffset;
+    }
+
+    /// <summary>
     ///  Will play the current particle animation
     /// </summary>
     [ClientRpc]
-    private void RpcUpdateParticleAnimations()
+    private void RpcUpdateAnimations()
     {
         this.burnAnimation.Stop();
         this.frozenAnimation.Stop();
         this.wetAnimation.Stop();
-
-        this.effectAnimator.SetBool("IsBreaking", false);
 
         switch(this.statusEffect)
         {
