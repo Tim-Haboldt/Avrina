@@ -26,6 +26,10 @@ public class WaterBall : Spell
     ///  What is the layer mask of the player
     /// </summary>
     [SerializeField] private LayerMask playerMask;
+    /// <summary>
+    ///  Will store the layer mask for every wall object
+    /// </summary>
+    [SerializeField] private LayerMask wallMask;
 
     [Header("Movement")]
     /// <summary>
@@ -140,5 +144,16 @@ public class WaterBall : Spell
                 playerStatus.CmdHandleHit(this.damage, StatusEffect.WET);
             }
         }
+    }
+
+    /// <summary>
+    ///  Can't spawn inside the wall
+    /// </summary>
+    /// <returns></returns>
+    public override bool IsSpellInsideWall()
+    {
+        var rayCastHit = Physics2D.Raycast(this.playerPosition, this.castDirection, this.initalCastDistance, this.wallMask);
+
+        return rayCastHit.collider != null;
     }
 }

@@ -17,6 +17,10 @@ public class FireBall : Spell
     /// </summary>
     [SerializeField] private LayerMask collisionMasks;
     /// <summary>
+    ///  Will store the layer mask for every wall object
+    /// </summary>
+    [SerializeField] private LayerMask wallMask;
+    /// <summary>
     ///  Used to move the spell
     /// </summary>
     [SerializeField] private Rigidbody2D rb;
@@ -75,5 +79,16 @@ public class FireBall : Spell
     protected override Vector2 CalculateStartPosition(Vector2 playerPosition, Vector2 castDirection)
     {
         return playerPosition + castDirection * this.initalCastDistance;
+    }
+
+    /// <summary>
+    ///  Will be used to determen if the fireball can be spawned or not
+    /// </summary>
+    /// <returns></returns>
+    public override bool IsSpellInsideWall()
+    {
+        var rayCastHit = Physics2D.Raycast(this.playerPosition, this.castDirection, this.initalCastDistance, this.wallMask);
+
+        return rayCastHit.collider != null;
     }
 }

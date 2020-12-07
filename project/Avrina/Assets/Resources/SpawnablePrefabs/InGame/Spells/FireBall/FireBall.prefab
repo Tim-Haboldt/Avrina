@@ -83,6 +83,9 @@ MonoBehaviour:
   collisionMasks:
     serializedVersion: 2
     m_Bits: 1792
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 256
   rb: {fileID: 2097775016299791988}
   explosionPrefab: {fileID: 6090032674630823887, guid: d3a808f9fa6534f45856b141f01293aa,
     type: 3}

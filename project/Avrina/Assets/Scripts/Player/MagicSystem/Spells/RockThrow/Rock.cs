@@ -21,6 +21,10 @@ public class Rock : Spell
     ///  What is the layer mask of the player
     /// </summary>
     [SerializeField] private LayerMask playerMask;
+    /// <summary>
+    ///  Will store the layer mask for every wall object
+    /// </summary>
+    [SerializeField] private LayerMask wallMask;
 
     [Header("Movement")]
     /// <summary>
@@ -121,5 +125,16 @@ public class Rock : Spell
                 playerStatus.CmdHandleHit(this.damage, StatusEffect.NONE);
             }
         }
+    }
+
+    /// <summary>
+    ///  Will not spawn the rock if its inside the wall
+    /// </summary>
+    /// <returns></returns>
+    public override bool IsSpellInsideWall()
+    {
+        var rayCastHit = Physics2D.Raycast(this.playerPosition, this.castDirection, 0.2f, this.wallMask);
+
+        return rayCastHit.collider != null;
     }
 }

@@ -105,4 +105,13 @@ public class Fog : Spell
             playerStatus.CmdHandleHit(0, StatusEffect.WET);
         }
     }
+
+    /// <summary>
+    ///  Will always be true
+    /// </summary>
+    /// <returns></returns>
+    public override bool IsSpellInsideWall()
+    {
+        return false;
+    }
 }

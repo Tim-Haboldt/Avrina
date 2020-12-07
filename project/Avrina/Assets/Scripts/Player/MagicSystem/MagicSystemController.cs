@@ -72,6 +72,11 @@ public class MagicSystemController : NetworkBehaviour
     /// </summary>
     private void SelectElements()
     {
+        if (this.firstSpirit == null || this.secondSpirit == null)
+        {
+            return;
+        }
+
         // Stores the element inputs inside the spirits
         var elementInput = this.GetElementInput();
         if (elementInput != SpiritState.None)
@@ -155,7 +160,15 @@ public class MagicSystemController : NetworkBehaviour
         spell.playerPosition = position;
         spell.castDirection = orientation;
         spell.caster = this.GetComponent<NetworkIdentity>().netId;
-        NetworkServer.Spawn(spell.gameObject);
+
+        if (!spell.IsSpellInsideWall())
+        {
+            NetworkServer.Spawn(spell.gameObject);
+        }
+        else
+        {
+            Destroy(spell.gameObject);
+        }
     }
 
     /// <summary>

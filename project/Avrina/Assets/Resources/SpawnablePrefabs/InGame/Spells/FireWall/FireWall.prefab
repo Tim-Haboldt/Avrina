@@ -259,8 +259,15 @@ MonoBehaviour:
   caster: 0
   spawnDistance: 3
   textureOffset: {x: 0, y: -1.1}
+  damage: 0.01
   lifeTime: 4
   timeTillNextFireTick: 0.4
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 256
+  wallDistanceOffsetX: -0.5
+  wallDistanceOffsetY: -2.4
+  maxSpawnOffset: 2

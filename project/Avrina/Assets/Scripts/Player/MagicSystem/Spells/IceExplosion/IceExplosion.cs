@@ -175,4 +175,13 @@ public class IceExplosion : Spell
 
         return playerPosition - halfBounds;
     }
+
+    /// <summary>
+    ///  Will always be true
+    /// </summary>
+    /// <returns></returns>
+    public override bool IsSpellInsideWall()
+    {
+        return false;
+    }
 }

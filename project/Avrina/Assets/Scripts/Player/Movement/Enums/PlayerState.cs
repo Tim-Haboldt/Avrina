@@ -9,5 +9,6 @@ public enum PlayerState
     AirJumping,     // Player jumps in the air
     WallJumping,    // Player is in the wall jump animation
     WallSliding,    // Player is sliding the wall (slower as free fall)
-    Immobile        // Player has used every single jump and is in the air
+    Immobile,       // Player has used every single jump and is in the air
+    Frozen,         // Player cannot move at all until the frozen state is over
 }

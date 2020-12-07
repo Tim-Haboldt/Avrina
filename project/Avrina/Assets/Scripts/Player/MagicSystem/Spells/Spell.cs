@@ -7,7 +7,7 @@ public abstract class Spell : NetworkBehaviour
     /// <summary>
     ///  Will be played on the client when the spell is spawned
     /// </summary>
-    [SerializeField] private AudioClip castSound;
+    [SerializeField] protected AudioClip castSound;
     /// <summary>
     ///  How load is the spell
     /// </summary>
@@ -60,6 +60,11 @@ public abstract class Spell : NetworkBehaviour
     /// </summary>
     /// <returns></returns>
     protected abstract Vector2 CalculateStartPosition(Vector2 playerPosition, Vector2 castDirection);
+
+    /// <summary>
+    ///  Will be called to determen if the spell is stuck inside a wall and cannot be spawned
+    /// </summary>
+    public abstract bool IsSpellInsideWall();
 
     /// <summary>
     ///  Will be called after the spell is created on the server

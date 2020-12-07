@@ -28,16 +28,21 @@ public abstract class State
     ///  What was the state before this state
     /// </summary>
     public PlayerState previousState { protected get; set; }
+    /// <summary>
+    ///  Used to get special effects
+    /// </summary>
+    protected PlayerStatus playerEffectManager { get; private set; }
 
     /// <summary>
     ///  Sets the player controller
     /// </summary>
     /// <param name="playerController">Used to get all inputs and collisions</param>
     /// <param name="rb">Can be used to modify the player position in more detail.</param>
-    public void Init(InputController inputController, Rigidbody2D rb)
+    public void Init(InputController inputController, Rigidbody2D rb, PlayerStatus playerStatus)
     {
         this.inputController = inputController;
         this.rigidbody = rb;
+        this.playerEffectManager = playerStatus;
     }
 
     /// <summary>

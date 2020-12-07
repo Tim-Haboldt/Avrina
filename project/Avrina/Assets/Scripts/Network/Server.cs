@@ -91,6 +91,11 @@ public class Server : NetworkManager
             var client = conn.identity.GetComponent<LobbyBehaviour>();
 
             NotifyPlayersOfReadyState();
+            
+            if (this.state == ServerState.InGame && this.IsGameOver())
+            {
+                Debug.Log("Game over");
+            }
         }
 
         this.clientInformations.Remove(conn.connectionId);
@@ -128,6 +133,60 @@ public class Server : NetworkManager
         }
 
         base.OnServerReady(conn);
+    }
+
+    /// <summary>
+    ///  Will be called every time a player dies on the client
+    /// </summary>
+    /// <param name="conn"></param>
+    /// <param name="isSecondPlayer"></param>
+    public void HandlePlayerDeath(NetworkConnection conn, bool isSecondPlayer)
+    {
+        if (this.state != ServerState.InGame)
+        {
+            return;
+        }
+
+        var clientInformation = this.clientInformations[conn.connectionId];
+
+        if (isSecondPlayer)
+        {
+            clientInformation.isSecondPlayerAlive = false;
+        }
+        else
+        {
+            clientInformation.isFirstPlayerAlive = false;
+        }
+
+        this.clientInformations[conn.connectionId] = clientInformation;
+
+        if (this.IsGameOver())
+        {
+            Debug.Log("Game over");
+        }
+    }
+
+    /// <summary>
+    ///  Is there more then one player alive
+    /// </summary>
+    /// <returns></returns>
+    private bool IsGameOver()
+    {
+        int amountOfPlayersAlive = 0;
+
+        foreach (var information in this.clientInformations.Values)
+        {
+            if (information.isFirstPlayerAlive)
+            {
+                amountOfPlayersAlive++;
+            }
+            else if (information.isSecondPlayerAlive)
+            {
+                amountOfPlayersAlive++;
+            }
+        }
+
+        return amountOfPlayersAlive <= 1;
     }
 
     /// <summary>
@@ -214,6 +273,8 @@ public class Server : NetworkManager
             var lobbyBehaviour = lobbyInstance.GetComponent<LobbyBehaviour>();
             var clientInformation = this.clientInformations[connection.connectionId];
             clientInformation.isControllingTwoPlayers = lobbyBehaviour.isRepresentingTwoPlayers;
+            clientInformation.isFirstPlayerAlive = true;
+            clientInformation.isSecondPlayerAlive = clientInformation.isControllingTwoPlayers;
             this.clientInformations[connection.connectionId] = clientInformation;
 
             NetworkServer.Destroy(lobbyInstance);

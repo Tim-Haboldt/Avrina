@@ -24,6 +24,10 @@ public class RockThrow : Spell
     ///  How far the middle of the spell can the rocks be spawned befor they start flying in the direction
     /// </summary>
     [SerializeField] private float maxPositionSpread = 1f;
+    /// <summary>
+    ///  Will store the layer mask for every wall object
+    /// </summary>
+    [SerializeField] private LayerMask wallMask;
 
     /// <summary>
     ///  Stores the start position of every single rock instance
@@ -86,6 +90,15 @@ public class RockThrow : Spell
 
         Destroy(this.gameObject);
     }
+    
+    /// <summary>
+    ///  Will interrupt any rock from spawning. The single rocks can also spawn in the wall
+    /// </summary>
+    /// <returns></returns>
+    public override bool IsSpellInsideWall()
+    {
+        var rayCastHit = Physics2D.Raycast(this.playerPosition, this.castDirection, this.spellOffset, this.wallMask);
 
-    // Spawns multiple rocks at once and controlls them all together through this script
+        return rayCastHit.collider != null;
+    }
 }

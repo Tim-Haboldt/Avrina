@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4305327010780903745}
   - component: {fileID: 4219547939965403717}
-  - component: {fileID: 972571239908042455}
+  - component: {fileID: 6603482394754838369}
   m_Layer: 0
   m_Name: Burning Light
   m_TagString: Untagged
@@ -73,7 +73,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
---- !u!114 &972571239908042455
+--- !u!114 &6603482394754838369
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

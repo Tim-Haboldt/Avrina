@@ -97,4 +97,13 @@ public class AirPush : Spell
         oldColliderPos += new Vector3(additionalPos.x, additionalPos.y);
         this.boxCollider.transform.position = oldColliderPos;
     }
+
+    /// <summary>
+    ///  Will always be true. Because if theres a wall the player is pushed instead
+    /// </summary>
+    /// <returns></returns>
+    public override bool IsSpellInsideWall()
+    {
+        return false;
+    }
 }

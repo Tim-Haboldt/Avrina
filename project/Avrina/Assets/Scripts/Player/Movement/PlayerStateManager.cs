@@ -40,6 +40,12 @@ public class PlayerStateManager : NetworkBehaviour
     [SerializeField] private PlayerConfig playerConfig;
 
     /// <summary>
+    ///  Will be set to true if the player instance is the second player
+    /// </summary>
+    [SyncVar]
+    [HideInInspector] public bool isSecondPlayer;
+
+    /// <summary>
     ///  Current status of the player object like health or current applied status effect
     /// </summary>
     private PlayerStatus playerStatus;
@@ -62,13 +68,18 @@ public class PlayerStateManager : NetworkBehaviour
         { PlayerState.AirJumping, new AirJumping() },
         { PlayerState.Immobile, new Immobile() },
         { PlayerState.WallSliding, new WallSliding() },
-        { PlayerState.WallJumping, new WallJumping() }
+        { PlayerState.WallJumping, new WallJumping() },
+        { PlayerState.Frozen, new Frozen() }
     };
     /// <summary>
     ///  Stores the name of the current state
     /// </summary>
     [SyncVar(hook = nameof(HandlePlayerStateChange))]
     public PlayerState currentState = PlayerState.InAir;
+    /// <summary>
+    ///  Gets player states and process them independent differently
+    /// </summary>
+    private PlayerStatus playerStatusManager;
 
 
     /**
@@ -81,14 +92,15 @@ public class PlayerStateManager : NetworkBehaviour
     private void Start()
     {
         this.rb = GetComponent<Rigidbody2D>();
-        this.playerAnimation = GetComponent<PlayerAnimation>();
+        this.playerAnimation = this.GetComponent<PlayerAnimation>();
+        this.playerStatusManager = this.GetComponent<PlayerStatus>();
 
         var inputController = this.CreateInputController();
         this.playerAnimation.inputController = inputController;
 
         foreach (State state in this.states.Values)
         {
-            state.Init(inputController, this.rb);
+            state.Init(inputController, this.rb, this.playerStatusManager);
         }
 
         var magicSystemController = this.GetComponent<MagicSystemController>();
@@ -132,10 +144,12 @@ public class PlayerStateManager : NetworkBehaviour
             if (this.isLocalPlayer)
             {
                 inputController = this.GetInputControllerOfMappingType(PlayerInformation.playerOneMapping);
+                this.isSecondPlayer = false;
             }
             else
             {
                 inputController = this.GetInputControllerOfMappingType(PlayerInformation.playerTwoMapping);
+                this.isSecondPlayer = true;
             }
         }
         else
@@ -181,17 +195,15 @@ public class PlayerStateManager : NetworkBehaviour
      */
     public void ChangeState(PlayerState state)
     {
-        this.CmdUpdatePlayerState(state);
-
         var previousState = this.states[this.currentState];
         var nextState = this.states[state];
 
         previousState.OnStateExit();
-        nextState.previousState = this.currentState;
+        nextState.previousState = previousState.name;
         nextState.OnStateEnter();
-        this.currentState = state;
 
-        this.playerAnimation.TriggerState(state);
+        this.CmdUpdatePlayerState(state);
+        this.currentState = state;
     }
 
     /// <summary>
@@ -241,7 +253,12 @@ public class PlayerStateManager : NetworkBehaviour
             return;
         }
 
-        var nextState = this.states[this.currentState].Update();
+        var nextState = this.HandlePlayerEffectStates();
+        if (nextState == this.currentState)
+        {
+            nextState = this.states[this.currentState].Update();
+        }
+
         if (nextState != this.currentState)
         {
             this.ChangeState(nextState);
@@ -264,5 +281,18 @@ public class PlayerStateManager : NetworkBehaviour
         var playerVelocity = this.rb.velocity;
         this.states[this.currentState].PerformActions(ref playerVelocity);
         this.rb.velocity = playerVelocity;
+    }
+
+    /// <summary>
+    ///  Handle effect states. Changes into special states like frozen
+    /// </summary>
+    private PlayerState HandlePlayerEffectStates()
+    {
+        if (this.playerStatusManager.statusEffect == StatusEffect.FROZEN)
+        {
+            return PlayerState.Frozen;
+        }
+
+        return this.currentState;
     }
 }

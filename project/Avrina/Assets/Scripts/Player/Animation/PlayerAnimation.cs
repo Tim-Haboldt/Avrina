@@ -36,6 +36,10 @@ public class PlayerAnimation : MonoBehaviour
     /// </summary>
     private PlayerStateManager stateManager;
     /// <summary>
+    ///  Used to get the current effect status
+    /// </summary>
+    private PlayerStatus effectStatusManager;
+    /// <summary>
     ///  Stores the current climbing state
     /// </summary>
     private float climbingState = 0f;
@@ -50,10 +54,11 @@ public class PlayerAnimation : MonoBehaviour
     /// </summary>
     void Start()
     {
-        this.animator = GetComponent<Animator>();
-        this.rb = GetComponent<Rigidbody2D>();
-        this.spriteRenderer = GetComponent<SpriteRenderer>();
-        this.stateManager = GetComponent<PlayerStateManager>();
+        this.animator = this.GetComponent<Animator>();
+        this.rb = this.GetComponent<Rigidbody2D>();
+        this.spriteRenderer = this.GetComponent<SpriteRenderer>();
+        this.stateManager = this.GetComponent<PlayerStateManager>();
+        this.effectStatusManager = this.GetComponent<PlayerStatus>();
 
         this.animator.SetFloat("X", 0);
         this.animator.SetBool("isRunning", false);
@@ -107,16 +112,12 @@ public class PlayerAnimation : MonoBehaviour
         // Set the direction the sprite is facing
         if (movementAbs > 0)
         {
+            if (this.effectStatusManager.statusEffect == StatusEffect.FROZEN)
+            {
+                return;
+            }
+
             this.spriteRenderer.flipX = Mathf.Sign(movementInput) == 1;
         }
-    }
-
-    /// <summary>
-    ///  Triggers animations caused by state change
-    /// </summary>
-    /// <param name="state">What is the new state</param>
-    public void TriggerState(PlayerState state)
-    {
-        // this.animator.SetTrigger();
     }
 }

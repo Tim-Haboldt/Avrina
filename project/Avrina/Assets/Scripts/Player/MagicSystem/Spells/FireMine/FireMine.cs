@@ -187,4 +187,13 @@ public class FireMine : Spell
         this.animator.runtimeAnimatorController = this.idleAnimatior;
         this.startTime = Time.time;
     }
+
+    /// <summary>
+    ///  Will always be true
+    /// </summary>
+    /// <returns></returns>
+    public override bool IsSpellInsideWall()
+    {
+        return false;
+    }
 }

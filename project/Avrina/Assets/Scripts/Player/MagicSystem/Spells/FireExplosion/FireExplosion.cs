@@ -175,4 +175,13 @@ public class FireExplosion : Spell
 
         return playerPosition - halfBounds;
     }
+
+    /// <summary>
+    ///  Will always be true. Because there is no time the player can't create an explosion
+    /// </summary>
+    /// <returns></returns>
+    public override bool IsSpellInsideWall()
+    {
+        return false;
+    }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BurnParticleEffect : BaseParticleEffect
+public class BasicEffectParticleEffect : BaseParticleEffect
 {
     /// <summary>
     ///  How intense will the lighting be compared to the size of the burning effect
