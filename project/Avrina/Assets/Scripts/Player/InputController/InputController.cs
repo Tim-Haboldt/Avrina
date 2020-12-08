@@ -150,6 +150,7 @@ public abstract class InputController : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        //TODO
         if (!this.isMenuEnabled)
         {
             if (this.settingsInput)

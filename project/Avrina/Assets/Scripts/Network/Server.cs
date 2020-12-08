@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System.Linq;
@@ -39,6 +38,14 @@ public class Server : NetworkManager
     ///  Stores a reference to the game scene. Will be opened if the server starts the game
     /// </summary>
     [Scene] [SerializeField] private string gameScene = null;
+
+    [Header("Game End")]
+    [SerializeField] private GameEndBehaviour gameEndGameObject;
+
+    /// <summary>
+    ///  Will be set to true after the game is over
+    /// </summary>
+    private bool isGameOver = false;
 
     /// <summary>
     ///  State of the server
@@ -162,8 +169,38 @@ public class Server : NetworkManager
 
         if (this.IsGameOver())
         {
-            Debug.Log("Game over");
+            this.HandleGameOver();
         }
+    }
+
+    /// <summary>
+    ///  Will be called on the server to make a rpc call to all clients
+    /// </summary>
+    private void HandleGameOver()
+    {
+        if (this.isGameOver)
+        {
+            return;
+        }
+
+        this.isGameOver = true;
+        var endGame = Instantiate(this.gameEndGameObject);
+        
+        foreach (var id in this.clientInformations.Keys)
+        {
+            if (this.clientInformations[id].isFirstPlayerAlive)
+            {
+                endGame.wonPlayerId = id;
+                endGame.wonSecondPlayer = false;
+            }
+            else if (this.clientInformations[id].isSecondPlayerAlive)
+            {
+                endGame.wonPlayerId = id;
+                endGame.wonSecondPlayer = true;
+            }
+        }
+
+        NetworkServer.Spawn(endGame.gameObject);
     }
 
     /// <summary>
@@ -265,6 +302,7 @@ public class Server : NetworkManager
         }
 
         this.state = ServerState.InGame;
+        this.isGameOver = false;
 
         foreach (var connection in NetworkServer.connections.Values)
         {
