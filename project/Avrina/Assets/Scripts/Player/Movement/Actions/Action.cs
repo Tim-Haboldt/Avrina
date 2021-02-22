@@ -8,7 +8,7 @@ public interface Action
      * </summary>
      * <param name="config">Contains all constant variables</param>
      */
-    void Setup(PlayerConfig config);
+    void Setup(PlayerConfig config, Transform playerTransform);
 
     /**
      * <summary>

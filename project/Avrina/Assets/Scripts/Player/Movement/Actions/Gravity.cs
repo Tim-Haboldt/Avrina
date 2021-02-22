@@ -40,7 +40,7 @@ public class Gravity : Action
      *  Reads all constants from the config and stores them inside the class
      * </summary>
      */
-    public void Setup(PlayerConfig config)
+    public void Setup(PlayerConfig config, Transform playerTransform)
     {
         this.gravity = config.gravity;
         this.maxGravityVelocitry = config.maxGravityVelocity;

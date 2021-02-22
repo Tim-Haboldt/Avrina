@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "GroundMaterial", menuName = "CustomMaterials/GroundMaterial", order = 1)]
 public class GroundMaterial: ScriptableObject
@@ -35,4 +36,17 @@ public class GroundMaterial: ScriptableObject
     ///  Is the start velocity of the jump
     /// </summary>
     public float jumpVelocity;
+
+    /// <summary>
+    ///  This sound will be played everytime the player jumps
+    /// </summary>
+    public List<AudioClip> jumpSounds;
+    /// <summary>
+    ///  This sound will be played everytime the player lands on ground
+    /// </summary>
+    public List<AudioClip> landingSounds;
+    /// <summary>
+    ///  This sound will be played everytime the player jumps
+    /// </summary>
+    public List<AudioClip> walkSounds;
 }

@@ -13,6 +13,7 @@ public class VolumeSlider : MonoBehaviour
     /// </summary>
     [SerializeField] private SliderType type = SliderType.MUSIC;
 
+
     /// <summary>
     ///  Updates the audio settings corresponding to the volume slider
     /// </summary>
@@ -28,5 +29,7 @@ public class VolumeSlider : MonoBehaviour
                 AudioStorage.soundEffectVolume = newValue;
                 break;
         }
+
+        AudioStorage.SaveValues();
     }
 }

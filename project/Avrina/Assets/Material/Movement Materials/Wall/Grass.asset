@@ -15,9 +15,17 @@ MonoBehaviour:
   priority: 0
   friction: 0.3
   canBeJumpedFrom: 1
-  startJumpVelocityX: 40
-  startJumpVelocityY: 30
+  startJumpVelocityX: 33
+  startJumpVelocityY: 24
   canBeClimedOn: 1
   acceleration: 10
-  frictionWhileMovingUp: 0.6
-  frictionWhileMovingDown: 0.3
+  frictionWhileMovingUp: 0.7
+  frictionWhileMovingDown: 0.35
+  jumpSounds:
+  - {fileID: 8300000, guid: f2b7a4a1905a4d24083082bc0701a5ac, type: 3}
+  landingSounds:
+  - {fileID: 8300000, guid: d6acb386e62480b48b27ddebc4a64cf7, type: 3}
+  - {fileID: 8300000, guid: 9ef1af6772f37f24bb8f770dc240136d, type: 3}
+  - {fileID: 8300000, guid: 9ef1af6772f37f24bb8f770dc240136d, type: 3}
+  walkSounds:
+  - {fileID: 8300000, guid: f9264e56098bd2b44aee21d36f40b0ff, type: 3}

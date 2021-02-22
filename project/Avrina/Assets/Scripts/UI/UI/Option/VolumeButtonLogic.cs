@@ -59,6 +59,12 @@ public class VolumeButtonLogic : MonoBehaviour
     {
         this.uiImageElement = this.GetComponent<Image>();
         this.uiTransform = this.GetComponent<RectTransform>();
+
+        if (this.buttonType == ButtonType.MUSIC && AudioStorage.isMusicMuted
+            || this.buttonType == ButtonType.SOUND_EFFECT && AudioStorage.areSoundEffectsMuted)
+        {
+            this.MuteUnmuteButton();
+        }
     }
 
     /// <summary>
@@ -100,5 +106,7 @@ public class VolumeButtonLogic : MonoBehaviour
                 AudioStorage.areSoundEffectsMuted = false;
             }
         }
+
+        AudioStorage.SaveValues();
     }
 }

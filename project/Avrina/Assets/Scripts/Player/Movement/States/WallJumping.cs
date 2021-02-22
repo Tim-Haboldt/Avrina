@@ -25,6 +25,10 @@ public class WallJumping : StateInheritingAction
     {
         new HorizontalAirMovement(),
     };
+    /// <summary>
+    ///  Sound which will be played if the player jumps
+    /// </summary>
+    private AudioClip jumpSound;
 
 
     /// <summary>
@@ -60,6 +64,7 @@ public class WallJumping : StateInheritingAction
     {
         this.wallJumpMaxDuration = config.maxJumpDuration;
         this.gravityDuringJump = config.gravityDuringJump;
+        this.jumpSound = config.jumpSound;
     }
 
     /// <summary>
@@ -73,6 +78,20 @@ public class WallJumping : StateInheritingAction
         var direction = Mathf.Sign(this.inputController.movementInput) * -1;
 
         this.rigidbody.velocity = new Vector2(wallMaterial.startJumpVelocityX * direction, wallMaterial.startJumpVelocityY);
+        
+        if (!AudioStorage.areSoundEffectsMuted)
+        {
+            var currentWallMaterial = this.inputController.wallMaterial;
+            if (currentWallMaterial != null)
+            {
+                var randomElement = Random.Range(0, currentWallMaterial.jumpSounds.Count);
+                AudioSource.PlayClipAtPoint(currentWallMaterial.jumpSounds[randomElement], this.playerTransform.position, AudioStorage.soundEffectVolume);
+            }
+            else
+            {
+                AudioSource.PlayClipAtPoint(this.jumpSound, this.playerTransform.position, AudioStorage.soundEffectVolume);
+            }
+        }
     }
 
     /// <summary>

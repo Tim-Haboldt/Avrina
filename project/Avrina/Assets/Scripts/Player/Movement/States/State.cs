@@ -32,6 +32,10 @@ public abstract class State
     ///  Used to get special effects
     /// </summary>
     protected PlayerStatus playerEffectManager { get; private set; }
+    /// <summary>
+    ///  Used to get the current player position to play sounds
+    /// </summary>
+    protected Transform playerTransform;
 
     /// <summary>
     ///  Sets the player controller
@@ -60,11 +64,13 @@ public abstract class State
      * </summary>
      * <param name="config">Contains all constants</param>
      */
-    public virtual void StateSetup(PlayerConfig config)
+    public virtual void StateSetup(PlayerConfig config, Transform playerTransform)
     {
+        this.playerTransform = playerTransform;
+
         foreach (var action in this.actions)
         {
-            action.Setup(config);
+            action.Setup(config, playerTransform);
         }
     }
 

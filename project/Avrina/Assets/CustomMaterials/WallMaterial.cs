@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "WallMaterial", menuName = "CustomMaterials/WallMaterial", order = 2)]
 public class WallMaterial : ScriptableObject
@@ -39,4 +40,17 @@ public class WallMaterial : ScriptableObject
     ///  Changes the friction while the player is moving down
     /// </summary>
     public float frictionWhileMovingDown;
+
+    /// <summary>
+    ///  This sound will be played everytime the player jumps
+    /// </summary>
+    public List<AudioClip> jumpSounds;
+    /// <summary>
+    ///  This sound will be played everytime the player lands on ground
+    /// </summary>
+    public List<AudioClip> landingSounds;
+    /// <summary>
+    ///  This sound will be played everytime the player jumps
+    /// </summary>
+    public List<AudioClip> walkSounds;
 }

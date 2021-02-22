@@ -51,4 +51,8 @@ public struct PlayerConfig
     ///  How far can the slope go down per player movement to still act as if the player is on ground
     /// </summary>
     public float maxGroundDistanceForSlopes;
+    /// <summary>
+    ///  Used to determin the airjump sound
+    /// </summary>
+    public AudioClip jumpSound;
 }

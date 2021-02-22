@@ -1,0 +1,4 @@
+MusicVolume: 1
+IsMusicMuted: False
+SoundEffectVolume: 1
+AreSoundEffectsMuted: False

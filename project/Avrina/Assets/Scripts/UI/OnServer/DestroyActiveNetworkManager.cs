@@ -8,6 +8,6 @@ public class DestroyActiveNetworkManager : MonoBehaviour
     /// </summary>
     public void Activate()
     {
-        Destroy(NetworkManager.singleton.gameObject);
+        NetworkManager.Shutdown();
     }
 }

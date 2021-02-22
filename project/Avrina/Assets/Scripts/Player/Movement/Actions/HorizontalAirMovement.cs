@@ -54,7 +54,7 @@ public class HorizontalAirMovement : Action
      *  Reads the constants from the config
      * </summary>
      */
-    public void Setup(PlayerConfig config)
+    public void Setup(PlayerConfig config, Transform playerTransform)
     {
         this.accelerationInAir = config.horizontalAccelerationInAir;
         this.airFrictionWhileNoInputGiven = config.airFrictionWhileNoInputGiven;

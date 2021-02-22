@@ -10,6 +10,14 @@ public class HorizontalGroundMovement : Action
     ///  Defines how fast a slope can fall down for the player to still act as if on ground
     /// </summary>
     private float maxGroundDistanceForSlopes;
+    /// <summary>
+    ///  Used to get the current player position
+    /// </summary>
+    private Transform playerTransform;
+    /// <summary>
+    ///  Used to play the movement sound effect
+    /// </summary>
+    private Vector3 lastMovementSoundPosition;
 
 
     /**
@@ -29,6 +37,8 @@ public class HorizontalGroundMovement : Action
         {
             return;
         }
+
+        this.PlayWalkSoundEffect(inputController);
 
         var absoluteMovementSpeed = Mathf.Sqrt(Mathf.Pow(velocity.x, 2) + Mathf.Pow(velocity.y, 2));
         var nextMovementSpeed = absoluteMovementSpeed * Mathf.Sign(velocity.x);
@@ -90,6 +100,30 @@ public class HorizontalGroundMovement : Action
     }
 
     /// <summary>
+    ///  Will use the current player position and the old sound played position to calculate the next point a movement sound should be played
+    /// </summary>
+    private void PlayWalkSoundEffect(InputController inputController)
+    {
+        var currentGroundMaterial = inputController.groundMaterial;
+        if (!AudioStorage.areSoundEffectsMuted && currentGroundMaterial != null)
+        {
+            if (this.lastMovementSoundPosition != null)
+            {
+                var distance = Vector3.Distance(this.lastMovementSoundPosition, this.playerTransform.position);
+                if (distance < 2.7f)
+                {
+                    return;
+                }
+            }
+
+            var randomElement = Random.Range(0, currentGroundMaterial.walkSounds.Count);
+            AudioSource.PlayClipAtPoint(currentGroundMaterial.walkSounds[randomElement], this.playerTransform.position, AudioStorage.soundEffectVolume * 0.7f);
+
+            this.lastMovementSoundPosition = this.playerTransform.position;
+        }
+    }
+
+    /// <summary>
     ///  Returns the center of the player with an offset in any given direction
     /// </summary>
     /// <param name="controller">Used to get the center of the player</param>
@@ -111,10 +145,11 @@ public class HorizontalGroundMovement : Action
      *  Reads the constants from the config
      * </summary>
      */
-    public void Setup(PlayerConfig config)
+    public void Setup(PlayerConfig config, Transform playerTransform)
     {
         this.groundMask = config.groundMask;
         this.maxGroundDistanceForSlopes = config.maxGroundDistanceForSlopes;
+        this.playerTransform = playerTransform;
     }
 
     /**

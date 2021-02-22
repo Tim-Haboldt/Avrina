@@ -61,7 +61,7 @@ public class OnGround : State
     public override void OnStateEnter()
     {
         base.OnStateEnter();
-
+        
         if (this.inputController.jumpInput)
         {
             this.holdingJump = true;
@@ -69,5 +69,12 @@ public class OnGround : State
 
         var velocity = this.rigidbody.velocity;
         this.rigidbody.velocity = new Vector2(velocity.x, 0);
+
+        var currentGroundMaterial = this.inputController.groundMaterial;
+        if (!AudioStorage.areSoundEffectsMuted && currentGroundMaterial != null)
+        {
+            var randomElement = Random.Range(0, currentGroundMaterial.landingSounds.Count);
+            AudioSource.PlayClipAtPoint(currentGroundMaterial.landingSounds[randomElement], this.playerTransform.position, AudioStorage.soundEffectVolume * 0.3f);
+        }
     }
 }

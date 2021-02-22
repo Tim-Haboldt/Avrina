@@ -40,13 +40,15 @@ public abstract class StateInheritingAction : State
     * </summary>
     * <param name="config">Contains all constants</param>
     */
-    public override void StateSetup(PlayerConfig config)
+    public override void StateSetup(PlayerConfig config, Transform playerTransform)
     {
         this.Setup(config);
 
+        this.playerTransform = playerTransform;
+
         foreach (var action in this.actions)
         {
-            action.Setup(config);
+            action.Setup(config, playerTransform);
         }
     }
 

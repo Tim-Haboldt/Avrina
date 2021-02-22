@@ -236,7 +236,7 @@ public class PlayerStateManager : NetworkBehaviour
     {
         foreach (var iterator in this.states)
         {
-            iterator.Value.StateSetup(this.playerConfig);
+            iterator.Value.StateSetup(this.playerConfig, this.transform);
         }
     }
 

@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 6215103437521987662}
   - component: {fileID: 6215103437521987663}
   - component: {fileID: 6215103437521987656}
+  - component: {fileID: -3809478691240831284}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: GameEndBehaviour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,5 +77,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  wonPlayerName: 
+  wonPlayerId: 0
   wonSecondPlayer: 0
+  endSceneLoader: {fileID: 6215103437521987662}
+  endSceneName: GameEndScreen
+  startMenuScene: {fileID: -3809478691240831284}
+--- !u!114 &-3809478691240831284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6215103437521987658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f667b80c67070fe41809da21937832d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: Assets/Scenes/Client/Menu.unity

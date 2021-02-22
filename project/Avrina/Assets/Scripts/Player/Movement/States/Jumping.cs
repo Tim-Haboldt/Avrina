@@ -30,6 +30,10 @@ public class Jumping : StateInheritingAction
     {
         new HorizontalAirMovement(),
     };
+    /// <summary>
+    ///  Sound which will be played if the player jumps
+    /// </summary>
+    private AudioClip jumpSound;
 
     /// <summary>
     ///  Caluclates the current jump velocity
@@ -66,6 +70,7 @@ public class Jumping : StateInheritingAction
         this.maxJumpDuration = config.maxJumpDuration;
         this.airJumpVelocity = config.airJumpStartVelocity;
         this.gravityDuringJump = config.gravityDuringJump;
+        this.jumpSound = config.jumpSound;
     }
 
     /**
@@ -83,6 +88,20 @@ public class Jumping : StateInheritingAction
         else
         {
             this.rigidbody.velocity = new Vector2(rigidbody.velocity.x, this.inputController.groundMaterial.jumpVelocity);
+        }
+
+        if (!AudioStorage.areSoundEffectsMuted)
+        {
+            var currentGroundMaterial = this.inputController.groundMaterial;
+            if (currentGroundMaterial != null)
+            {
+                var randomElement = Random.Range(0, currentGroundMaterial.jumpSounds.Count);
+                AudioSource.PlayClipAtPoint(currentGroundMaterial.jumpSounds[randomElement], this.playerTransform.position, AudioStorage.soundEffectVolume);
+            }
+            else
+            {
+                AudioSource.PlayClipAtPoint(this.jumpSound, this.playerTransform.position, AudioStorage.soundEffectVolume);
+            }
         }
     }
 
