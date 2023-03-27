@@ -234,12 +234,15 @@ MonoBehaviour:
   idleAnimationLength: 1
   explosionAnimatior: {fileID: 9100000, guid: 3d761a8e09f4017498374c4755244c68, type: 2}
   explosionAnimationLength: 0.8
-  explosionAnimationScaling: 0.43
+  explosionAnimationScaling: 0.5
   explosionAnimationOffset: {x: 0, y: 0.18}
   damageOffset: {x: 0, y: -0.03}
-  explosionRadius: 1
+  explosionRadius: 2.7
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
   damage: 0.05
   explosionSound: {fileID: 8300000, guid: 6a76fabdbd9f55d4399063651bf75cbd, type: 3}
+  explosionVolume: 1
+  hitSound: {fileID: 0}
+  hitVolume: 1

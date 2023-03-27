@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Grass
   m_EditorClassIdentifier: 
   priority: 1
-  acceleration: 4.6
+  acceleration: 3.7
   frictionWhileNoInputGiven: 0.47
-  frictionWhileMoving: 0.18
+  frictionWhileMoving: 0.17
   frictionWhileTurning: 0.7
   smallestMovementBeforeStop: 0.08
   canBeJumpedFrom: 1
-  jumpVelocity: 26
+  jumpVelocity: 23
   jumpSounds:
-  - {fileID: 8300000, guid: f2b7a4a1905a4d24083082bc0701a5ac, type: 3}
+  - {fileID: 8300000, guid: c500d8d10be5e404e9e0d9eed3e8ef3a, type: 3}
   landingSounds:
   - {fileID: 8300000, guid: d6acb386e62480b48b27ddebc4a64cf7, type: 3}
   - {fileID: 8300000, guid: 9ef1af6772f37f24bb8f770dc240136d, type: 3}

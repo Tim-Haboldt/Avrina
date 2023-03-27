@@ -23,7 +23,11 @@ public class CameraFollowObjects : MonoBehaviour
     /// <summary>
     ///  Used to smoothly zoom out on two players
     /// </summary>
-    [SerializeField] public float smoothLerp;
+    [SerializeField] public float maxOrthographUpdateRate;
+    /// <summary>
+    ///  Used to smoothly zoom out on two players
+    /// </summary>
+    [SerializeField] public float minOrthographChange;
 
     /// <summary>
     ///  Main Camera object
@@ -157,6 +161,21 @@ public class CameraFollowObjects : MonoBehaviour
             // Map object two position to one inside the camera
             // Spawn second camera for object player
             this.SpawnSecondCamera(minXPosOfCamera, maxXPosOfCamera, minYPosOfCamera, maxYPosOfCamera);
+        }
+        // Only update the orthographic size if the threashhold was passed
+        var orthographDifferenze = orthographicSize - this.mainCamera.orthographicSize;
+        if (this.minOrthographChange < Mathf.Abs(orthographDifferenze))
+        {
+            // Update the orthographic size only slowly
+            if (this.maxOrthographUpdateRate < Mathf.Abs(orthographDifferenze))
+            {
+                var orthographSign = Mathf.Sign(orthographDifferenze);
+                orthographicSize = this.mainCamera.orthographicSize + orthographSign * this.maxOrthographUpdateRate;
+            }
+        }
+        else
+        {
+            orthographicSize = this.mainCamera.orthographicSize;
         }
         // Apply orthographic size to the camera
         this.mainCamera.orthographicSize = orthographicSize;

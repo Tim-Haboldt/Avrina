@@ -5329,9 +5329,9 @@ MonoBehaviour:
     m_Bits: 256
   playerConfig:
     gravity: 4
-    maxGravityWhileFloating: 13
+    maxGravityWhileFloating: 11
     gravityDuringJump: 0.3
-    maxGravityVelocity: 36
+    maxGravityVelocity: 31
     maxJumpDuration: 0.2
     groundMask:
       serializedVersion: 2
@@ -5340,9 +5340,9 @@ MonoBehaviour:
     airFrictionWhileNoInputGiven: 0.03
     airFrictionWhileMoving: 0.07
     airFrictionWhileTurning: 1
-    airJumpStartVelocity: 26
+    airJumpStartVelocity: 23
     maxGroundDistanceForSlopes: 7
-    jumpSound: {fileID: 8300000, guid: f2b7a4a1905a4d24083082bc0701a5ac, type: 3}
+    jumpSound: {fileID: 8300000, guid: c500d8d10be5e404e9e0d9eed3e8ef3a, type: 3}
   isSecondPlayer: 0
   currentState: 3
 --- !u!114 &635187082934474820
@@ -5447,8 +5447,7 @@ MonoBehaviour:
   airFireSpell: {fileID: 0}
   airWaterSpell: {fileID: 0}
   airEarthSpell: {fileID: 0}
-  airAirSpell: {fileID: 3193421558056108847, guid: d7853aaa25fb6214cb7d8336dcad675d,
-    type: 3}
+  airAirSpell: {fileID: 0}
 --- !u!114 &1230979819959207452
 MonoBehaviour:
   m_ObjectHideFlags: 0

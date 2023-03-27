@@ -96,11 +96,11 @@ public class Jumping : StateInheritingAction
             if (currentGroundMaterial != null)
             {
                 var randomElement = Random.Range(0, currentGroundMaterial.jumpSounds.Count);
-                AudioSource.PlayClipAtPoint(currentGroundMaterial.jumpSounds[randomElement], this.playerTransform.position, AudioStorage.soundEffectVolume);
+                AudioSource.PlayClipAtPoint(currentGroundMaterial.jumpSounds[randomElement], this.playerTransform.position, AudioStorage.soundEffectVolume * 0.5f);
             }
             else
             {
-                AudioSource.PlayClipAtPoint(this.jumpSound, this.playerTransform.position, AudioStorage.soundEffectVolume);
+                AudioSource.PlayClipAtPoint(this.jumpSound, this.playerTransform.position, AudioStorage.soundEffectVolume * 0.5f);
             }
         }
     }

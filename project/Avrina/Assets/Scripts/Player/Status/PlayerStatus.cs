@@ -210,7 +210,7 @@ public class PlayerStatus : NetworkBehaviour
                 return lifeBar;
             case InitStatus.PLAYER_TWO:
                 var lifeBar2 = Instantiate(this.lifeBarP2).gameObject.GetComponentInChildren<LifeBar>();
-                lifeBar2.SetPlayerName(PlayerInformation.playerName + "Player Two");
+                lifeBar2.SetPlayerName("Player Two");
                 return lifeBar2;
         }
 

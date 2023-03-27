@@ -39,13 +39,9 @@ public class FireWall : Spell
     /// </summary>
     [SerializeField] private float wallDistanceOffsetX;
     /// <summary>
-    ///  How far on top of the ground will the wall spawn
-    /// </summary>
-    [SerializeField] private float wallDistanceOffsetY;
-    /// <summary>
     ///  Will define how far the firewall can be spawned from the current position
     /// </summary>
-    [SerializeField] private float maxSpawnOffset;
+    [SerializeField] private float minSpawnOffset;
 
     /// <summary>
     ///  Used to store the start position after the is in wall check
@@ -155,64 +151,26 @@ public class FireWall : Spell
     /// <returns></returns>
     public override bool IsSpellInsideWall()
     {
-        var localCastDirection = this.castDirection.x > 0? Vector2.right: Vector2.left;
-        var startPosition = this.playerPosition + localCastDirection * this.spawnDistance - textureOffset; 
+        var localCastDirection = this.castDirection.x > 0 ? Vector2.right : Vector2.left;
 
         // Do a ray cast. If theres no object return position
-        var hit = Physics2D.Raycast(this.playerPosition, localCastDirection, this.spawnDistance, this.wallMask);
+        var hit = Physics2D.Raycast(this.playerPosition, localCastDirection, this.spawnDistance + this.wallDistanceOffsetX, this.wallMask);
         if (hit.collider == null)
         {
-            this.spawnPosition = startPosition + localCastDirection * this.wallDistanceOffsetX;
+            this.spawnPosition = this.playerPosition + localCastDirection * this.spawnDistance - textureOffset;
 
             return false;
         }
 
-        var hitPointDistance = Vector2.Distance(startPosition, hit.point);
-
-        // Do a second ray cast from a top. If there is no object check if the first hit was close enough to the spawn position
-        var topHit = Physics2D.Raycast(new Vector2(startPosition.x, startPosition.y + this.spawnDistance), Vector2.down, this.spawnDistance, this.wallMask);
-        if (topHit.collider == null)
+        var hitPointDistance = Vector2.Distance(this.playerPosition, hit.point);
+        var distanceWithWallOffset = hitPointDistance - this.wallDistanceOffsetX;
+        if (distanceWithWallOffset >= this.minSpawnOffset)
         {
-            if (hitPointDistance > this.maxSpawnOffset)
-            {
-                return true;
-            }
-
-            this.spawnPosition = hit.point + localCastDirection * this.wallDistanceOffsetX;
+            this.spawnPosition = this.playerPosition + localCastDirection * distanceWithWallOffset - textureOffset;
 
             return false;
         }
 
-        var closestPoint = topHit.point;
-        var closestPointDistance = Vector2.Distance(startPosition, closestPoint);
-        if (closestPointDistance > hitPointDistance)
-        {
-            if (hitPointDistance > this.maxSpawnOffset)
-            {
-                return true;
-            }
-            
-            this.spawnPosition = hit.point + localCastDirection * this.wallDistanceOffsetX;
-
-            return false;
-        }
-        else
-        {
-            if (closestPointDistance > this.maxSpawnOffset)
-            {
-                return true;
-            }
-
-            var overlapColliders = Physics2D.OverlapBoxAll(closestPoint + new Vector2(0, 0.05f), Vector2.zero, 0, this.wallMask);
-
-            if (overlapColliders.Length > 0)
-            {
-                return true;
-            }
-
-            this.spawnPosition = closestPoint - Vector2.up * this.wallDistanceOffsetY;
-
-            return false;
-        }
+        return true;
     }
 }

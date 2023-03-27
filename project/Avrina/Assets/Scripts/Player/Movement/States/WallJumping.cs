@@ -85,11 +85,11 @@ public class WallJumping : StateInheritingAction
             if (currentWallMaterial != null)
             {
                 var randomElement = Random.Range(0, currentWallMaterial.jumpSounds.Count);
-                AudioSource.PlayClipAtPoint(currentWallMaterial.jumpSounds[randomElement], this.playerTransform.position, AudioStorage.soundEffectVolume);
+                AudioSource.PlayClipAtPoint(currentWallMaterial.jumpSounds[randomElement], this.playerTransform.position, AudioStorage.soundEffectVolume * 0.5f);
             }
             else
             {
-                AudioSource.PlayClipAtPoint(this.jumpSound, this.playerTransform.position, AudioStorage.soundEffectVolume);
+                AudioSource.PlayClipAtPoint(this.jumpSound, this.playerTransform.position, AudioStorage.soundEffectVolume * 0.5f);
             }
         }
     }

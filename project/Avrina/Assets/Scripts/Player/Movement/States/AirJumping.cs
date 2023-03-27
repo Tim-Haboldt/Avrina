@@ -85,7 +85,7 @@ public class AirJumping : StateInheritingAction
 
         if (!AudioStorage.areSoundEffectsMuted)
         {
-            AudioSource.PlayClipAtPoint(this.jumpSound, this.playerTransform.position, AudioStorage.soundEffectVolume);
+            AudioSource.PlayClipAtPoint(this.jumpSound, this.playerTransform.position, AudioStorage.soundEffectVolume * 0.5f);
         }
     }
 
