@@ -2,7 +2,7 @@
 public enum PlayerState
 {
     Disabled,       // Inputs have no effect (If the Player is in the Menu etc.)
-    Uncontrolled,   // Player is not on Ground and only special inputs have an effect
+    Uncontrolled,   // Player cannot move at all until the status is over
     OnGround,       // Player stands on ground and has two jumps left
     InAir,          // Player is in the air and has his second jump left
     Jumping,        // Player jumps from the ground
